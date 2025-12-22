@@ -26,19 +26,34 @@ int main(int argc, char* argv[]) {
     std::cout << std::endl;
 
     // =============================================================================
-    // Sample Tests
+    // Fraction<int> Tests
     // =============================================================================
-    
-    Run(SampleTest1); // This test will pass
-    Run(SampleTest2); // This test will fail
+
+    Run(fraction_int_constructor_default);
+    Run(fraction_int_constructor_single_param);
+    Run(fraction_int_constructor_both_params);
+    Run(fraction_int_constructor_zero_denominator);
+
+    // Normalization tests
+    Run(fraction_int_normalization_gcd_reduction);
+    Run(fraction_int_normalization_already_reduced);
+    Run(fraction_int_normalization_to_whole_number);
+    Run(fraction_int_normalization_zero_numerator);
+
+    // Negative tests
+    Run(fraction_int_negative_numerator);
+    Run(fraction_int_negative_denominator);
+    Run(fraction_int_both_negative);
+    Run(fraction_int_negative_with_reduction);
+    Run(fraction_int_negative_whole_number);
+
+    // to_string tests
+    Run(fraction_int_to_string_whole_number);
+    Run(fraction_int_to_string_regular_fraction);
+    Run(fraction_int_to_string_negative_fraction);
+    Run(fraction_int_to_string_zero);
 
     std::cout << std::endl;
-
-    // =============================================================================
-    // Future Tests
-    // =============================================================================
-
-    //std::cout << std::endl;
       
     // =============================================================================
     // Test Summary
