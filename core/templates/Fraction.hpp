@@ -5,7 +5,7 @@
 #include <string>
 #include <stdexcept>
 #include <numeric>
-#include <iostream>
+#include <type_traits>
 
 template<typename T>
 class Fraction {
@@ -14,9 +14,13 @@ public:
     // Constructors
     Fraction(T numerator = 0, T denominator = 1) 
         : numerator_{ numerator }, denominator_{ denominator } {
+
+        static_assert(std::is_integral_v<T>, "Fraction type must be integral");
         if (denominator_ == 0) throw std::invalid_argument("The denominator cannot be 0.");
         normalize();
     }
+
+    Fraction(const Fraction& fraction) = default;
 
     // Getters & Setters
     T get_numerator() const { return numerator_; }
@@ -30,8 +34,8 @@ private:
     void normalize() {
         bool isNegative = (numerator_ < 0) ^ (denominator_ < 0);
 
-        numerator_ = std::abs(numerator_);
-        denominator_ = std::abs(denominator_);
+        if (numerator_ < 0) numerator_ = -numerator_;
+        if (denominator_ < 0) denominator_ = -denominator_;
 
         if (denominator_ == 1) {
             numerator_ = (isNegative)? -numerator_ : numerator_;
