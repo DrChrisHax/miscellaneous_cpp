@@ -40,6 +40,12 @@ bool fraction_int_to_string_regular_fraction();
 bool fraction_int_to_string_negative_fraction();
 bool fraction_int_to_string_zero();
 
+// multiplication tests
+bool fraction_int_multiplication_no_reduction();
+bool fraction_int_multiplication_recution();
+bool fraction_int_multiplication_negative();
+bool fraction_int_overflow_no_error();
+bool fraction_int_overflow_error();
 
 // =============================================================================
 // Future Test Categories

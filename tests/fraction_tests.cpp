@@ -180,3 +180,85 @@ bool fraction_int_to_string_zero() {
     
     return test_helper(expected, result);
 }
+
+// multiplication tests
+bool fraction_int_multiplication_no_reduction() {
+    std::cout << "[TEST] Fraction<int>: Multiplication with no reduction (3/5 * 8/13 -> 24/65)" << std::endl;
+    
+    Fraction<int> f1(3, 5);
+    Fraction<int> f2(8, 13);
+    Fraction<int> result = f1 * f2;
+    
+    std::string expected = "24/65";
+    std::string result_str = to_string(result);
+    
+    return test_helper(expected, result_str);
+}
+
+bool fraction_int_multiplication_recution() {
+    std::cout << "[TEST] Fraction<int>: Multiplication with reduction (12/17 * 51/96 -> 3/8)" << std::endl;
+    
+    Fraction<int> f1(12, 17);
+    Fraction<int> f2(51, 96);
+    Fraction<int> result = f1 * f2;
+    
+    std::string expected = "3/8";
+    std::string result_str = to_string(result);
+    
+    return test_helper(expected, result_str);
+}
+
+bool fraction_int_multiplication_negative() {
+    std::cout << "[TEST] Fraction<int>: Multiplication with negative (-1/2 * 3/4 -> -3/8)" << std::endl;
+    
+    Fraction<int> f1(-1, 2);
+    Fraction<int> f2(3, 4);
+    Fraction<int> result = f1 * f2;
+    
+    std::string expected = "-3/8";
+    std::string result_str = to_string(result);
+    
+    return test_helper(expected, result_str);
+}
+
+bool fraction_int_overflow_no_error() {
+    std::cout << "[TEST] Fraction<int>: Large multiplication with cross-cancellation (1B/7 * 21/1B -> 3)" << std::endl;
+    
+    Fraction<int> f1(1'000'000'000, 7);
+    Fraction<int> f2(21, 1'000'000'000);
+    Fraction<int> result = f1 * f2;
+    
+    std::string expected = "3";
+    std::string result_str = to_string(result);
+    
+    return test_helper(expected, result_str);
+}
+
+bool fraction_int_overflow_error() {
+    std::cout << "[TEST] Fraction<int>: Multiplication overflow detection (1B/3 * 1B/5 -> overflow)" << std::endl;
+    
+    try {
+        Fraction<int> f1(1'000'000'000, 3);
+        Fraction<int> f2(1'000'000'000, 5);
+        Fraction<int> result = f1 * f2;
+        
+        // Should not reach here
+        std::cout << "  Expected: overflow_error exception" << std::endl;
+        std::cout << "  Got:      " << to_string(result) << " (no exception)" << std::endl;
+        std::cout << "  Result:   FAIL" << std::endl;
+        std::cout << std::endl;
+        return false;
+    } catch (const std::overflow_error& e) {
+        std::cout << "  Expected: overflow_error exception" << std::endl;
+        std::cout << "  Got:      overflow_error: " << e.what() << std::endl;
+        std::cout << "  Result:   PASS" << std::endl;
+        std::cout << std::endl;
+        return true;
+    } catch (const std::exception& e) {
+        std::cout << "  Expected: overflow_error exception" << std::endl;
+        std::cout << "  Got:      " << e.what() << " (wrong exception type)" << std::endl;
+        std::cout << "  Result:   FAIL" << std::endl;
+        std::cout << std::endl;
+        return false;
+    }
+}

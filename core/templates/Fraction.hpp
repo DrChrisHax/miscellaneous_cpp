@@ -2,10 +2,13 @@
 #ifndef TEMPLATES_FRACTION_H_
 #define TEMPLATES_FRACTION_H_
 
+#include "math_helpers.hpp"
+
 #include <string>
 #include <stdexcept>
 #include <numeric>
 #include <type_traits>
+
 
 template<typename T>
 class Fraction {
@@ -21,6 +24,52 @@ public:
     }
 
     Fraction(const Fraction& fraction) = default;
+
+    // Operator overloads
+    // Comparison
+    bool operator==(const Fraction& other) {
+        return (numerator_ == other.numerator_) && (denominator_ == other.denominator_);
+    }
+
+    // Mathematical
+    Fraction operator+(const Fraction& other) {
+        return {0, 1};
+    }
+
+    Fraction operator-(const Fraction& other) {
+        return {0, 1};
+    }
+
+    Fraction operator*(const Fraction& other) {
+        // The two fractions passed in will already be normalized
+        // so we can swap the numerators and normalize again
+        // These two normalizes will cut down on the number of overflows as well as
+        // prevent us from having to normalize after multiplying
+
+        Fraction f1{other.numerator_, denominator_};
+        Fraction f2{numerator_, other.denominator_};
+
+        if (would_overflow_multiplication<T>(f1.numerator_, f2.numerator_)) {
+            throw std::overflow_error("Multiplication would overflow numerator");
+        }
+        if (would_overflow_multiplication<T>(f1.denominator_, f2.denominator_)) {
+            throw std::overflow_error("Multiplication would overflow denominator");
+        }
+
+        T new_numerator = f1.numerator_ * f2.numerator_;
+        T new_denominator = f1.denominator_ * f2.denominator_;
+
+        return {new_numerator, new_denominator};
+
+        // T new_numerator = numerator_ * other.numerator_;
+        // T new_denominator = denominator_ * other.denominator_; 
+        // return {new_numerator, new_denominator};
+    }
+
+    Fraction operator/(const Fraction& other) {
+        return {0, 1};
+    }
+
 
     // Getters & Setters
     T get_numerator() const { return numerator_; }
@@ -48,6 +97,7 @@ private:
 
         numerator_ = (isNegative)? -numerator_ : numerator_;
     }
+
 };
 
 template<typename T>

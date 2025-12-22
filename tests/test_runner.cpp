@@ -53,6 +53,13 @@ int main(int argc, char* argv[]) {
     Run(fraction_int_to_string_negative_fraction);
     Run(fraction_int_to_string_zero);
 
+    // Multiplication tests
+    Run(fraction_int_multiplication_no_reduction);
+    Run(fraction_int_multiplication_recution);
+    Run(fraction_int_multiplication_negative);
+    Run(fraction_int_overflow_no_error);
+    Run(fraction_int_overflow_error);
+
     std::cout << std::endl;
       
     // =============================================================================
