@@ -15,9 +15,18 @@ class Fraction {
 public:
 
     // Constructors
-    Fraction(T numerator = 0, T denominator = 1) 
-        : numerator_{ numerator }, denominator_{ denominator } {
+    Fraction() : numerator_{ 0 }, denominator_ { 1 } {
+        static_assert(std::is_integral_v<T>, "Fraction type must be integral");
+    }
 
+    explicit Fraction(T numerator) : numerator_{ numerator}, denominator_{ 1 } {
+        // I added explicit to prevent nonsense like
+        // Fraction<int> f1 = {1, 2};
+        // Fraction<int> f2 = f1 * true; // We don't want true cast to 1/1, it semantically does not make sense
+        static_assert(std::is_integral_v<T>, "Fraction type must be integral");
+    }
+
+    Fraction(T numerator, T denominator) : numerator_{ numerator }, denominator_{ denominator } {
         static_assert(std::is_integral_v<T>, "Fraction type must be integral");
         if (denominator_ == 0) throw std::invalid_argument("The denominator cannot be 0.");
         normalize();
@@ -27,20 +36,20 @@ public:
 
     // Operator overloads
     // Comparison
-    bool operator==(const Fraction& other) {
+    bool operator==(const Fraction& other) const {
         return (numerator_ == other.numerator_) && (denominator_ == other.denominator_);
     }
 
     // Mathematical
-    Fraction operator+(const Fraction& other) {
+    Fraction operator+(const Fraction& other) const {
         return {0, 1};
     }
 
-    Fraction operator-(const Fraction& other) {
+    Fraction operator-(const Fraction& other) const {
         return {0, 1};
     }
 
-    Fraction operator*(const Fraction& other) {
+    Fraction operator*(const Fraction& other) const {
         // The two fractions passed in will already be normalized
         // so we can swap the numerators and normalize again
         // These two normalizes will cut down on the number of overflows as well as
@@ -66,7 +75,7 @@ public:
         // return {new_numerator, new_denominator};
     }
 
-    Fraction operator/(const Fraction& other) {
+    Fraction operator/(const Fraction& other) const {
         return {0, 1};
     }
 
