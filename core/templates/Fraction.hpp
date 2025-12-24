@@ -10,25 +10,16 @@
 #include <type_traits>
 #include <iostream>
 #include <sstream>
+#include <concepts>
 
-template<typename T>
+template<std::integral T>
 class Fraction {
 public:
 
     // Constructors
-    Fraction() : numerator_{ 0 }, denominator_ { 1 } {
-        static_assert(std::is_integral_v<T>, "Fraction type must be integral");
-    }
-
-    explicit Fraction(T numerator) : numerator_{ numerator}, denominator_{ 1 } {
-        // I added explicit to prevent nonsense like
-        // Fraction<int> f1 = {1, 2};
-        // Fraction<int> f2 = f1 * true; // We don't want true cast to 1/1, it semantically does not make sense
-        static_assert(std::is_integral_v<T>, "Fraction type must be integral");
-    }
-
+    Fraction() : numerator_{ 0 }, denominator_ { 1 } {}
+    explicit Fraction(T numerator) : numerator_{ numerator}, denominator_{ 1 } {}
     Fraction(T numerator, T denominator) : numerator_{ numerator }, denominator_{ denominator } {
-        static_assert(std::is_integral_v<T>, "Fraction type must be integral");
         if (denominator_ == 0) throw std::invalid_argument("The denominator cannot be 0.");
         normalize();
     }
@@ -92,6 +83,8 @@ public:
 
     friend std::istream& operator>>(std::istream& is, Fraction& f) {
 
+        (void)f;
+
         return is;
     }
 
@@ -119,7 +112,7 @@ private:
     }
 };
 
-template<typename T>
+template<std::integral T>
 std::string to_string(const Fraction<T>& f) {
     std::ostringstream oss;
     oss << f;
