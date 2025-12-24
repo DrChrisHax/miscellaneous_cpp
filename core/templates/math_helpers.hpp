@@ -5,7 +5,7 @@
 #include <limits>
 
 template<typename T>
-bool would_overflow_multiplication(T a, T b) {
+constexpr bool would_overflow_multiplication(T a, T b) {
     if (a == 0 || b == 0) return false;
 
     if constexpr (std::is_signed_v<T>) {
