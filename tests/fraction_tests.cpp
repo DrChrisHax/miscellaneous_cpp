@@ -1,6 +1,8 @@
 #include "tests.h"
 #include "Fraction.hpp"
 
+#include <sstream>
+
 // Constructor tests
 bool fraction_int_constructor_default() {
     std::cout << "[TEST] Fraction<int>: Default constructor (0/1)" << std::endl;
@@ -237,28 +239,231 @@ bool fraction_int_overflow_no_error() {
 bool fraction_int_overflow_error() {
     std::cout << "[TEST] Fraction<int>: Multiplication overflow detection (1B/3 * 1B/5 -> overflow)" << std::endl;
     
+    std::string expected = "overflow_error";
+    std::string result;
+    
     try {
         Fraction<int> f1(1'000'000'000, 3);
         Fraction<int> f2(1'000'000'000, 5);
-        Fraction<int> result = f1 * f2;
+        Fraction<int> frac_result = f1 * f2;
         
         // Should not reach here
-        std::cout << "  Expected: overflow_error exception" << std::endl;
-        std::cout << "  Got:      " << to_string(result) << " (no exception)" << std::endl;
-        std::cout << "  Result:   FAIL" << std::endl;
-        std::cout << std::endl;
-        return false;
+        result = "no exception thrown (got: " + to_string(frac_result) + ")";
     } catch (const std::overflow_error& e) {
-        std::cout << "  Expected: overflow_error exception" << std::endl;
-        std::cout << "  Got:      overflow_error: " << e.what() << std::endl;
-        std::cout << "  Result:   PASS" << std::endl;
-        std::cout << std::endl;
-        return true;
+        result = "overflow_error";
     } catch (const std::exception& e) {
-        std::cout << "  Expected: overflow_error exception" << std::endl;
-        std::cout << "  Got:      " << e.what() << " (wrong exception type)" << std::endl;
-        std::cout << "  Result:   FAIL" << std::endl;
-        std::cout << std::endl;
-        return false;
+        result = std::string("wrong exception type: ") + e.what();
     }
+    
+    return test_helper(expected, result);
+}
+
+// operator<< tests
+bool fraction_int_ostream_whole_number() {
+    std::cout << "[TEST] Fraction<int>: operator<< whole number (5)" << std::endl;
+    
+    Fraction<int> f(5, 1);
+    std::ostringstream oss;
+    oss << f;
+    
+    std::string expected = "5";
+    std::string result = oss.str();
+    
+    return test_helper(expected, result);
+}
+
+bool fraction_int_ostream_regular_fraction() {
+    std::cout << "[TEST] Fraction<int>: operator<< regular fraction (3/4)" << std::endl;
+    
+    Fraction<int> f(3, 4);
+    std::ostringstream oss;
+    oss << f;
+    
+    std::string expected = "3/4";
+    std::string result = oss.str();
+    
+    return test_helper(expected, result);
+}
+
+bool fraction_int_ostream_negative_fraction() {
+    std::cout << "[TEST] Fraction<int>: operator<< negative fraction (-7/8)" << std::endl;
+    
+    Fraction<int> f(-7, 8);
+    std::ostringstream oss;
+    oss << f;
+    
+    std::string expected = "-7/8";
+    std::string result = oss.str();
+    
+    return test_helper(expected, result);
+}
+
+bool fraction_int_ostream_zero() {
+    std::cout << "[TEST] Fraction<int>: operator<< zero (0/1)" << std::endl;
+    
+    Fraction<int> f(0, 1);
+    std::ostringstream oss;
+    oss << f;
+    
+    std::string expected = "0";
+    std::string result = oss.str();
+    
+    return test_helper(expected, result);
+}
+
+bool fraction_int_ostream_multiple_fractions() {
+    std::cout << "[TEST] Fraction<int>: operator<< multiple fractions in sequence" << std::endl;
+    
+    Fraction<int> f1(1, 2);
+    Fraction<int> f2(3, 4);
+    std::ostringstream oss;
+    oss << f1 << " + " << f2;
+    
+    std::string expected = "1/2 + 3/4";
+    std::string result = oss.str();
+    
+    return test_helper(expected, result);
+}
+
+// operator>> tests
+bool fraction_int_istream_whole_number() {
+    std::cout << "[TEST] Fraction<int>: operator>> whole number (\"7\")" << std::endl;
+    
+    std::istringstream iss("7");
+    Fraction<int> f;
+    iss >> f;
+    
+    std::string expected = "7";
+    std::string result = to_string(f);
+    
+    return test_helper(expected, result);
+}
+
+bool fraction_int_istream_regular_fraction() {
+    std::cout << "[TEST] Fraction<int>: operator>> regular fraction (\"3/4\")" << std::endl;
+    
+    std::istringstream iss("3/4");
+    Fraction<int> f;
+    iss >> f;
+    
+    std::string expected = "3/4";
+    std::string result = to_string(f);
+    
+    return test_helper(expected, result);
+}
+
+bool fraction_int_istream_negative_numerator() {
+    std::cout << "[TEST] Fraction<int>: operator>> negative numerator (\"-5/8\")" << std::endl;
+    
+    std::istringstream iss("-5/8");
+    Fraction<int> f;
+    iss >> f;
+    
+    std::string expected = "-5/8";
+    std::string result = to_string(f);
+    
+    return test_helper(expected, result);
+}
+
+bool fraction_int_istream_with_reduction() {
+    std::cout << "[TEST] Fraction<int>: operator>> with GCD reduction (\"12/16\" -> \"3/4\")" << std::endl;
+    
+    std::istringstream iss("12/16");
+    Fraction<int> f;
+    iss >> f;
+    
+    std::string expected = "3/4";
+    std::string result = to_string(f);
+    
+    return test_helper(expected, result);
+}
+
+bool fraction_int_istream_zero_denominator() {
+    std::cout << "[TEST] Fraction<int>: operator>> zero denominator sets failbit (\"5/0\")" << std::endl;
+    
+    std::istringstream iss("5/0");
+    Fraction<int> f(99, 99);
+    iss >> f;
+    
+    bool stream_failed = iss.fail();
+    std::string expected = "true";
+    std::string result = stream_failed ? "true" : "false";
+    
+    return test_helper(expected, result);
+}
+
+bool fraction_int_istream_multiple_fractions() {
+    std::cout << "[TEST] Fraction<int>: operator>> multiple fractions (\"1/2 3/4\")" << std::endl;
+    
+    std::istringstream iss("1/2 3/4");
+    Fraction<int> f1, f2;
+    iss >> f1 >> f2;
+    
+    std::string expected = "1/2 3/4";
+    std::ostringstream oss;
+    oss << f1 << " " << f2;
+    std::string result = oss.str();
+    
+    return test_helper(expected, result);
+}
+
+bool fraction_int_istream_whitespace_handling() {
+    std::cout << "[TEST] Fraction<int>: operator>> handles leading whitespace (\"  5/6\")" << std::endl;
+    
+    std::istringstream iss("  5/6");
+    Fraction<int> f;
+    iss >> f;
+    
+    std::string expected = "5/6";
+    std::string result = to_string(f);
+    
+    return test_helper(expected, result);
+}
+
+bool fraction_int_istream_negative_denominator() {
+    std::cout << "[TEST] Fraction<int>: operator>> negative denominator (\"3/-4\" -> \"-3/4\")" << std::endl;
+    
+    std::istringstream iss("3/-4");
+    Fraction<int> f;
+    iss >> f;
+    
+    std::string expected = "-3/4";
+    std::string result = to_string(f);
+    
+    return test_helper(expected, result);
+}
+
+bool fraction_int_istream_both_negative() {
+    std::cout << "[TEST] Fraction<int>: operator>> both negative (\"-6/-8\" -> \"3/4\")" << std::endl;
+    
+    std::istringstream iss("-6/-8");
+    Fraction<int> f;
+    iss >> f;
+    
+    std::string expected = "3/4";
+    std::string result = to_string(f);
+    
+    return test_helper(expected, result);
+}
+
+// << & >> operator test
+bool fraction_int_roundtrip_test() {
+    std::cout << "[TEST] Fraction<int>: roundtrip test (output->input->output)" << std::endl;
+    
+    Fraction<int> original(7, 11);
+    
+    std::ostringstream oss;
+    oss << original;
+    
+    std::istringstream iss(oss.str());
+    Fraction<int> copy;
+    iss >> copy;
+    
+    std::ostringstream oss2;
+    oss2 << copy;
+    
+    std::string expected = "7/11";
+    std::string result = oss2.str();
+    
+    return test_helper(expected, result);
 }

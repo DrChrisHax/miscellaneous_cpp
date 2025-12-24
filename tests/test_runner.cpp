@@ -60,6 +60,27 @@ int main(int argc, char* argv[]) {
     Run(fraction_int_overflow_no_error);
     Run(fraction_int_overflow_error);
 
+        // operator<< tests
+    Run(fraction_int_ostream_whole_number);
+    Run(fraction_int_ostream_regular_fraction);
+    Run(fraction_int_ostream_negative_fraction);
+    Run(fraction_int_ostream_zero);
+    Run(fraction_int_ostream_multiple_fractions);
+
+    // operator>> tests
+    Run(fraction_int_istream_whole_number);
+    Run(fraction_int_istream_regular_fraction);
+    Run(fraction_int_istream_negative_numerator);
+    Run(fraction_int_istream_with_reduction);
+    Run(fraction_int_istream_zero_denominator);
+    Run(fraction_int_istream_multiple_fractions);
+    Run(fraction_int_istream_whitespace_handling);
+    Run(fraction_int_istream_negative_denominator);
+    Run(fraction_int_istream_both_negative);
+
+    // << & >> operator test
+    Run(fraction_int_roundtrip_test);
+
     std::cout << std::endl;
       
     // =============================================================================
@@ -78,12 +99,18 @@ int main(int argc, char* argv[]) {
 // Helper Functions
 // =============================================================================
 bool test_helper(std::string_view expected, std::string_view result) {
+    // ANSI color codes
+    const char* GREEN = "\033[32m";
+    const char* RED = "\033[31m";
+    const char* RESET = "\033[0m";
+
+
     if (result == expected) {
-        std::cout << "[PASS]" << std::endl;
+        std::cout << GREEN << "[PASS]" << RESET << std::endl;
         return true;
     } else {
-        std::cout << "[FAIL] Expected: " << expected << std::endl;
-        std::cout << "[FAIL] Got:      " << result << std::endl;
+        std::cout << RED << "[FAIL]" << RESET << "Expected: " << expected << std::endl;
+        std::cout << RED << "[FAIL]" << RESET << "Got:      " << result << std::endl;
         return false;
     }
 }

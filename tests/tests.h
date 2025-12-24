@@ -47,6 +47,27 @@ bool fraction_int_multiplication_negative();
 bool fraction_int_overflow_no_error();
 bool fraction_int_overflow_error();
 
+// operator<< tests
+bool fraction_int_ostream_whole_number();
+bool fraction_int_ostream_regular_fraction();
+bool fraction_int_ostream_negative_fraction();
+bool fraction_int_ostream_zero();
+bool fraction_int_ostream_multiple_fractions();
+
+// operator>> tests
+bool fraction_int_istream_whole_number();
+bool fraction_int_istream_regular_fraction();
+bool fraction_int_istream_negative_numerator();
+bool fraction_int_istream_with_reduction();
+bool fraction_int_istream_zero_denominator();
+bool fraction_int_istream_multiple_fractions();
+bool fraction_int_istream_whitespace_handling();
+bool fraction_int_istream_negative_denominator();
+bool fraction_int_istream_both_negative();
+
+// << & >> operator test
+bool fraction_int_roundtrip_test();
+
 // =============================================================================
 // Future Test Categories
 // =============================================================================

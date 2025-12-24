@@ -1,21 +1,25 @@
 #include "Fraction.hpp"
 
 #include <iostream>
-#include <numeric>
 
 int main(int argc, char* argv[]) {
 
     (void)argc;
     (void)argv;
 
-    //INT_MAX = 2,147,483,647
+    
+    std::istringstream iss("7");
+    Fraction<int> f;
+    iss >> f;
+    
+    std::string expected = "7";
+    std::string result = to_string(f);
+    
+    std::cout << expected << std::endl;
+    std::cout << result << std::endl;
 
-    Fraction<int> f1(1'000'000'000, 7);         // 1 billion / 7
-    Fraction<int> f2(21, 1'000'000'000);        // 21 / 1 billion
 
-    std::cout << to_string(f1) << std::endl;
-    std::cout << to_string(f2) << std::endl;
-    std::cout << to_string(f1 * f2) << std::endl;
+
 
     return 0;
 }

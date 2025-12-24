@@ -8,7 +8,8 @@
 #include <stdexcept>
 #include <numeric>
 #include <type_traits>
-
+#include <iostream>
+#include <sstream>
 
 template<typename T>
 class Fraction {
@@ -70,10 +71,20 @@ public:
         return {0, 1};
     }
 
+    // Friend functions
+    friend std::ostream& operator<<(std::ostream& os, const Fraction& f) {
+        if (f.denominator_ == 1) {
+            os << f.numerator_;
+        } else {
+            os << f.numerator_ << "/" << f.denominator_;
+        }
+        return os;
+    }
 
-    // Getters & Setters
-    T get_numerator() const { return numerator_; }
-    T get_denominator() const { return denominator_; }
+    friend std::istream& operator>>(std::istream& is, Fraction& f) {
+
+        return is;
+    }
 
     
 private:
@@ -97,16 +108,13 @@ private:
 
         numerator_ = (isNegative)? -numerator_ : numerator_;
     }
-
 };
 
 template<typename T>
 std::string to_string(const Fraction<T>& f) {
-    if (f.get_denominator() == 1) {
-        return std::to_string(f.get_numerator());
-    } else {
-        return std::to_string(f.get_numerator()) + "/" + std::to_string(f.get_denominator());
-    }
+    std::ostringstream oss;
+    oss << f;
+    return oss.str();
 }
 
 
