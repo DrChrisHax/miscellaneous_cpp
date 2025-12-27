@@ -12,6 +12,46 @@ bool SampleTest1(); // This test will pass
 bool SampleTest2(); // This test will fail
 
 // =============================================================================
+// math_helpers Tests
+// =============================================================================
+
+// Addition tests
+// Unsigned Int 32-bit type
+bool math_helpers_addition_unsigned_32_no_overflow();
+bool math_helpers_addition_unsigned_32_overflow();
+
+//Signed Int 32-bit type
+bool math_helpers_addition_signed_32_no_negative_no_overflow();
+bool math_helpers_addition_signed_32_no_negative_overflow();
+bool math_helpers_addition_signed_32_two_negatives_no_overflow();
+bool math_helpers_addition_signed_32_two_negatives_overflow();
+
+// Multiplication tests
+// Unsigned Int 32-bit type
+bool math_helpers_multiplication_unsigned_32_no_overflow();
+bool math_helpers_multiplication_unsigned_32_overflow();
+
+//Signed Int 32-bit type
+bool math_helpers_multiplication_signed_32_no_negative_no_overflow();
+bool math_helpers_multiplication_signed_32_no_negative_overflow();
+bool math_helpers_multiplication_signed_32_one_negative_A_no_overflow();
+bool math_helpers_multiplication_signed_32_one_negative_A_overflow();
+bool math_helpers_multiplication_signed_32_one_negative_B_no_overflow();
+bool math_helpers_multiplication_signed_32_one_negative_B_overflow();
+bool math_helpers_multiplication_signed_32_two_negatives_no_overflow();
+bool math_helpers_multiplication_signed_32_two_negatives_overflow();
+
+//Long Double type
+// bool math_helpers_multiplication_long_double_no_negative_no_overflow();
+// bool math_helpers_multiplication_long_double_no_negative_overflow();
+// bool math_helpers_multiplication_long_double_one_negative_A_no_overflow();
+// bool math_helpers_multiplication_long_double_one_negative_A_overflow();
+// bool math_helpers_multiplication_long_double_one_negative_B_no_overflow();
+// bool math_helpers_multiplication_long_double_one_negative_B_overflow();
+// bool math_helpers_multiplication_long_double_two_negatives_no_overflow();
+// bool math_helpers_multiplication_long_double_two_negatives_overflow();
+
+// =============================================================================
 // Fraction<int> Tests
 // =============================================================================
 
