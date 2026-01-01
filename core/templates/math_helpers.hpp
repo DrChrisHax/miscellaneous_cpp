@@ -27,6 +27,8 @@ constexpr bool would_overflow_addition(T a, T b) {
 
 template<std::floating_point T>
 constexpr bool would_overflow_addition(T a, T b) {
+    (void)a;
+    (void)b;
     static_assert(always_false_v<T>, "Function not implemented yet.");
     return false; // TODO: Implement
 }
@@ -54,6 +56,8 @@ constexpr bool would_overflow_multiplication(T a, T b) {
 
 template<std::floating_point T>
 constexpr bool would_overflow_multiplication(T a, T b) {
+    (void)a;
+    (void)b;
     static_assert(always_false_v<T>, "Function not implemented yet.");
     return false; // TODO: Implement
 }

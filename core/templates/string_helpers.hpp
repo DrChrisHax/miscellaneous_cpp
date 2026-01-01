@@ -3,6 +3,7 @@
 
 #include <concepts>
 #include <string_view>
+#include <string>
 
 enum class ParseError {
     kNone, 
@@ -54,7 +55,7 @@ constexpr ParseResult<T> parse_integral(std::string_view s) {
     }
 
     size_t i{1};
-    while (s.length < i) {
+    while (s.length() < i) {
         char curr = s[i];
         switch(curr) {
             case '0':
@@ -77,8 +78,16 @@ constexpr ParseResult<T> parse_integral(std::string_view s) {
                 result.error = ParseError::kInvalidInput;
         }
     }
+}
 
-
+std::string to_printable_or_hex(char c) {
+    if (c >= ' ' && c <= '~') {
+        return std::string{c};
+    } else {
+        char buf[5]; // "0x" + 2 hex + '\0'
+        std::snprintf(buf, sizeof(buf), "0x%02X", static_cast<unsigned char>(c));
+        return std::string(buf);
+    }
 }
 
 

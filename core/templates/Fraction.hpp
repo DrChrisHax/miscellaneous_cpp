@@ -34,10 +34,12 @@ public:
 
     // Mathematical
     Fraction operator+(const Fraction& other) const {
+        (void)other;
         return {0, 1};
     }
 
     Fraction operator-(const Fraction& other) const {
+        (void)other;
         return {0, 1};
     }
 
@@ -68,6 +70,7 @@ public:
     }
 
     Fraction operator/(const Fraction& other) const {
+        (void)other;
         return {0, 1};
     }
 
