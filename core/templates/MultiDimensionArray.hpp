@@ -1,5 +1,5 @@
 #ifndef TEMPLATES_MULTI_DIMENSION_ARRAY_H_
-#define TEMPLATES_THREE_D_ARRAY_H_
+#define TEMPLATES_MULTI_DIMENSION_ARRAY_H_
 
 #include <array>
 
@@ -19,7 +19,7 @@ constexpr std::size_t coLength(const Array2d<T, Row, Col>&) {
 
 // 3-D Array
 template <typename T, std::size_t Row, std::size_t Col, std::size_t Depth> 
-using Array3d = std::array<std::array<std::array, Depth>, Col>, Row>;
+using Array3d = std::array<std::array<std::array<T, Depth>, Col>, Row>;
 
 template <typename T, std::size_t Row, std::size_t Col, std::size_t Depth>
 constexpr std::size_t rowLength(const Array3d<T, Row, Col, Depth>&) {
@@ -38,4 +38,4 @@ constexpr std::size_t depthLength(const Array3d<T, Row, Col, Depth>&) {
 
 
 
-#endif // TEMPLATES_THREE_D_ARRAY_H_
+#endif // TEMPLATES_MULTI_DIMENSION_ARRAY_H_
