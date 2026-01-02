@@ -3,9 +3,11 @@
 #include "math_helpers.hpp"
 #include "string_helpers.hpp"
 #include "sorts.hpp"
+#include "Timer.h"
 
 #include <array>
 #include <vector>
+#include <numeric>
 
 void print(auto start, auto end) {
     while (start != end) {
@@ -20,20 +22,32 @@ int main(int argc, char* argv[]) {
     (void)argc;
     (void)argv;
 
-    std::array a {2, 12, 15, 9, 8, 5, 14, 32, 1};
+    core::Timer timer;
 
-    std::vector<int> v {2, 12, 15, 9, 8, 5, 14, 32, 1};
+    std::cout << "Creating 3 vectors with 100,000 elements" << std::endl;
 
-    std::cout << "Array:\n";
+    timer.reset();
+    std::vector<int> v1(100000);
+    std::iota(v1.rbegin(), v1.rend(), 1);
+    std::vector<int> v2 = v1;
+    std::vector<int> v3 = v1;
+    const double ts0 = timer.elapsed();
+    std::cout << "Vector creation time: " << std::to_string(ts0) << std::endl;
 
-    print(a.begin(), a.end());
-    BubbleSort(a.begin(), a.end());
-    print(a.begin(), a.end());
 
-    std::cout << "Vector:\n";
-    print(v.begin(), v.end());
-    BubbleSort(v.begin(), v.end());
-    print(v.begin(), v.end());
+    BubbleSort(v1.begin(), v1.end());
+    const double ts1 = timer.elapsed();
+    std::cout << "Bubble sort time: " << std::to_string(ts1) << std::endl;
+
+    timer.reset();
+    SelectionSort(v1.begin(), v1.end());
+    const double ts2 = timer.elapsed();
+    std::cout << "Selection sort time: " << std::to_string(ts2) << std::endl;
+
+    timer.reset();
+    std::sort(v2.begin(), v2.end());
+    const double ts3 = timer.elapsed();
+    std::cout << "std::sort time: " << std::to_string(ts3) << std::endl;
 
 	return 0;
 }
