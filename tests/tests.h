@@ -80,6 +80,13 @@ bool fraction_int_to_string_regular_fraction();
 bool fraction_int_to_string_negative_fraction();
 bool fraction_int_to_string_zero();
 
+// addition tests
+bool fraction_int_addition_simple();
+bool fraction_int_addition_with_reduction();
+bool fraction_int_addition_negative();
+bool fraction_int_addition_to_whole_number();
+bool fraction_int_addition_smart_overflow_avoidance();
+
 // multiplication tests
 bool fraction_int_multiplication_no_reduction();
 bool fraction_int_multiplication_recution();
