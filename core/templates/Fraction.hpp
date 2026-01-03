@@ -34,11 +34,17 @@ public:
 
     // Mathematical
     Fraction operator+(const Fraction& other) const {
-        return {0, 1};
+        // a/b + c/d = (ad + cb) / bd
+        // Above is the naive method, we can instead use the LCM
+        
+        T lcm = std::lcm(denominator_, other.denominator_);
+        T num = (numerator_ * (lcm / denominator_)) + (other.numerator_ * (lcm / other.denominator_));
+
+        return Fraction(num, lcm);
     }
 
     Fraction operator-(const Fraction& other) const {
-        return {0, 1};
+        return (*this) + Fraction(-other.numerator_, other.denominator_);
     }
 
     Fraction operator*(const Fraction& other) const {
@@ -68,7 +74,12 @@ public:
     }
 
     Fraction operator/(const Fraction& other) const {
-        return {0, 1};
+        // Use the property that 1/2 / 3/4 = 1/2 * 4/3
+        return (*this) * Fraction(other.denominator_, other.numerator_);
+    }
+
+    Fraction operator-() const {
+        return Fraction(-numerator_, denominator_);
     }
 
     // Friend functions

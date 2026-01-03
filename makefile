@@ -2,7 +2,8 @@
 TARGET := app
 TEST_TARGET := test_runner
 CXX := g++
-WARN := -Wall -Wextra 
+#CXX := clang++-20
+WARN := -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion #-Werror
 STD := -std=c++23
 OPT := -O2
 DEP := -MMD -MP

@@ -183,6 +183,72 @@ bool fraction_int_to_string_zero() {
     return test_helper(expected, result);
 }
 
+// addition tests
+bool fraction_int_addition_simple() {
+    std::cout << "[TEST] Fraction<int>: Simple addition (1/2 + 1/3 -> 5/6)" << std::endl;
+    
+    Fraction<int> f1(1, 2);
+    Fraction<int> f2(1, 3);
+    Fraction<int> result = f1 + f2;
+    
+    std::string expected = "5/6";
+    std::string result_str = to_string(result);
+    
+    return test_helper(expected, result_str);
+}
+
+bool fraction_int_addition_with_reduction() {
+    std::cout << "[TEST] Fraction<int>: Addition with reduction (1/6 + 1/4 -> 5/12)" << std::endl;
+    
+    Fraction<int> f1(1, 6);
+    Fraction<int> f2(1, 4);
+    Fraction<int> result = f1 + f2;
+    
+    std::string expected = "5/12";
+    std::string result_str = to_string(result);
+    
+    return test_helper(expected, result_str);
+}
+
+bool fraction_int_addition_negative() {
+    std::cout << "[TEST] Fraction<int>: Addition with negative (3/4 + (-1/2) -> 1/4)" << std::endl;
+    
+    Fraction<int> f1(3, 4);
+    Fraction<int> f2(-1, 2);
+    Fraction<int> result = f1 + f2;
+    
+    std::string expected = "1/4";
+    std::string result_str = to_string(result);
+    
+    return test_helper(expected, result_str);
+}
+
+bool fraction_int_addition_to_whole_number() {
+    std::cout << "[TEST] Fraction<int>: Addition to whole number (1/4 + 3/4 -> 1)" << std::endl;
+    
+    Fraction<int> f1(1, 4);
+    Fraction<int> f2(3, 4);
+    Fraction<int> result = f1 + f2;
+    
+    std::string expected = "1";
+    std::string result_str = to_string(result);
+    
+    return test_helper(expected, result_str);
+}
+
+bool fraction_int_addition_smart_overflow_avoidance() {
+    std::cout << "[TEST] Fraction<int>: Smart cross-cancellation prevents overflow (5/2B + 7/756 -> 1000027/108000000)" << std::endl;
+    
+    Fraction<int> f1(5, 2'000'000'000);
+    Fraction<int> f2(7, 756);
+    Fraction<int> result = f1 + f2;
+    
+    std::string expected = "1000027/108000000";
+    std::string result_str = to_string(result);
+    
+    return test_helper(expected, result_str);
+}
+
 // multiplication tests
 bool fraction_int_multiplication_no_reduction() {
     std::cout << "[TEST] Fraction<int>: Multiplication with no reduction (3/5 * 8/13 -> 24/65)" << std::endl;

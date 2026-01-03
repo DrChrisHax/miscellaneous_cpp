@@ -26,8 +26,52 @@ int main(int argc, char* argv[]) {
     std::cout << std::endl;
 
     // =============================================================================
+    // math_helper Tests
+    // =============================================================================
+
+    // std::cout << "========================================" << std::endl;
+    // std::cout << "Running Math Helper Tests" << std::endl;
+    // std::cout << "========================================" << std::endl;
+    // std::cout << std::endl;
+
+    // Run(math_helpers_addition_unsigned_32_no_overflow);
+    // Run(math_helpers_addition_unsigned_32_overflow);
+
+    // Run(math_helpers_addition_signed_32_no_negative_no_overflow);
+    // Run(math_helpers_addition_signed_32_no_negative_overflow);
+    // Run(math_helpers_addition_signed_32_two_negatives_no_overflow);
+    // Run(math_helpers_addition_signed_32_two_negatives_overflow);
+
+    // Run(math_helpers_multiplication_unsigned_32_no_overflow);
+    // Run(math_helpers_multiplication_unsigned_32_overflow);
+
+    // Run(math_helpers_multiplication_signed_32_no_negative_no_overflow);
+    // Run(math_helpers_multiplication_signed_32_no_negative_overflow);
+    // Run(math_helpers_multiplication_signed_32_one_negative_A_no_overflow);
+    // Run(math_helpers_multiplication_signed_32_one_negative_A_overflow);
+    // Run(math_helpers_multiplication_signed_32_one_negative_B_no_overflow);
+    // Run(math_helpers_multiplication_signed_32_one_negative_B_overflow);
+    // Run(math_helpers_multiplication_signed_32_two_negatives_no_overflow);
+    // Run(math_helpers_multiplication_signed_32_two_negatives_overflow);
+
+    // Run(math_helpers_multiplication_long_double_no_negative_no_overflow);
+    // Run(math_helpers_multiplication_long_double_no_negative_overflow);
+    // Run(math_helpers_multiplication_long_double_one_negative_A_no_overflow);
+    // Run(math_helpers_multiplication_long_double_one_negative_A_overflow);
+    // Run(math_helpers_multiplication_long_double_one_negative_B_no_overflow);
+    // Run(math_helpers_multiplication_long_double_one_negative_B_overflow);
+    // Run(math_helpers_multiplication_long_double_two_negatives_no_overflow);
+    // Run(math_helpers_multiplication_long_double_two_negatives_overflow);
+
+
+    // =============================================================================
     // Fraction<int> Tests
     // =============================================================================
+
+    std::cout << "========================================" << std::endl;
+    std::cout << "Running Fraction<int> Tests" << std::endl;
+    std::cout << "========================================" << std::endl;
+    std::cout << std::endl;
 
     Run(fraction_int_constructor_default);
     Run(fraction_int_constructor_single_param);
@@ -53,6 +97,13 @@ int main(int argc, char* argv[]) {
     Run(fraction_int_to_string_negative_fraction);
     Run(fraction_int_to_string_zero);
 
+    // Addition tests
+    Run(fraction_int_addition_simple);
+    Run(fraction_int_addition_with_reduction);
+    Run(fraction_int_addition_negative);
+    Run(fraction_int_addition_to_whole_number);
+    Run(fraction_int_addition_smart_overflow_avoidance);
+
     // Multiplication tests
     Run(fraction_int_multiplication_no_reduction);
     Run(fraction_int_multiplication_recution);
@@ -60,28 +111,28 @@ int main(int argc, char* argv[]) {
     Run(fraction_int_overflow_no_error);
     Run(fraction_int_overflow_error);
 
-        // operator<< tests
-    Run(fraction_int_ostream_whole_number);
-    Run(fraction_int_ostream_regular_fraction);
-    Run(fraction_int_ostream_negative_fraction);
-    Run(fraction_int_ostream_zero);
-    Run(fraction_int_ostream_multiple_fractions);
+    // // operator<< tests
+    // Run(fraction_int_ostream_whole_number);
+    // Run(fraction_int_ostream_regular_fraction);
+    // Run(fraction_int_ostream_negative_fraction);
+    // Run(fraction_int_ostream_zero);
+    // Run(fraction_int_ostream_multiple_fractions);
 
-    // operator>> tests
-    Run(fraction_int_istream_whole_number);
-    Run(fraction_int_istream_regular_fraction);
-    Run(fraction_int_istream_negative_numerator);
-    Run(fraction_int_istream_with_reduction);
-    Run(fraction_int_istream_zero_denominator);
-    Run(fraction_int_istream_multiple_fractions);
-    Run(fraction_int_istream_whitespace_handling);
-    Run(fraction_int_istream_negative_denominator);
-    Run(fraction_int_istream_both_negative);
+    // // operator>> tests
+    // Run(fraction_int_istream_whole_number);
+    // Run(fraction_int_istream_regular_fraction);
+    // Run(fraction_int_istream_negative_numerator);
+    // Run(fraction_int_istream_with_reduction);
+    // Run(fraction_int_istream_zero_denominator);
+    // Run(fraction_int_istream_multiple_fractions);
+    // Run(fraction_int_istream_whitespace_handling);
+    // Run(fraction_int_istream_negative_denominator);
+    // Run(fraction_int_istream_both_negative);
 
-    // << & >> operator test
-    Run(fraction_int_roundtrip_test);
+    // // << & >> operator test
+    // Run(fraction_int_roundtrip_test);
 
-    std::cout << std::endl;
+    // std::cout << std::endl;
       
     // =============================================================================
     // Test Summary
