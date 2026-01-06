@@ -27,9 +27,17 @@ int main(int argc, char* argv[]) {
     core::Timer t;
     // Start testing code
 
-    Fraction f { 5 };
+    Fraction<int> f1{};
 
-    std::cout << to_string(-f / 2);
+    f1 = {0, 2};
+
+    std::cout << +f1 << "\n";
+    std::cout << -f1 << "\n";
+    std::cout << static_cast<bool>(f1) << "\n";
+    std::cout << !f1 << "\n";
+    
+
+
 
     // End testing code
     const double ts = t.elapsed();

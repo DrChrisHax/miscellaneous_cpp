@@ -26,6 +26,10 @@ public:
 
     Fraction(const Fraction& fraction) = default;
 
+    explicit operator bool() const {
+        return numerator_ != 0;
+    }
+
     // Operator overloads
     // Comparison
     bool operator==(const Fraction& other) const {
@@ -39,6 +43,19 @@ public:
         return std::strong_ordering::equal;
     }
 
+    //Unary
+    Fraction operator+() const {
+        return Fraction{numerator_, denominator_};
+    }
+
+    Fraction operator-() const {
+        return Fraction{-numerator_, denominator_};
+    }
+
+    bool operator!() const {
+        return (numerator_ == 0);
+    }
+
     // Mathematical
     Fraction operator+(const Fraction& other) const {
         // a/b + c/d = (ad + cb) / bd
@@ -47,11 +64,11 @@ public:
         T lcm = std::lcm(denominator_, other.denominator_);
         T num = (numerator_ * (lcm / denominator_)) + (other.numerator_ * (lcm / other.denominator_));
 
-        return Fraction(num, lcm);
+        return Fraction{num, lcm};
     }
 
     Fraction operator-(const Fraction& other) const {
-        return (*this) + Fraction(-other.numerator_, other.denominator_);
+        return (*this) + Fraction{-other.numerator_, other.denominator_};
     }
 
     Fraction operator*(const Fraction& other) const {
@@ -82,40 +99,56 @@ public:
 
     Fraction operator/(const Fraction& other) const {
         // Use the property that 1/2 / 3/4 = 1/2 * 4/3
-        return (*this) * Fraction(other.denominator_, other.numerator_);
+        return (*this) * Fraction{other.denominator_, other.numerator_};
     }
 
-    Fraction operator-() const {
-        return Fraction(-numerator_, denominator_);
+    Fraction& operator+=(const Fraction& other) {
+        *this = (*this) + other;
+        return *this;
+    }
+
+    Fraction& operator-=(const Fraction& other) {
+        *this = (*this) - other;
+        return *this;
+    }
+
+    Fraction& operator*=(const Fraction& other) {
+        *this = (*this) * other;
+        return *this;
+    }
+
+    Fraction& operator/=(const Fraction& other) {
+        *this = (*this) / other;
+        return *this;
     }
 
     // Arithmetic friend functions
     friend Fraction operator+(T x, const Fraction& f) {
-        return Fraction{ x } + f;
+        return Fraction{x} + f;
     }
     friend Fraction operator+(const Fraction& f, T x) {
-        return Fraction{ x } + f;
+        return Fraction{x} + f;
     }
 
     friend Fraction operator-(T x, const Fraction& f) {
-        return Fraction{ x } - f;
+        return Fraction{x} - f;
     }
     friend Fraction operator-(const Fraction& f, T x) {
-        return f - Fraction{ x };
+        return f - Fraction{x};
     }
 
     friend Fraction operator*(T x, const Fraction& f) {
-        return Fraction(f.numerator_ * x, f.denominator_);
+        return Fraction{f.numerator_ * x, f.denominator_};
     }
     friend Fraction operator*(const Fraction& f, T x) {
         return x * f;
     }
 
     friend Fraction operator/(T x, const Fraction& f) {
-        return Fraction(x * f.denominator_, f.numerator_);
+        return Fraction{x * f.denominator_, f.numerator_};
     }
     friend Fraction operator/(const Fraction& f, T x) {
-        return Fraction(f.numerator_, f.denominator_ * x);
+        return Fraction{f.numerator_, f.denominator_ * x};
     }
 
     // Friend functions
@@ -129,12 +162,16 @@ public:
     }
 
     friend std::istream& operator>>(std::istream& is, Fraction& f) {
+        T n{};
+        char ignore{};
+        T d{};
 
-        (void)f;
+        is >> n >> ignore >> d;
+        if (d == 0){ is.setstate(std::ios_base::failbit); }
+        if (is){ f = Fraction{n, d}; }
 
         return is;
     }
-
         
     friend double to_double(const Fraction<T>& f) {
         return static_cast<double>(f.numerator_) / f.denominator_;
