@@ -56,6 +56,14 @@ public:
         return (numerator_ == 0);
     }
 
+    // Imagine we have Fraction f{3/11};
+    // Should f++ yield 4/11 or 14/11 ?
+    // Same question for the -- operator
+    // Since there is no clear answer I think it is
+    // symantically best to delete these operators
+    Fraction& operator++() = delete;
+    Fraction& operator--() = delete;
+
     // Mathematical
     Fraction operator+(const Fraction& other) const {
         // a/b + c/d = (ad + cb) / bd
@@ -202,6 +210,11 @@ public:
 private:
     T numerator_ {0};
     T denominator_ {1};
+
+    // TODO: In the future, make a rational fraction that 
+    // holds a whole number part
+    // Each object will take 50% more space but it will also
+    // be able to hold a much larger range
 
     void normalize() {
         bool isNegative = (numerator_ < 0) ^ (denominator_ < 0);
