@@ -32,6 +32,13 @@ public:
         return (numerator_ == other.numerator_) && (denominator_ == other.denominator_);
     }
 
+    std::strong_ordering operator<=>(const Fraction& other) {
+        Fraction diff = (*this) - other;
+        if (diff.numerator_ < 0) return std::strong_ordering::less;
+        if (diff.numerator_ > 0) return std::strong_ordering::greater;
+        return std::strong_ordering::equal;
+    }
+
     // Mathematical
     Fraction operator+(const Fraction& other) const {
         // a/b + c/d = (ad + cb) / bd
@@ -82,6 +89,35 @@ public:
         return Fraction(-numerator_, denominator_);
     }
 
+    // Arithmetic friend functions
+    friend Fraction operator+(T x, const Fraction& f) {
+        return Fraction{ x } + f;
+    }
+    friend Fraction operator+(const Fraction& f, T x) {
+        return Fraction{ x } + f;
+    }
+
+    friend Fraction operator-(T x, const Fraction& f) {
+        return Fraction{ x } - f;
+    }
+    friend Fraction operator-(const Fraction& f, T x) {
+        return f - Fraction{ x };
+    }
+
+    friend Fraction operator*(T x, const Fraction& f) {
+        return Fraction(f.numerator_ * x, f.denominator_);
+    }
+    friend Fraction operator*(const Fraction& f, T x) {
+        return x * f;
+    }
+
+    friend Fraction operator/(T x, const Fraction& f) {
+        return Fraction(x * f.denominator_, f.numerator_);
+    }
+    friend Fraction operator/(const Fraction& f, T x) {
+        return Fraction(f.numerator_, f.denominator_ * x);
+    }
+
     // Friend functions
     friend std::ostream& operator<<(std::ostream& os, const Fraction& f) {
         if (f.denominator_ == 1) {
@@ -97,6 +133,11 @@ public:
         (void)f;
 
         return is;
+    }
+
+        
+    friend double to_double(const Fraction<T>& f) {
+        return static_cast<double>(f.numerator_) / f.denominator_;
     }
 
     
@@ -129,6 +170,7 @@ std::string to_string(const Fraction<T>& f) {
     oss << f;
     return oss.str();
 }
+
 
 
 #endif // TEMPLATES_FRACTION_H_
