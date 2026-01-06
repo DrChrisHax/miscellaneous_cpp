@@ -63,6 +63,8 @@ public:
     // symantically best to delete these operators
     Fraction& operator++() = delete;
     Fraction& operator--() = delete;
+    Fraction operator++(int) = delete;
+    Fraction operator--(int) = delete;
 
     // Mathematical
     Fraction operator+(const Fraction& other) const {
