@@ -1,4 +1,5 @@
 #include "tests.h"
+#include "Timer.h"
 
 #include <iostream>
 
@@ -20,18 +21,19 @@ int main(int argc, char* argv[]) {
     (void)argc;
     (void)argv;
 
-    std::cout << "========================================" << std::endl;
-    std::cout << "Running Test Suite" << std::endl;
-    std::cout << "========================================" << std::endl;
+    std::cout << "========================================\n";
+    std::cout << "Running Test Suite\n";
+    std::cout << "========================================\n";
     std::cout << std::endl;
+    core::Timer t{};
 
     // =============================================================================
     // math_helper Tests
     // =============================================================================
 
-    // std::cout << "========================================" << std::endl;
-    // std::cout << "Running Math Helper Tests" << std::endl;
-    // std::cout << "========================================" << std::endl;
+    // std::cout << "========================================\n";
+    // std::cout << "Running Math Helper Tests\n";
+    // std::cout << "========================================\n";
     // std::cout << std::endl;
 
     // Run(math_helpers_addition_unsigned_32_no_overflow);
@@ -68,9 +70,9 @@ int main(int argc, char* argv[]) {
     // Fraction<int> Tests
     // =============================================================================
 
-    std::cout << "========================================" << std::endl;
-    std::cout << "Running Fraction<int> Tests" << std::endl;
-    std::cout << "========================================" << std::endl;
+    std::cout << "========================================\n";
+    std::cout << "Running Fraction<int> Tests\n";
+    std::cout << "========================================\n";
     std::cout << std::endl;
 
     Run(fraction_int_constructor_default);
@@ -132,17 +134,19 @@ int main(int argc, char* argv[]) {
     // // << & >> operator test
     // Run(fraction_int_roundtrip_test);
 
-    // std::cout << std::endl;
+    std::cout << std::endl;
       
     // =============================================================================
     // Test Summary
     // =============================================================================
-    std::cout << "========================================" << std::endl;
-    std::cout << "Test Summary" << std::endl;
-    std::cout << "========================================" << std::endl;
-    std::cout << "Total: " << total_tests << std::endl;
-    std::cout << "Passed: " << passed_tests << std::endl;
-    std::cout << "Failed: " << failed_tests << std::endl;
+    const double ts = t.elapsed();
+    std::cout << "========================================\n";
+    std::cout << "Test Summary\n";
+    std::cout << "========================================\n";
+    std::cout << "Total: " << total_tests << "\n";
+    std::cout << "Passed: " << passed_tests << "\n";
+    std::cout << "Failed: " << failed_tests << "\n";
+    std::cout << "Total time elapsed: " << ts << "\n";
     std::cout << std::endl;
 }
 
@@ -157,11 +161,11 @@ bool test_helper(std::string_view expected, std::string_view result) {
 
 
     if (result == expected) {
-        std::cout << GREEN << "[PASS]" << RESET << std::endl;
+        std::cout << GREEN << "[PASS]" << RESET << "\n";
         return true;
     } else {
-        std::cout << RED << "[FAIL]" << RESET << "Expected: " << expected << std::endl;
-        std::cout << RED << "[FAIL]" << RESET << "Got:      " << result << std::endl;
+        std::cout << RED << "[FAIL]" << RESET << "Expected: " << expected << "\n";
+        std::cout << RED << "[FAIL]" << RESET << "Got:      " << result << "\n";
         return false;
     }
 }

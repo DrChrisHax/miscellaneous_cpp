@@ -36,7 +36,7 @@ public:
         return (numerator_ == other.numerator_) && (denominator_ == other.denominator_);
     }
 
-    std::strong_ordering operator<=>(const Fraction& other) {
+    std::strong_ordering operator<=>(const Fraction& other) const {
         Fraction diff = (*this) - other;
         if (diff.numerator_ < 0) return std::strong_ordering::less;
         if (diff.numerator_ > 0) return std::strong_ordering::greater;
@@ -62,7 +62,24 @@ public:
         // Above is the naive method, we can instead use the LCM
         
         T lcm = std::lcm(denominator_, other.denominator_);
-        T num = (numerator_ * (lcm / denominator_)) + (other.numerator_ * (lcm / other.denominator_));
+        T mult1 = lcm / denominator_;
+        T mult2 = lcm / other.denominator_;
+
+        if (would_overflow_multiplication<T>(numerator_, mult1)) {
+            throw std::overflow_error("Addition would overflow in first term");
+        }
+        if (would_overflow_multiplication<T>(other.numerator_, mult2)) {
+            throw std::overflow_error("Addition would overflow in second term");
+        }
+
+        T term1 = numerator_ * mult1;
+        T term2 = other.numerator_ * mult2;
+
+        if (would_overflow_addition<T>(term1, term2)) {
+            throw std::overflow_error("Addition would overflow in final sum");
+        }
+
+        T num = term1 + term2;
 
         return Fraction{num, lcm};
     }
@@ -174,7 +191,11 @@ public:
     }
         
     friend double to_double(const Fraction<T>& f) {
-        return static_cast<double>(f.numerator_) / f.denominator_;
+        return static_cast<double>(f.numerator_) / static_cast<double>(f.denominator_);
+    }
+
+    friend long double to_long_double(const Fraction<T>& f) {
+        return static_cast<long double>(f.numerator_) / static_cast<long double>(f.denominator_);
     }
 
     

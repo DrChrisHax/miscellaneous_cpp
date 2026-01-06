@@ -237,13 +237,14 @@ bool fraction_int_addition_to_whole_number() {
 }
 
 bool fraction_int_addition_smart_overflow_avoidance() {
-    std::cout << "[TEST] Fraction<int>: Smart cross-cancellation prevents overflow (5/2B + 7/756 -> 1000027/108000000)" << std::endl;
+    std::cout << "[TEST] Fraction<int>: Smart cross-cancellation prevents overflow ((3*3*11 / 2^26 * 13) + (17*3 / 2^26 * 17) -> (3*23 / 2^25 * 13))" << std::endl;
     
-    Fraction<int> f1(5, 2'000'000'000);
-    Fraction<int> f2(7, 756);
+    Fraction<int> f1(99, 872'415'232);
+    Fraction<int> f2(51, 1'140'850'688);
     Fraction<int> result = f1 + f2;
     
-    std::string expected = "1000027/108000000";
+    Fraction<int> f3(69, 436'207'616);
+    std::string expected = to_string(f3);
     std::string result_str = to_string(result);
     
     return test_helper(expected, result_str);
