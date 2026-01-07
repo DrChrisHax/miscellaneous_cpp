@@ -296,7 +296,10 @@ template<std::integral T>
 std::string to_string(const Fraction<T>& f) {
     return static_cast<std::string>(f);
 }
-
+template<std::integral T>
+const Fraction<T>& max(const Fraction<T>& a, const Fraction<T>& b) {
+    return (a < b) ? b : a;
+}
 
 
 #endif // TEMPLATES_FRACTION_H_
