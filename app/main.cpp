@@ -30,7 +30,7 @@ int main(int argc, char* argv[]) {
     Fraction<int> f1(99, 872'415'232); // 3*3*11 / 2^26 * 13
     Fraction<int> f2(51, 1'140'850'688); // 17*3 / 2^26 * 17
     Fraction<int> expected(69, 436'207'616); // 3*23 / 2^25 * 13
-
+    
     std::cout << std::setprecision(32);
     std::cout << "f1: " << f1 << "\n";
     std::cout << "f2: " << f2 << "\n";

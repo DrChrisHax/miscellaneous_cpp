@@ -26,8 +26,34 @@ public:
 
     Fraction(const Fraction& fraction) = default;
 
+    // Type casts
     explicit operator bool() const {
         return numerator_ != 0;
+    }
+
+    explicit operator float() const {
+        return static_cast<float>(numerator_) / static_cast<float>(denominator_);
+    }
+
+    operator double() const {
+        // Double is not marked explicit
+        // because this makes the most semantic sense to 
+        // be the default type cast to a primative type
+        return static_cast<double>(numerator_) / static_cast<double>(denominator_);
+    }
+
+    explicit operator long double() const {
+        return static_cast<long double>(numerator_) / static_cast<long double>(denominator_);
+    }
+
+    explicit operator T() const {
+        return numerator_ / denominator_;
+    }
+
+    explicit operator std::string() const {
+        std::ostringstream oss;
+        oss << *this;
+        return oss.str();
     }
 
     // Operator overloads
@@ -63,8 +89,19 @@ public:
     // symantically best to delete these operators
     Fraction& operator++() = delete;
     Fraction& operator--() = delete;
-    Fraction operator++(int) = delete;
-    Fraction operator--(int) = delete;
+    Fraction operator++(int x) = delete;
+    Fraction operator--(int x) = delete;
+
+    // No need for the [] operator
+    // so this is just for reference
+    T& operator[](int index) = delete;
+
+    // No need for the () operator
+    // so this is just for reference.
+    // These can take any number of parameters
+    // and return any type
+    operator()() = delete;
+    operator()() const = delete;
 
     // Mathematical
     Fraction operator+(const Fraction& other) const {
@@ -199,15 +236,6 @@ public:
 
         return is;
     }
-        
-    friend double to_double(const Fraction<T>& f) {
-        return static_cast<double>(f.numerator_) / static_cast<double>(f.denominator_);
-    }
-
-    friend long double to_long_double(const Fraction<T>& f) {
-        return static_cast<long double>(f.numerator_) / static_cast<long double>(f.denominator_);
-    }
-
     
 private:
     T numerator_ {0};
@@ -239,9 +267,7 @@ private:
 
 template<std::integral T>
 std::string to_string(const Fraction<T>& f) {
-    std::ostringstream oss;
-    oss << f;
-    return oss.str();
+    return static_cast<std::string>(f);
 }
 
 
