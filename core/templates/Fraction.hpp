@@ -18,13 +18,40 @@ public:
 
     // Constructors
     Fraction() : numerator_{ 0 }, denominator_ { 1 } {}
+
     explicit Fraction(T numerator) : numerator_{ numerator}, denominator_{ 1 } {}
+
     Fraction(T numerator, T denominator) : numerator_{ numerator }, denominator_{ denominator } {
         if (denominator_ == 0) throw std::invalid_argument("The denominator cannot be 0.");
         normalize();
     }
 
-    Fraction(const Fraction& fraction) = default;
+    // Destructor
+    ~Fraction() = default;
+
+    // Copy Constructor
+    Fraction(const Fraction& other) : numerator_{ other.numerator_ }, denominator_{ other.denominator_ } {
+        std::cout << "Copy constructor called\n";
+    }
+
+    // Copy assignment operator
+    Fraction& operator=(const Fraction& other) {
+
+        if (this == &other) {
+            // We do not really need this conditional for
+            // the Fraction class, but it is here for reference.
+            // Classes that hold dynamic data need to include this
+            // to avoid memory leaks or data deletion when
+            // assigning to itself
+            return *this;
+        }
+
+        numerator_ = other.numerator_;
+        denominator_ = other.denominator_;
+
+        return *this; // Return *this so the copy assignmnet operator can be chained
+    }
+
 
     // Type casts
     explicit operator bool() const {
@@ -100,8 +127,8 @@ public:
     // so this is just for reference.
     // These can take any number of parameters
     // and return any type
-    operator()() = delete;
-    operator()() const = delete;
+    void operator()() = delete;
+    void operator()() const = delete;
 
     // Mathematical
     Fraction operator+(const Fraction& other) const {
