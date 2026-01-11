@@ -18,37 +18,37 @@ public:
 
     // Constructors
     Fraction() : numerator_{ 0 }, denominator_ { 1 } {
-        std::cout << (*this) << " constructed.\n";
+        //std::cout << (*this) << " constructed.\n";
     }
 
     explicit Fraction(T numerator) : numerator_{ numerator}, denominator_{ 1 } {
-        std::cout << (*this) << " constructed.\n";
+        //std::cout << (*this) << " constructed.\n";
     }
 
     Fraction(T numerator, T denominator) : numerator_{ numerator }, denominator_{ denominator } {
         if (denominator_ == 0) throw std::invalid_argument("The denominator cannot be 0.");
         normalize();
-        std::cout << (*this) << " constructed.\n";
+        //std::cout << (*this) << " constructed.\n";
     }
 
     // Destructor
     ~Fraction() {
-        std::cout << (*this) << " destroyed.\n";
+        //std::cout << (*this) << " destroyed.\n";
     };
 
     // Copy Constructor
     Fraction(const Fraction& other) : numerator_{ other.numerator_ }, denominator_{ other.denominator_ } {
-        std::cout << (*this) << " copy constructed.\n";
+        //std::cout << (*this) << " copy constructed.\n";
     }
 
     // Move Constructor
     Fraction(Fraction&& other) noexcept : numerator_{other.numerator_}, denominator_{other.denominator_} {
-        std::cout << (*this) << " move constructed.\n";
+        //std::cout << (*this) << " move constructed.\n";
     }
 
     // Copy assignment operator
     Fraction& operator=(const Fraction& other) {
-        std::cout << (*this) << " copy assignment constructed.\n";
+        //std::cout << (*this) << " copy assignment constructed.\n";
 
         if (this == &other) {
             // We do not really need this conditional for
@@ -67,7 +67,7 @@ public:
 
     // Move assignment operator
     Fraction& operator=(Fraction&& other) noexcept {
-        std::cout << (*this) << " move assignment constructed.\n";
+        //std::cout << (*this) << " move assignment constructed.\n";
         if (this == &other) {
             return *this;
         }
