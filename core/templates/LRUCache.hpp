@@ -14,7 +14,7 @@ namespace core {
 
         /*** Constructors and Destructors ***/
         LRUCache() = delete;
-        LRUCache(std::size_t capacity) : capacity_{capacity}, front_{new Node()}, back_{new Node()} {
+        explicit LRUCache(std::size_t capacity) : capacity_{capacity}, front_{new Node()}, back_{new Node()} {
             front_->next = back_;
             back_->prev = front_;
         }
@@ -35,33 +35,41 @@ namespace core {
         LRUCache& operator=(const LRUCache& other) = delete;
         LRUCache& operator=(LRUCache&& other) = delete;
 
-        V& get(const K& key) {
-            if (keys_.contains(key)) {
+
+        bool contains(const K& key) const {
+            return keys_.contains(key);
+        }
+
+        V* get(const K& key) {
+            auto it = keys_.find(key);
+            if (it != keys_.end()) {
                 // Move the node to the front of the list
-                Node* node = keys_[key];
+                Node* node = it->second;
                 RemoveNode(node);
                 InsertNode(node);
-                return node->value;
+                return &node->value;
             } else {
-                return V{};
+                return nullptr;
             }
         }
 
         void put(const K& key, const V& value) {
-            if (keys_.contains(key)) {
+            auto it = keys_.find(key);
+            if (it != keys_.end()) {
                 // The values already exists
                 // just move it to the front
-                Node* node = keys_[key];
+                Node* node = it->second;
+                node->value = value;
                 RemoveNode(node);
                 InsertNode(node);
             } else {            
                 Node* node = new Node{key, value};
                 InsertNode(node);
-                keys_.insert(key, value);
+                keys_[key] = node;
                 
-                if (keys_.count > capacity_) {
+                if (keys_.size() > capacity_) {
                     Node* old = back_->prev;
-                    keys_.erase[old->key];
+                    keys_.erase(old->key);
                     DeleteNode(old);
                 }
             }

@@ -29,8 +29,10 @@ int main(int argc, char* argv[]) {
         std::unordered_map<int, DL_KV_Node<int, int>*> keys;
         LRUCache<int, int> cache(2uz);
 
-        std::cout << sizeof(keys) << std::endl;
-        std::cout << sizeof(cache);
+        cache.put(1, 1);
+        cache.put(2, 2);
+        std::cout << *(cache.get(2));
+        cache.put(3, 3);
 
 
         // End testing code
