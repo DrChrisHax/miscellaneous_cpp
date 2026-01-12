@@ -6,13 +6,15 @@
 #include "Timer.h"
 #include "concepts.hpp"
 #include "random.hpp"
-//#include "Vector.hpp"
-
+#include "Nodes.hpp"
+#include "LRUCache.hpp"
 
 #include <iostream>
 #include <utility>
 #include <memory>
 #include <vector>
+#include <unordered_map>
+
 
 using namespace core;
 
@@ -24,6 +26,11 @@ int main(int argc, char* argv[]) {
     Timer t;
     {
         // Start testing code
+        std::unordered_map<int, DL_KV_Node<int, int>*> keys;
+        LRUCache<int, int> cache(2uz);
+
+        std::cout << sizeof(keys) << std::endl;
+        std::cout << sizeof(cache);
 
 
         // End testing code
