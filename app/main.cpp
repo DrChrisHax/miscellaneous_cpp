@@ -17,18 +17,16 @@
 using namespace core;
 
 
-
-
 int main(int argc, char* argv[]) {
     (void)argc;
     (void)argv;
 
     Timer t;
     {
-    // Start testing code
+        // Start testing code
 
 
-    // End testing code
+        // End testing code
     }
     const double ts = t.elapsed();
     std::cout << "\nTime taken: " << std::to_string(ts) << std::endl;

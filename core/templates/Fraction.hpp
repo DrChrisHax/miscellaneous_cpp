@@ -37,7 +37,7 @@ public:
     };
 
     // Copy Constructor
-    Fraction(const Fraction& other) : numerator_{ other.numerator_ }, denominator_{ other.denominator_ } {
+    Fraction(const Fraction<T>& other) : numerator_{ other.numerator_ }, denominator_{ other.denominator_ } {
         //std::cout << (*this) << " copy constructed.\n";
     }
 
