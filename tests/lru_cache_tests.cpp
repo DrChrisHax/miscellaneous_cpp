@@ -16,29 +16,44 @@ bool lru_cache_constructor_explicit_capacity() {
 
 bool lru_cache_constructor_copy() {
     std::cout << "[TEST] LRU Cache Constructor - Copy" << std::endl;
-    LRUCache<int, std::string> original{3uz};
-    original.put(1, "one");
-    original.put(2, "two");
+
+    std::string expected = "";
+    std::string result = "";
+
+    // The enclosed block is to test the destructor as well
+    {
+        LRUCache<int, std::string> original{3uz};
+        original.put(1, "one");
+        original.put(2, "two");
+        
+        LRUCache<int, std::string> copy(original);
+        expected = "Capacity: 3\nSize: 2\nContains 1: true\nContains 2: true";
+        result = "Capacity: " + std::to_string(copy.capacity()) + "\nSize: " + std::to_string(copy.size()) +
+                            "\nContains 1: " + (copy.contains(1) ? "true" : "false") +
+                            "\nContains 2: " + (copy.contains(2) ? "true" : "false");
+    }
     
-    LRUCache<int, std::string> copy(original);
-    std::string expected = "Capacity: 3\nSize: 2\nContains 1: true\nContains 2: true";
-    std::string result = "Capacity: " + std::to_string(copy.capacity()) + "\nSize: " + std::to_string(copy.size()) +
-                         "\nContains 1: " + (copy.contains(1) ? "true" : "false") +
-                         "\nContains 2: " + (copy.contains(2) ? "true" : "false");
     return test_helper(expected, result);
 }
 
 bool lru_cache_constructor_move() {
     std::cout << "[TEST] LRU Cache Constructor - Move" << std::endl;
-    LRUCache<int, std::string> original{3uz};
-    original.put(1, "one");
-    original.put(2, "two");
-    
-    LRUCache<int, std::string> moved(std::move(original));
-    std::string expected = "Capacity: 3\nSize: 2\nContains 1: true\nContains 2: true";
-    std::string result = "Capacity: " + std::to_string(moved.capacity()) + "\nSize: " + std::to_string(moved.size()) +
-                         "\nContains 1: " + (moved.contains(1) ? "true" : "false") +
-                         "\nContains 2: " + (moved.contains(2) ? "true" : "false");
+
+    std::string expected = "";
+    std::string result = "";
+
+    // The enclosed block is to test the destructor as well
+    {
+        LRUCache<int, std::string> original{3uz};
+        original.put(1, "one");
+        original.put(2, "two");
+        
+        LRUCache<int, std::string> moved(std::move(original));
+        expected = "Capacity: 3\nSize: 2\nContains 1: true\nContains 2: true";
+        result = "Capacity: " + std::to_string(moved.capacity()) + "\nSize: " + std::to_string(moved.size()) +
+                            "\nContains 1: " + (moved.contains(1) ? "true" : "false") +
+                            "\nContains 2: " + (moved.contains(2) ? "true" : "false");
+    }
     return test_helper(expected, result);
 }
 
@@ -244,11 +259,9 @@ bool lru_cache_ostream_single_item() {
     
     std::stringstream ss;
     ss << cache;
-    std::string output = ss.str();
-    
-    std::string expected = "Output not empty: 1\nSize: 1";
-    std::string result = "Output not empty: " + std::to_string(output.empty()) +
-                         "\nSize: " + std::to_string(cache.size());
+
+    std::string expected = "(1, one)";
+    std::string result = ss.str();
     return test_helper(expected, result);
 }
 
@@ -261,10 +274,8 @@ bool lru_cache_ostream_multiple_items() {
     
     std::stringstream ss;
     ss << cache;
-    std::string output = ss.str();
     
-    std::string expected = "Output not empty: 1\nSize: 3";
-    std::string result = "Output not empty: " + std::to_string(output.empty()) +
-                         "\nSize: " + std::to_string(cache.size());
+    std::string expected = "(3, three)-->(2, two)-->(1, one)";
+    std::string result = ss.str();
     return test_helper(expected, result);
 }

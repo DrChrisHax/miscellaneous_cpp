@@ -46,7 +46,10 @@ namespace core {
 
         LRUCache& operator=(LRUCache&& other) {
             if (this == &other) return *this;
+
+            // Clean up any data in the current object
             keys_.clear();
+            DeleteList();
             
             Move(std::move(other));
             return *this;
@@ -148,10 +151,13 @@ namespace core {
         }
 
         void DeleteList() {
-            Node* curr = front_->next;
-            while(curr != back_) {
-                curr = DeleteNode(curr);
+            if (front_ && back_) {
+                Node* curr = front_->next;
+                while(curr != back_) {
+                    curr = DeleteNode(curr);
+                }
             }
+            
             delete front_;
             delete back_;
             front_ = nullptr;
