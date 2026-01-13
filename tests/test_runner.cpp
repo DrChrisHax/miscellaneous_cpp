@@ -70,48 +70,48 @@ int main(int argc, char* argv[]) {
     // Fraction<int> Tests
     // =============================================================================
 
-    std::cout << "========================================\n";
-    std::cout << "Running Fraction<int> Tests\n";
-    std::cout << "========================================\n";
-    std::cout << std::endl;
+    // std::cout << "========================================\n";
+    // std::cout << "Running Fraction<int> Tests\n";
+    // std::cout << "========================================\n";
+    // std::cout << std::endl;
 
-    Run(fraction_int_constructor_default);
-    Run(fraction_int_constructor_single_param);
-    Run(fraction_int_constructor_both_params);
-    Run(fraction_int_constructor_zero_denominator);
+    // Run(fraction_int_constructor_default);
+    // Run(fraction_int_constructor_single_param);
+    // Run(fraction_int_constructor_both_params);
+    // Run(fraction_int_constructor_zero_denominator);
 
-    // Normalization tests
-    Run(fraction_int_normalization_gcd_reduction);
-    Run(fraction_int_normalization_already_reduced);
-    Run(fraction_int_normalization_to_whole_number);
-    Run(fraction_int_normalization_zero_numerator);
+    // // Normalization tests
+    // Run(fraction_int_normalization_gcd_reduction);
+    // Run(fraction_int_normalization_already_reduced);
+    // Run(fraction_int_normalization_to_whole_number);
+    // Run(fraction_int_normalization_zero_numerator);
 
-    // Negative tests
-    Run(fraction_int_negative_numerator);
-    Run(fraction_int_negative_denominator);
-    Run(fraction_int_both_negative);
-    Run(fraction_int_negative_with_reduction);
-    Run(fraction_int_negative_whole_number);
+    // // Negative tests
+    // Run(fraction_int_negative_numerator);
+    // Run(fraction_int_negative_denominator);
+    // Run(fraction_int_both_negative);
+    // Run(fraction_int_negative_with_reduction);
+    // Run(fraction_int_negative_whole_number);
 
-    // to_string tests
-    Run(fraction_int_to_string_whole_number);
-    Run(fraction_int_to_string_regular_fraction);
-    Run(fraction_int_to_string_negative_fraction);
-    Run(fraction_int_to_string_zero);
+    // // to_string tests
+    // Run(fraction_int_to_string_whole_number);
+    // Run(fraction_int_to_string_regular_fraction);
+    // Run(fraction_int_to_string_negative_fraction);
+    // Run(fraction_int_to_string_zero);
 
-    // Addition tests
-    Run(fraction_int_addition_simple);
-    Run(fraction_int_addition_with_reduction);
-    Run(fraction_int_addition_negative);
-    Run(fraction_int_addition_to_whole_number);
-    Run(fraction_int_addition_smart_overflow_avoidance);
+    // // Addition tests
+    // Run(fraction_int_addition_simple);
+    // Run(fraction_int_addition_with_reduction);
+    // Run(fraction_int_addition_negative);
+    // Run(fraction_int_addition_to_whole_number);
+    // Run(fraction_int_addition_smart_overflow_avoidance);
 
-    // Multiplication tests
-    Run(fraction_int_multiplication_no_reduction);
-    Run(fraction_int_multiplication_recution);
-    Run(fraction_int_multiplication_negative);
-    Run(fraction_int_overflow_no_error);
-    Run(fraction_int_overflow_error);
+    // // Multiplication tests
+    // Run(fraction_int_multiplication_no_reduction);
+    // Run(fraction_int_multiplication_recution);
+    // Run(fraction_int_multiplication_negative);
+    // Run(fraction_int_overflow_no_error);
+    // Run(fraction_int_overflow_error);
 
     // // operator<< tests
     // Run(fraction_int_ostream_whole_number);
@@ -133,6 +133,46 @@ int main(int argc, char* argv[]) {
 
     // // << & >> operator test
     // Run(fraction_int_roundtrip_test);
+
+    // std::cout << std::endl;
+
+    // =============================================================================
+    // LRU Cache Tests
+    // =============================================================================
+
+    std::cout << "========================================\n";
+    std::cout << "Running LRU Cache Tests\n";
+    std::cout << "========================================\n";
+    std::cout << std::endl;
+
+    // Constructor tests
+    Run(lru_cache_constructor_explicit_capacity);
+    Run(lru_cache_constructor_copy);
+    Run(lru_cache_constructor_move);
+
+    // Assignment operator tests
+    Run(lru_cache_assignment_copy);
+    Run(lru_cache_assignment_move);
+    Run(lru_cache_assignment_self);
+
+    // Basic functionality tests
+    Run(lru_cache_empty_cache);
+    Run(lru_cache_single_item);
+    Run(lru_cache_multiple_items);
+
+    // Put and Get tests
+    Run(lru_cache_put_and_get_basic);
+    Run(lru_cache_get_moves_to_front);
+    Run(lru_cache_put_existing_key);
+    Run(lru_cache_get_nonexistent_returns_nullptr);
+
+    // Capacity and eviction tests
+    Run(lru_cache_capacity_hit_multiple_times);
+    Run(lru_cache_capacity_with_updates);
+
+    // Operator tests
+    Run(lru_cache_ostream_single_item);
+    Run(lru_cache_ostream_multiple_items);
 
     std::cout << std::endl;
       

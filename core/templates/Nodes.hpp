@@ -1,19 +1,21 @@
 #ifndef CORE_TEMPLATES_NODES_H_
 #define CORE_TEMPLATES_NODES_H_
 
+#include <iostream>
+
 namespace core {
 
     // Singly Linked Node
-    template <typename T>
+    template <typename V>
     struct SL_Node {
-        T value{};
+        V value{};
         SL_Node* next{nullptr};  
     };
 
     // Doubly Linked Node
-    template <typename T>
+    template <typename V>
     struct DL_Node {
-        T value{};
+        V value{};
         DL_Node* next{nullptr};
         DL_Node* prev{nullptr};
     };
@@ -34,6 +36,54 @@ namespace core {
         DL_KV_Node* next{nullptr};
         DL_KV_Node* prev{nullptr};
     };
+
+    template <typename V>
+    std::ostream& operator<<(std::ostream& os, const SL_Node<V>& node) {
+        os << "(" << node.value << ")";
+        return os;
+    }
+
+    template <typename V>
+    std::ostream& operator<<(std::ostream& os, const SL_Node<V>* node) {
+        os << "(" << node->value << ")";
+        return os;
+    }
+
+    template <typename V>
+    std::ostream& operator<<(std::ostream& os, const DL_Node<V>& node) {
+        os << "(" << node.value << ")";
+        return os;
+    }
+
+    template <typename V>
+    std::ostream& operator<<(std::ostream& os, const DL_Node<V>* node) {
+        os << "(" << node->value << ")";
+        return os;
+    }
+
+    template <typename K, typename V>
+    std::ostream& operator<<(std::ostream& os, const SL_KV_Node<K, V>& node) {
+        os << "(" << node.key << ", " << node.value << ")";
+        return os;
+    }
+
+    template <typename K, typename V>
+    std::ostream& operator<<(std::ostream& os, const SL_KV_Node<K, V>* node) {
+        os << "(" << node->key << ", " << node->value << ")";
+        return os;
+    }
+
+    template <typename K, typename V>
+    std::ostream& operator<<(std::ostream& os, const DL_KV_Node<K, V>& node) {
+        os << "(" << node.key << ", " << node.value << ")";
+        return os;
+    }
+
+    template <typename K, typename V>
+    std::ostream& operator<<(std::ostream& os, const DL_KV_Node<K, V>* node) {
+        os << "(" << node->key << ", " << node->value << ")";
+        return os;
+    }
 
 }
 

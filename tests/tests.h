@@ -116,6 +116,39 @@ bool fraction_int_istream_both_negative();
 bool fraction_int_roundtrip_test();
 
 // =============================================================================
+// LRU Cache Tests
+// =============================================================================
+
+// Constructor tests
+bool lru_cache_constructor_explicit_capacity();
+bool lru_cache_constructor_copy();
+bool lru_cache_constructor_move();
+
+// Assignment operator tests
+bool lru_cache_assignment_copy();
+bool lru_cache_assignment_move();
+bool lru_cache_assignment_self();
+
+// Basic functionality tests
+bool lru_cache_empty_cache();
+bool lru_cache_single_item();
+bool lru_cache_multiple_items();
+
+// Put and Get tests
+bool lru_cache_put_and_get_basic();
+bool lru_cache_get_moves_to_front();
+bool lru_cache_put_existing_key();
+bool lru_cache_get_nonexistent_returns_nullptr();
+
+// Capacity and eviction tests
+bool lru_cache_capacity_hit_multiple_times();
+bool lru_cache_capacity_with_updates();
+
+// Operator tests
+bool lru_cache_ostream_single_item();
+bool lru_cache_ostream_multiple_items();
+
+// =============================================================================
 // Future Test Categories
 // =============================================================================
 
