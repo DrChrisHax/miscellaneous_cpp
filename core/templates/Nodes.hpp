@@ -37,6 +37,28 @@ namespace core {
         DL_KV_Node* prev{nullptr};
     };
 
+    // Tree Node
+    template <typename V>
+    struct TreeNode {
+        V value{};
+        TreeNode* left{nullptr};
+        TreeNode* right{nullptr};
+    };
+
+    // Red-Black Tree Node
+    template <typename V>
+    struct RB_TreeNode {
+        V value{};
+        RB_TreeNode* left{nullptr};
+        RB_TreeNode* right{nullptr};
+        bool color{}; // Red is true, black is false
+
+        bool IsRed() const { return color; }
+        bool IsBlack() const { return !color; }
+
+        const char* Color() const { return color ? "R" : "B"; }
+    };
+
     template <typename V>
     std::ostream& operator<<(std::ostream& os, const SL_Node<V>& node) {
         os << "(" << node.value << ")";
@@ -84,6 +106,31 @@ namespace core {
         os << "(" << node->key << ", " << node->value << ")";
         return os;
     }
+
+    template <typename V>
+    std::ostream& operator<<(std::ostream& os, const TreeNode<V>& node) {
+        os << "(" << node.value << ")";
+        return os;
+    }
+
+    template <typename V>
+    std::ostream& operator<<(std::ostream& os, const TreeNode<V>* node) {
+        os << "(" << node->value << ")";
+        return os;
+    }
+
+    template <typename V>
+    std::ostream& operator<<(std::ostream& os, const RB_TreeNode<V>& node) {
+        os << "(" << node.Color() << " " << node.value << ")";
+        return os;
+    }
+
+    template <typename V>
+    std::ostream& operator<<(std::ostream& os, const RB_TreeNode<V>* node) {
+        os << "(" << node->Color() << " " << node->value << ")";
+        return os;
+    }
+
 
 }
 
