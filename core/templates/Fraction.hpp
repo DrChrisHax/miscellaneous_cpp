@@ -280,13 +280,18 @@ public:
 
     friend std::istream& operator>>(std::istream& is, Fraction& f) {
         T n{};
-        char ignore{};
-        T d{};
+        is >> n;
+        if (!is) return is;
 
-        is >> n >> ignore >> d;
-        if (d == 0){ is.setstate(std::ios_base::failbit); }
-        if (is){ f = Fraction{n, d}; }
-
+        if (is.peek() == '/') {
+            char ignore{};
+            T d{};
+            is >> ignore >> d;
+            if (d == 0) { is.setstate(std::ios_base::failbit); }
+            if (is) { f = Fraction{n, d}; }
+        } else {
+            f = Fraction{n, 1};
+        }
         return is;
     }
     
