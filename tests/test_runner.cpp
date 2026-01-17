@@ -169,6 +169,7 @@ int main(int argc, char* argv[]) {
     // Capacity and eviction tests
     Run(lru_cache_capacity_hit_multiple_times);
     Run(lru_cache_capacity_with_updates);
+    Run(lru_cache_comprehensive);
 
     // Operator tests
     Run(lru_cache_ostream_single_item);

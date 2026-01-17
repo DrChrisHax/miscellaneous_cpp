@@ -251,6 +251,126 @@ bool lru_cache_capacity_with_updates() {
     return test_helper(expected, result);
 }
 
+bool lru_cache_comprehensive() {
+    std::cout << "[TEST] LRU Cache - Comprehensive Test" << std::endl;
+
+    LRUCache<int, int> cache{3uz};
+    std::string result = "";
+
+    cache.put(1, 1);
+    cache.put(2, 2);
+    cache.put(3, 3);
+
+    int* val = cache.get(1);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+    val = cache.get(2);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+    val = cache.get(4);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+
+    cache.put(4, 4);
+
+    val = cache.get(1);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+    val = cache.get(2);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+    val = cache.get(3);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+    val = cache.get(4);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+    val = cache.get(2);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+
+    cache.put(1, 8);
+    cache.put(3, 7);
+
+    val = cache.get(1);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+    val = cache.get(2);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+    val = cache.get(3);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+    val = cache.get(4);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+    val = cache.get(5);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+    val = cache.get(2);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+    val = cache.get(3);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+    val = cache.get(4);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+
+    cache.put(1, 9);
+    cache.put(6, 6);
+
+    val = cache.get(1);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+    val = cache.get(2);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+    val = cache.get(3);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+    val = cache.get(4);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+    val = cache.get(5);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+    val = cache.get(6);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+
+    cache.put(12, 14);
+    cache.put(14, 16);
+    cache.put(16, 18);
+
+    val = cache.get(6);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+    val = cache.get(12);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+    val = cache.get(14);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+    val = cache.get(16);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+    val = cache.get(18);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+
+    cache.put(6, 7);
+    val = cache.get(12);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+    result += ",";
+    val = cache.get(6);
+    result += (val != nullptr ? std::to_string(*val) : "-1");
+
+    std::string expected = "1,2,-1,1,2,-1,4,2,8,2,7,-1,-1,2,7,-1,9,-1,7,-1,-1,6,-1,14,16,18,-1,-1,7";
+    
+    return test_helper(expected, result);
+}
+
 // Operator tests
 bool lru_cache_ostream_single_item() {
     std::cout << "[TEST] LRU Cache - Output Stream Single Item" << std::endl;

@@ -147,6 +147,7 @@ bool lru_cache_capacity_with_updates();
 // Operator tests
 bool lru_cache_ostream_single_item();
 bool lru_cache_ostream_multiple_items();
+bool lru_cache_comprehensive();
 
 // =============================================================================
 // Future Test Categories

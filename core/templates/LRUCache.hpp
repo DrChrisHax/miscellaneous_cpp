@@ -131,7 +131,7 @@ namespace core {
             front_->next = node;
         }
 
-        void RemoveNode(Node* node) {
+        void RemoveNode(const Node* node) {
             // Removes the node from the list
             Node* prev = node->prev;
             Node* next = node->next;
