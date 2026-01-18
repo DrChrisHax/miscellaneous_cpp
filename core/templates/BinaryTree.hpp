@@ -6,6 +6,7 @@
 
 #include <concepts>
 #include <iostream>
+#include <vector>
 
 namespace core {
 
@@ -82,7 +83,7 @@ namespace core {
         }
 
         bool Contains(const T& value) const {
-            return Find(root_, value) != nullptr;
+            return FindNode(root_, value) != nullptr;
         }
 
         Node* Find(const T& value) const {

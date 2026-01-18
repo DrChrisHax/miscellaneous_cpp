@@ -51,6 +51,39 @@ namespace core {
         return tree;
     }
 
+    // Creates a predifined unbalanced tree
+    template <TreeType T>
+    T UnbalancedTree() {
+        /*
+        //          4
+        //        /  \ 
+        //       3    12
+        //      /     /  \
+        //     1     8    14
+        //    /     / \
+        //   2     7   9
+        //        /     \
+        //       5       10
+        //        \        \
+        //         6        11
+        */
+        T tree;
+        tree.Insert(4);
+        tree.Insert(3);
+        tree.Insert(1);
+        tree.Insert(2);
+        tree.Insert(12);
+        tree.Insert(14);
+        tree.Insert(8);
+        tree.Insert(7);
+        tree.Insert(9);
+        tree.Insert(10);
+        tree.Insert(11);
+        tree.Insert(5);
+        tree.Insert(6);
+        return tree;
+    }
+
     // Inserts n random positive values
     template <TreeType  T>
     T RandomTree(std::size_t n){

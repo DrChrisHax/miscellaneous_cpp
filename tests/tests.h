@@ -150,6 +150,20 @@ bool lru_cache_ostream_multiple_items();
 bool lru_cache_comprehensive();
 
 // =============================================================================
+// Binary Tree Tests
+// =============================================================================
+
+// Constructor and destructor tests
+bool binary_tree_constructor_default();
+bool binary_tree_destructor();
+
+// Move tests
+bool binary_tree_move_constructor();
+bool binary_tree_move_assignment();
+bool binary_tree_move_assignment_self();
+
+
+// =============================================================================
 // Future Test Categories
 // =============================================================================
 

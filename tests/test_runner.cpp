@@ -176,7 +176,22 @@ int main(int argc, char* argv[]) {
     Run(lru_cache_ostream_multiple_items);
 
     std::cout << std::endl;
-      
+
+    // =============================================================================
+    // Binary Tree Tests
+    // =============================================================================
+
+    std::cout << "========================================\n";
+    std::cout << "Running Binary Tree Tests\n";
+    std::cout << "========================================\n";
+    std::cout << std::endl;
+
+    Run(binary_tree_constructor_default);
+    Run(binary_tree_destructor);
+    Run(binary_tree_move_constructor);
+    Run(binary_tree_move_assignment);
+    Run(binary_tree_move_assignment_self);
+        
     // =============================================================================
     // Test Summary
     // =============================================================================

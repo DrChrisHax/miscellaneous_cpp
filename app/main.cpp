@@ -30,21 +30,9 @@ int main(int argc, char* argv[]) {
     {
         // Start testing code
 
-        auto empty    = EmptyTree<BinaryTree<int>>();
-        auto one      = OneElementTree<BinaryTree<int>>();
-        auto balanced = BalancedTree<BinaryTree<int>>(10);
-        auto worst    = WorstUnbalancedTree<BinaryTree<int>>(10);
-        auto random   = RandomTree<BinaryTree<int>>(10);
-        auto uniqueT  = UniqueRandomTree<BinaryTree<int>>(10);
+        auto test = UnbalancedTree<BinaryTree<int>>();
 
-        std::cout << empty << std::endl << std::endl;
-        std::cout << one << std::endl << std::endl;
-        std::cout << balanced << std::endl << std::endl;
-        std::cout << worst << std::endl << std::endl;
-        std::cout << random << std::endl << std::endl;
-        std::cout << uniqueT << std::endl << std::endl;
-
-
+        std::cout << test;
 
         // End testing code
     }
