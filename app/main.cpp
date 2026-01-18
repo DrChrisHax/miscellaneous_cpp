@@ -8,6 +8,9 @@
 #include "random.hpp"
 #include "Nodes.hpp"
 #include "LRUCache.hpp"
+#include "Tree.hpp"
+#include "BinaryTree.hpp"
+#include "TreeGenerator.hpp"
 
 #include <iostream>
 #include <utility>
@@ -26,6 +29,20 @@ int main(int argc, char* argv[]) {
     Timer t;
     {
         // Start testing code
+
+        auto empty    = EmptyTree<BinaryTree<int>>();
+        auto one      = OneElementTree<BinaryTree<int>>();
+        auto balanced = BalancedTree<BinaryTree<int>>(10);
+        auto worst    = WorstUnbalancedTree<BinaryTree<int>>(10);
+        auto random   = RandomTree<BinaryTree<int>>(10);
+        auto uniqueT  = UniqueRandomTree<BinaryTree<int>>(10);
+
+        std::cout << empty << std::endl << std::endl;
+        std::cout << one << std::endl << std::endl;
+        std::cout << balanced << std::endl << std::endl;
+        std::cout << worst << std::endl << std::endl;
+        std::cout << random << std::endl << std::endl;
+        std::cout << uniqueT << std::endl << std::endl;
 
 
 

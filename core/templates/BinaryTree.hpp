@@ -5,6 +5,7 @@
 #include "Tree.hpp"
 
 #include <concepts>
+#include <iostream>
 
 namespace core {
 
@@ -16,14 +17,52 @@ namespace core {
 
         /*** Constructors and Destructors ***/
         BinaryTree() = default;
-        ~BinaryTree() {  }
+        ~BinaryTree() { Clear(); }
 
         BinaryTree (const BinaryTree& other) = delete;
-        BinaryTree (BinaryTree&& other) noexcept = delete;
+
+        BinaryTree (BinaryTree&& other) noexcept {
+            root_ = other.root_;
+            size_ = other.size_;
+
+            other.root_ = nullptr;
+            other.size_ = 0;
+        }
 
         /*** Operator Overloads ***/
         BinaryTree& operator=(const BinaryTree& other) = delete;
-        BinaryTree& operator=(BinaryTree& other) noexcept = delete;
+
+        BinaryTree& operator=(BinaryTree&& other) noexcept {
+            if (this == &other) return *this;
+
+            root_ = other.root_;
+            size_ = other.size_;
+
+            other.root_ = nullptr;
+            other.size_ = 0;
+
+            return *this;
+        }
+
+        friend std::ostream& operator<<(std::ostream& os, const BinaryTree& tree) {
+            if (!tree.root_) {
+                os << "()";
+                return os;
+            }
+    
+            std::vector<Node*> currentLevel{tree.root_};
+            while (!currentLevel.empty()) {
+                std::vector<Node*> nextLevel;
+                for (Node* node : currentLevel) {
+                    os << node << " ";
+                    if (node->left) nextLevel.push_back(node->left);
+                    if (node->right) nextLevel.push_back(node->right);
+                }
+                os << "\n";
+                currentLevel = std::move(nextLevel);
+            }
+            return os;
+        }
 
         /*** Public Functions ***/
         bool Empty() const { return root_ == nullptr; }
@@ -47,7 +86,7 @@ namespace core {
         }
 
         Node* Find(const T& value) const {
-            return Find(root_, value);
+            return FindNode(root_, value);
         }
 
         void Clear() {
@@ -73,8 +112,8 @@ namespace core {
         Node* FindNode(Node* current, const T& value) const {
             if (!current) return nullptr;
             if (value == current->value) return current;
-            if (value < current->value) return Find(current->left, value);
-            return Find(current->right, value);
+            if (value < current->value) return FindNode(current->left, value);
+            return FindNode(current->right, value);
         }
 
         void Delete(Node* node) {

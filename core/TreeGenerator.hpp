@@ -6,6 +6,7 @@
 #include "random.hpp"
 
 #include <vector>
+#include <unordered_set>
 
 namespace core {
 
@@ -17,7 +18,7 @@ namespace core {
     template <TreeType  T>
     T OneElementTree() {
         T tree;
-        tree.insert(1);
+        tree.Insert(1);
         return tree;
     }
 
@@ -31,9 +32,9 @@ namespace core {
             for (auto [low, high] : ranges) {
                 if (low > high) continue;
                 int middle = low + (high - low) / 2;
-                tree.Insert(static_cast<typename T::value_type>(mid + 1));
-                next.push_back({low, mid - 1});
-                next.push_back({mid + 1, high});
+                tree.Insert(static_cast<typename T::value_type>(middle + 1));
+                next.push_back({low, middle - 1});
+                next.push_back({middle + 1, high});
             }
             ranges = std::move(next);
         }
