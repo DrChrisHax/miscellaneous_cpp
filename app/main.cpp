@@ -31,9 +31,9 @@ int main(int argc, char* argv[]) {
 
         BinaryTree<int> tree{};
         tree = UnbalancedTree<BinaryTree<int>>();
-        tree.PrintPreOrder(); std::cout << '\n';
-        tree.PrintInOrder(); std::cout << '\n';
-        tree.PrintPostOrder(); std::cout << '\n';
+        std::cout << tree.PreOrderTraversal() << '\n';
+        std::cout << tree.InOrderTraversal() << '\n';
+        std::cout << tree.PostOrderTraversal() << '\n';
 
         // End testing code
     }

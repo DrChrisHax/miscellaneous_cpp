@@ -58,14 +58,14 @@ namespace core {
         //          4
         //        /  \ 
         //       3    12
-        //      /     /  \
-        //     1     8    14
-        //    /     / \
-        //   2     7   9
+        //      /     / \
+        //     1     8   13
+        //    /     / \   \
+        //   2     7   9   14
         //        /     \
-        //       5       10
-        //        \        \
-        //         6        11
+        //       5      10
+        //        \       \
+        //         6       11
         */
         T tree;
         tree.Insert(4);
@@ -73,6 +73,7 @@ namespace core {
         tree.Insert(1);
         tree.Insert(2);
         tree.Insert(12);
+        tree.Insert(13);
         tree.Insert(14);
         tree.Insert(8);
         tree.Insert(7);

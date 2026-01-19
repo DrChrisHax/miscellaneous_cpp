@@ -96,16 +96,22 @@ namespace core {
             size_ = 0;
         }
 
-        void PrintPreOrder() {
-            PrintPreOrder(root_);
+        std::string PreOrderTraversal() const {
+            std::string out{};
+            PreOrderTraversal(root_, out);
+            return out;
         }
 
-        void PrintInOrder() {
-            PrintInOrder(root_);
+        std::string InOrderTraversal() const {
+            std::string out{};
+            InOrderTraversal(root_, out);
+            return out;
         }
 
-        void PrintPostOrder() {
-            PrintPostOrder(root_);
+        std::string PostOrderTraversal() const {
+            std::string out{};
+            PostOrderTraversal(root_, out);
+            return out;
         }
 
         void PrintBFS() {
@@ -140,25 +146,25 @@ namespace core {
             delete node;
         }
 
-        void PrintPreOrder(Node* node) {
+        void PreOrderTraversal(const Node* node, std::string& list) const {
             if (!node) return;
-            std::cout << node;
-            PrintPreOrder(node->left);
-            PrintPreOrder(node->right);
+            list += to_string(node);
+            PreOrderTraversal(node->left, list);
+            PreOrderTraversal(node->right, list);
         }
 
-        void PrintInOrder(Node* node) {
+        void InOrderTraversal(const Node* node, std::string& list) const {
             if (!node) return;
-            PrintInOrder(node->left);
-            std::cout << node;
-            PrintInOrder(node->right);
+            InOrderTraversal(node->left, list);
+            list += to_string(node);
+            InOrderTraversal(node->right, list);
         }
 
-        void PrintPostOrder(Node* node) {
+        void PostOrderTraversal(const Node* node, std::string& list) const {
             if (!node) return;
-            PrintPostOrder(node->left);
-            PrintPostOrder(node->right);
-            std::cout << node;
+            PostOrderTraversal(node->left, list);
+            PostOrderTraversal(node->right, list);
+            list += to_string(node);
         }
 
     };
