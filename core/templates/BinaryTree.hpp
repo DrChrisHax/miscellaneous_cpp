@@ -96,6 +96,22 @@ namespace core {
             size_ = 0;
         }
 
+        void PrintPreOrder() {
+            PrintPreOrder(root_);
+        }
+
+        void PrintInOrder() {
+            PrintInOrder(root_);
+        }
+
+        void PrintPostOrder() {
+            PrintPostOrder(root_);
+        }
+
+        void PrintBFS() {
+
+        }
+
     private:
         Node* root_{nullptr};
         std::size_t size_{0}; // Number of nodes
@@ -123,6 +139,28 @@ namespace core {
             Delete(node->right);
             delete node;
         }
+
+        void PrintPreOrder(Node* node) {
+            if (!node) return;
+            std::cout << node;
+            PrintPreOrder(node->left);
+            PrintPreOrder(node->right);
+        }
+
+        void PrintInOrder(Node* node) {
+            if (!node) return;
+            PrintInOrder(node->left);
+            std::cout << node;
+            PrintInOrder(node->right);
+        }
+
+        void PrintPostOrder(Node* node) {
+            if (!node) return;
+            PrintPostOrder(node->left);
+            PrintPostOrder(node->right);
+            std::cout << node;
+        }
+
     };
 
 } // namespace core

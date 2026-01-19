@@ -21,7 +21,6 @@
 
 using namespace core;
 
-
 int main(int argc, char* argv[]) {
     (void)argc;
     (void)argv;
@@ -30,9 +29,11 @@ int main(int argc, char* argv[]) {
     {
         // Start testing code
 
-        auto test = UnbalancedTree<BinaryTree<int>>();
-
-        std::cout << test;
+        BinaryTree<int> tree{};
+        tree = UnbalancedTree<BinaryTree<int>>();
+        tree.PrintPreOrder(); std::cout << '\n';
+        tree.PrintInOrder(); std::cout << '\n';
+        tree.PrintPostOrder(); std::cout << '\n';
 
         // End testing code
     }
