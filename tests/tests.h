@@ -116,6 +116,46 @@ bool fraction_int_istream_both_negative();
 bool fraction_int_roundtrip_test();
 
 // =============================================================================
+// Node Tests 
+// =============================================================================
+
+// SL_Node tests
+bool node_sl_node_to_string_ref();
+bool node_sl_node_to_string_ptr();
+bool node_sl_node_ostream_ref();
+bool node_sl_node_ostream_ptr();
+
+// DL_Node tests
+bool node_dl_node_to_string_ref();
+bool node_dl_node_to_string_ptr();
+bool node_dl_node_ostream_ref();
+bool node_dl_node_ostream_ptr();
+
+// SL_KV_Node tests
+bool node_sl_kv_node_to_string_ref();
+bool node_sl_kv_node_to_string_ptr();
+bool node_sl_kv_node_ostream_ref();
+bool node_sl_kv_node_ostream_ptr();
+
+// DL_KV_Node tests
+bool node_dl_kv_node_to_string_ref();
+bool node_dl_kv_node_to_string_ptr();
+bool node_dl_kv_node_ostream_ref();
+bool node_dl_kv_node_ostream_ptr();
+
+// TreeNode tests
+bool node_tree_node_to_string_ref();
+bool node_tree_node_to_string_ptr();
+bool node_tree_node_ostream_ref();
+bool node_tree_node_ostream_ptr();
+
+// RB_TreeNode tests
+bool node_rb_tree_node_to_string_ref();
+bool node_rb_tree_node_to_string_ptr();
+bool node_rb_tree_node_ostream_ref();
+bool node_rb_tree_node_ostream_ptr();
+
+// =============================================================================
 // LRU Cache Tests
 // =============================================================================
 

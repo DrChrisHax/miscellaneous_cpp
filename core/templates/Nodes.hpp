@@ -2,6 +2,7 @@
 #define CORE_TEMPLATES_NODES_H_
 
 #include <iostream>
+#include <sstream>
 #include <string>
 
 namespace core {
