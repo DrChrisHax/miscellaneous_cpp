@@ -45,26 +45,6 @@ namespace core {
             return *this;
         }
 
-        friend std::ostream& operator<<(std::ostream& os, const BinaryTree& tree) {
-            if (!tree.root_) {
-                os << "()";
-                return os;
-            }
-    
-            std::vector<Node*> currentLevel{tree.root_};
-            while (!currentLevel.empty()) {
-                std::vector<Node*> nextLevel;
-                for (Node* node : currentLevel) {
-                    os << node << " ";
-                    if (node->left) nextLevel.push_back(node->left);
-                    if (node->right) nextLevel.push_back(node->right);
-                }
-                os << "\n";
-                currentLevel = std::move(nextLevel);
-            }
-            return os;
-        }
-
         /*** Public Functions ***/
         bool Empty() const { return root_ == nullptr; }
         std::size_t Size() const { return size_; } 
@@ -114,8 +94,27 @@ namespace core {
             return out;
         }
 
-        void PrintBFS() {
+        std::string BFS() const {
+            std::string out{};
+            if (!root_) return out;
 
+            std::vector<Node*> currentLevel{root_};
+            while (!currentLevel.empty()) {
+                std::vector<Node*> nextLevel;
+                for (Node* node : currentLevel) {
+                    out += to_string(node);
+                    if (node->left) nextLevel.push_back(node->left);
+                    if (node->right) nextLevel.push_back(node->right);
+                }
+                currentLevel = std::move(nextLevel);
+            }
+            return out;
+        }
+
+        /*** Friend Functions ***/
+        friend std::ostream& operator<<(std::ostream& os, const BinaryTree& tree) {
+            os << tree.BFS();
+            return os;
         }
 
     private:
