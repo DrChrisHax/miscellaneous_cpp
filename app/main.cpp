@@ -29,13 +29,6 @@ int main(int argc, char* argv[]) {
     {
         // Start testing code
 
-        BinaryTree<int> tree{};
-        tree = UnbalancedTree<BinaryTree<int>>();
-        //std::cout << tree << '\n';
-        std::cout << tree.PreOrderTraversal() << '\n';
-        std::cout << tree.InOrderTraversal() << '\n';
-        std::cout << tree.PostOrderTraversal() << '\n';
-        std::cout << tree.BFS();
 
         // End testing code
     }
