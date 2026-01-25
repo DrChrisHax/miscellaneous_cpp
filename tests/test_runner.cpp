@@ -315,6 +315,31 @@ int main(int argc, char* argv[]) {
     Run(min_heap_comprehensive_stress_test);
     Run(min_heap_heapsort_verification);
 
+    // to_string tests
+    Run(min_heap_to_string_empty);
+    Run(min_heap_to_string_single);
+    Run(min_heap_to_string_multiple);
+    Run(min_heap_to_string_after_pop);
+    Run(min_heap_to_string_negative_values);
+
+    // operator<< tests
+    Run(min_heap_ostream_empty);
+    Run(min_heap_ostream_single);
+    Run(min_heap_ostream_multiple);
+    Run(min_heap_ostream_matches_to_string);
+
+    // operator>> tests
+    Run(min_heap_istream_empty_brackets);
+    Run(min_heap_istream_single);
+    Run(min_heap_istream_multiple);
+    Run(min_heap_istream_maintains_heap_property);
+    Run(min_heap_istream_overwrites_existing);
+    Run(min_heap_istream_whitespace_handling);
+    Run(min_heap_istream_no_brackets);
+
+    // roundtrip test
+    Run(min_heap_roundtrip_test);
+
     std::cout << std::endl;
 
     // =============================================================================

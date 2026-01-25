@@ -5,6 +5,8 @@
 #include <stdexcept>
 #include <memory>
 #include <string>
+#include <iostream>
+#include <sstream>
 
 namespace core {
         
@@ -136,7 +138,54 @@ namespace core {
             }
         }
 
+        std::string to_string() const {
+            if (Empty()) {
+                return "[]";
+            }
+
+            std::ostringstream oss;
+            oss << "[";
+            for (std::size_t i{0uz}; i < size_; ++i) {
+                if (i > 0) {
+                    oss << ", ";
+                }
+                oss << data_[i];
+            }
+            oss << "]";
+            return oss.str();
+        }
+
         /*** Friend Functions ***/
+        friend std::ostream& operator<<(std::ostream& os, const MinHeap& heap) {
+            os << heap.to_string();
+            return os;
+        }
+
+        friend std::istream& operator>>(std::istream& is, MinHeap& heap) {
+            // Clear the heap first
+            while (!heap.Empty()) {
+                heap.Pop();
+            }
+
+            char c;
+            is >> std::ws;
+            if (is.peek() == '[') { is.get(c); }
+
+            T value;
+            while (is >> value) {
+                heap.Push(value);
+
+                is >> std::ws;
+                if (is.peek() == ',') {
+                    is.get(c);
+                } else if (is.peek() == ']') {
+                    is.get(c);
+                    break;
+                }
+            }
+
+            return is;
+        }
 
     private:
         T* data_;

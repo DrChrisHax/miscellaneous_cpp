@@ -275,6 +275,31 @@ bool min_heap_property_after_mixed_operations();
 bool min_heap_comprehensive_stress_test();
 bool min_heap_heapsort_verification();
 
+// to_string tests
+bool min_heap_to_string_empty();
+bool min_heap_to_string_single();
+bool min_heap_to_string_multiple();
+bool min_heap_to_string_after_pop();
+bool min_heap_to_string_negative_values();
+
+// operator<< tests
+bool min_heap_ostream_empty();
+bool min_heap_ostream_single();
+bool min_heap_ostream_multiple();
+bool min_heap_ostream_matches_to_string();
+
+// operator>> tests
+bool min_heap_istream_empty_brackets();
+bool min_heap_istream_single();
+bool min_heap_istream_multiple();
+bool min_heap_istream_maintains_heap_property();
+bool min_heap_istream_overwrites_existing();
+bool min_heap_istream_whitespace_handling();
+bool min_heap_istream_no_brackets();
+
+// roundtrip test
+bool min_heap_roundtrip_test();
+
 // =============================================================================
 // Future Test Categories
 // =============================================================================

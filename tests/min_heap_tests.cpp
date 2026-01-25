@@ -742,3 +742,239 @@ bool min_heap_heapsort_verification() {
     std::string result = (heapsorted == stdsorted) ? "true" : "false";
     return test_helper("true", result);
 }
+
+bool min_heap_to_string_empty() {
+    std::cout << "[TEST] Min Heap to_string - Empty\n";
+    core::MinHeap<int> heap(5);
+    return test_helper("[]", heap.to_string());
+}
+
+bool min_heap_to_string_single() {
+    std::cout << "[TEST] Min Heap to_string - Single\n";
+    core::MinHeap<int> heap(5);
+    heap.Push(42);
+    return test_helper("[42]", heap.to_string());
+}
+
+bool min_heap_to_string_multiple() {
+    std::cout << "[TEST] Min Heap to_string - Multiple\n";
+    core::MinHeap<int> heap(10);
+    heap.Push(5);
+    heap.Push(3);
+    heap.Push(8);
+    heap.Push(1);
+    
+    std::string str = heap.to_string();
+    bool starts_with_one = str.find("[1") == 0;
+    bool has_all_elements = str.find("1") != std::string::npos &&
+                            str.find("3") != std::string::npos &&
+                            str.find("5") != std::string::npos &&
+                            str.find("8") != std::string::npos;
+    
+    std::string result = (starts_with_one && has_all_elements) ? "true" : "false";
+    return test_helper("true", result);
+}
+
+bool min_heap_to_string_after_pop() {
+    std::cout << "[TEST] Min Heap to_string - After Pop\n";
+    core::MinHeap<int> heap{1, 2, 3};
+    heap.Pop();
+    
+    std::string str = heap.to_string();
+    bool no_one = str.find("1") == std::string::npos;
+    bool starts_with_two = str.find("[2") == 0;
+    
+    std::string result = (no_one && starts_with_two) ? "true" : "false";
+    return test_helper("true", result);
+}
+
+bool min_heap_to_string_negative_values() {
+    std::cout << "[TEST] Min Heap to_string - Negative Values\n";
+    core::MinHeap<int> heap{5, -3, 0, -10};
+    
+    std::string str = heap.to_string();
+    bool starts_with_min = str.find("[-10") == 0;
+    bool has_negative_three = str.find("-3") != std::string::npos;
+    
+    std::string result = (starts_with_min && has_negative_three) ? "true" : "false";
+    return test_helper("true", result);
+}
+
+// =============================================================================
+// operator<< Tests
+// =============================================================================
+
+bool min_heap_ostream_empty() {
+    std::cout << "[TEST] Min Heap ostream - Empty\n";
+    core::MinHeap<int> heap(5);
+    std::ostringstream oss;
+    oss << heap;
+    return test_helper("[]", oss.str());
+}
+
+bool min_heap_ostream_single() {
+    std::cout << "[TEST] Min Heap ostream - Single\n";
+    core::MinHeap<int> heap(5);
+    heap.Push(42);
+    std::ostringstream oss;
+    oss << heap;
+    return test_helper("[42]", oss.str());
+}
+
+bool min_heap_ostream_multiple() {
+    std::cout << "[TEST] Min Heap ostream - Multiple\n";
+    core::MinHeap<int> heap{1, 3, 5};
+    std::ostringstream oss;
+    oss << heap;
+    
+    std::string str = oss.str();
+    bool starts_correct = str.find("[1") == 0;
+    bool ends_correct = str.back() == ']';
+    
+    std::string result = (starts_correct && ends_correct) ? "true" : "false";
+    return test_helper("true", result);
+}
+
+bool min_heap_ostream_matches_to_string() {
+    std::cout << "[TEST] Min Heap ostream - Matches to_string\n";
+    core::MinHeap<int> heap{7, 2, 9, 1, 5};
+    
+    std::ostringstream oss;
+    oss << heap;
+    
+    std::string result = (oss.str() == heap.to_string()) ? "true" : "false";
+    return test_helper("true", result);
+}
+
+// =============================================================================
+// operator>> Tests
+// =============================================================================
+
+bool min_heap_istream_empty_brackets() {
+    std::cout << "[TEST] Min Heap istream - Empty Brackets\n";
+    core::MinHeap<int> heap(5);
+    std::istringstream iss("[]");
+    iss >> heap;
+    
+    std::string result = heap.Empty() ? "true" : "false";
+    return test_helper("true", result);
+}
+
+bool min_heap_istream_single() {
+    std::cout << "[TEST] Min Heap istream - Single\n";
+    core::MinHeap<int> heap(5);
+    std::istringstream iss("[42]");
+    iss >> heap;
+    
+    bool size_one = heap.Size() == 1;
+    bool value_correct = heap.Peek() == 42;
+    
+    std::string result = (size_one && value_correct) ? "true" : "false";
+    return test_helper("true", result);
+}
+
+bool min_heap_istream_multiple() {
+    std::cout << "[TEST] Min Heap istream - Multiple\n";
+    core::MinHeap<int> heap(10);
+    std::istringstream iss("[5, 3, 8, 1, 9]");
+    iss >> heap;
+    
+    bool size_correct = heap.Size() == 5;
+    bool min_correct = heap.Peek() == 1;
+    
+    std::string result = (size_correct && min_correct) ? "true" : "false";
+    return test_helper("true", result);
+}
+
+bool min_heap_istream_maintains_heap_property() {
+    std::cout << "[TEST] Min Heap istream - Maintains Heap Property\n";
+    core::MinHeap<int> heap(10);
+    std::istringstream iss("[9, 7, 5, 3, 1]");
+    iss >> heap;
+    
+    std::vector<int> extracted;
+    while (!heap.Empty()) {
+        extracted.push_back(heap.Pop());
+    }
+    
+    std::vector<int> expected{1, 3, 5, 7, 9};
+    std::string result = (extracted == expected) ? "true" : "false";
+    return test_helper("true", result);
+}
+
+bool min_heap_istream_overwrites_existing() {
+    std::cout << "[TEST] Min Heap istream - Overwrites Existing\n";
+    core::MinHeap<int> heap{100, 200, 300};
+    
+    std::istringstream iss("[1, 2]");
+    iss >> heap;
+    
+    bool size_correct = heap.Size() == 2;
+    bool old_data_gone = heap.Peek() == 1;
+    
+    std::vector<int> extracted;
+    while (!heap.Empty()) {
+        extracted.push_back(heap.Pop());
+    }
+    std::vector<int> expected{1, 2};
+    
+    std::string result = (size_correct && old_data_gone && extracted == expected) ? "true" : "false";
+    return test_helper("true", result);
+}
+
+bool min_heap_istream_whitespace_handling() {
+    std::cout << "[TEST] Min Heap istream - Whitespace Handling\n";
+    core::MinHeap<int> heap(10);
+    std::istringstream iss("  [  5 ,  3  ,  8  ]  ");
+    iss >> heap;
+    
+    bool size_correct = heap.Size() == 3;
+    bool min_correct = heap.Peek() == 3;
+    
+    std::string result = (size_correct && min_correct) ? "true" : "false";
+    return test_helper("true", result);
+}
+
+bool min_heap_istream_no_brackets() {
+    std::cout << "[TEST] Min Heap istream - No Brackets\n";
+    core::MinHeap<int> heap(10);
+    std::istringstream iss("5 3 8 1");
+    iss >> heap;
+    
+    bool has_elements = heap.Size() == 4;
+    bool min_correct = heap.Peek() == 1;
+    
+    std::string result = (has_elements && min_correct) ? "true" : "false";
+    return test_helper("true", result);
+}
+
+// =============================================================================
+// Roundtrip Test
+// =============================================================================
+
+bool min_heap_roundtrip_test() {
+    std::cout << "[TEST] Min Heap Roundtrip\n";
+    
+    core::MinHeap<int> original{7, 2, 9, 1, 5, 3, 8};
+    
+    std::ostringstream oss;
+    oss << original;
+    
+    core::MinHeap<int> restored(10);
+    std::istringstream iss(oss.str());
+    iss >> restored;
+    
+    std::vector<int> orig_sorted, rest_sorted;
+    
+    core::MinHeap<int> orig_copy(original);
+    while (!orig_copy.Empty()) {
+        orig_sorted.push_back(orig_copy.Pop());
+    }
+    
+    while (!restored.Empty()) {
+        rest_sorted.push_back(restored.Pop());
+    }
+    
+    std::string result = (orig_sorted == rest_sorted) ? "true" : "false";
+    return test_helper("true", result);
+}
