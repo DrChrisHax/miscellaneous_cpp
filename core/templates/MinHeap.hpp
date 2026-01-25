@@ -23,7 +23,20 @@ namespace core {
             std::allocator<T> alloc;
             data_ = alloc.allocate(capacity_);
         }
+
+        MinHeap(const MinHeap& other) {
+            Copy(other);
+        }
+
+        MinHeap(MinHeap&& other) {
+            Move(std::move(other));
+        }
         
+        MinHeap(std::initializer_list<T> init) : MinHeap(init.size()) {
+            for (const auto& val : init) {
+                Push(val);
+            }
+        }
 
         ~MinHeap() {
             std::allocator<T> alloc;
@@ -31,11 +44,24 @@ namespace core {
         }
 
         /*** Operator Overloads ***/
-        MinHeap& operator=(const MinHeap& other) = delete;
-        MinHeap&& operator=(const MinHeap&& other) noexcept = delete;
-
-        
-
+        MinHeap& operator=(const MinHeap& other) {
+            if (this != &other) {
+                std::allocator<T> alloc;
+                std::destroy(data_ , data_ + size_);
+                alloc.deallocate(data_, capacity_);
+                Copy(other);
+            }
+            return *this;
+        }
+        MinHeap&& operator=(const MinHeap&& other) noexcept {
+            if (this != &other) {
+                std::allocator<T> alloc;
+                std::destroy(data_, data_ + size_);
+                alloc.deallocate(data_, capacity_);
+                Move(std::move(other));
+            }
+            return *this;
+        }
 
         /*** Member Functions ***/
 
@@ -148,6 +174,27 @@ namespace core {
                 Heapify(root);
             }
         }
+
+        void Copy(const MinHeap& other) {
+            size_ = other.size_;
+            capacity_ = other.capacity_;
+            
+            std::allocator<T> alloc;
+            data_ = alloc.allocate(capacity_);
+            std::uninitialized_copy(other.data_, other.data_ + size_, data_);
+        }
+
+        void Move(MinHeap&& other) noexcept {
+            data_ = other.data_;
+            size_ = other.size_;
+            capacity_ = other.capacity_;
+
+            other.data_ = nullptr;
+            other.size_ = 0;
+            other.capacity_ = 0;
+        }
+
+
     };
 
 } // Namespace core
