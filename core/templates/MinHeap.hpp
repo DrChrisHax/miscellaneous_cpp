@@ -29,6 +29,10 @@ namespace core {
 
         /*** Member Functions ***/
 
+        bool Empty() const {
+            return size_ == 0;
+        }
+
         void Heapify(std::size_t i) {
             // Time: O(log n)
             // Space: O(log n)
@@ -62,9 +66,42 @@ namespace core {
             }
         }
 
-        void InsertNode() {
+        void Push(const T& value) {
             // Time: O(log n)
             // Space: O(1)
+            if (++size_ >= capacity_) {
+                Resize();
+            }
+
+            std::size_t i = size - 1;
+            data_[i] = value;
+
+            while (i != 0 && data_[(i - 1) / 2] > data_[i]) {
+                std::swap(data_[i], data_[(i - 1) / 2]);
+                i = (i - 1) / 2;
+            }
+        }
+
+        void Pop() {
+            // Time O(log n)
+            // Space O(log n)
+            if (Empty()) {
+                throw std::runtime_error("MinHeap is empty");
+            }
+
+            
+            
+
+        }
+
+        T& Peek() {
+            // Time: O(1)
+            // Space: O(1)
+            if (Empty()) {
+                throw std::runtime_error("MinHeap is empty");
+            }
+
+            return data_[0];
         }
 
         void DeleteNode() {
@@ -72,21 +109,25 @@ namespace core {
             // Space: O(log n)
         }
 
-        void Peek() {
-            // Time: O(1)
-            // Space: O(1)
-        }
-
-        void Pop() {
-            // Time O(log n)
-            // Space O(log n)
-
-        }
-
     private:
         T* data_;
         std::size_t size_;
         std::size_t capacity_;
+
+        void Resize() {
+            std::size_t new_capacity = capacity_ * 2;
+            std::allocator<T> alloc;
+            T* new_data = alloc.allocate(new_capacity);
+
+            for (std::size_t i{0uz}; i < size_; ++i) {
+                alloc.construct(new_data + i, data_[i]);
+                alloc.destroy(data_ + i);
+            }
+
+            alloc.deallocate(data_, capacity_);
+            data_ = new_data;
+            capacity_ = new_capacity;
+        }
     };
 }
 
