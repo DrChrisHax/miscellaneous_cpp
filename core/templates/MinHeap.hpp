@@ -4,6 +4,7 @@
 #include <vector>
 #include <stdexcept>
 #include <memory>
+#include <string>
 
 namespace core {
         
@@ -12,13 +13,17 @@ namespace core {
     public:
 
         /*** Constructors and Destructors ***/
-        MinHeap()
+
+        MinHeap() : MinHeap(1uz) {}
+
+        explicit MinHeap(std::size_t capacity)
             : size_{0uz}
-            , capacity_{1uz}
+            , capacity_{capacity}
         {
             std::allocator<T> alloc;
             data_ = alloc.allocate(capacity_);
         }
+        
 
         ~MinHeap() {
             std::allocator<T> alloc;
@@ -26,11 +31,101 @@ namespace core {
         }
 
         /*** Operator Overloads ***/
+        MinHeap& operator=(const MinHeap& other) = delete;
+        MinHeap&& operator=(const MinHeap&& other) noexcept = delete;
+
+        
+
 
         /*** Member Functions ***/
 
-        bool Empty() const {
-            return size_ == 0;
+        bool Empty() const { return size_ == 0; }
+        std::size_t Size() const { return size_; }
+        std::size_t Capacity() const { return capacity_; }
+
+        void Push(const T& value) {
+            // Time: O(log n)
+            // Space: O(1)
+            if (++size_ >= capacity_) {
+                Resize();
+            }
+
+            std::size_t i = size_ - 1;
+            data_[i] = value;
+
+            while (i != 0 && data_[(i - 1) / 2] > data_[i]) {
+                std::swap(data_[i], data_[(i - 1) / 2]);
+                i = (i - 1) / 2;
+            }
+        }
+
+        T Pop() {
+            // Time O(log n)
+            // Space O(log n)
+            if (Empty()) {
+                throw std::runtime_error("MinHeap is empty");
+            }
+            if (size_ == 1) {
+                --size_;
+                return data_[0];
+            } else {
+                T root = data_[0];
+                data_[0] = data_[size_ - 1];
+                --size_;
+                Heapify(0);
+                return root;
+            }
+        }
+
+        T Peek() const {
+            // Time: O(1)
+            // Space: O(1)
+            if (Empty()) {
+                throw std::runtime_error("MinHeap is empty");
+            }
+
+            return data_[0];
+        }
+
+        void DeleteNode(const T& key) {
+            // Time: O(n)
+            // Space: O(log n)
+            std::size_t index = size_;
+            for (std::size_t i = 0; i < size_; ++i) {
+                if (data_[i] == key) {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index == size_) {
+                // Element not present
+
+            } else if (index == size_ - 1) {
+                --size_;
+            } else {
+                data_[index] = data_[size_ - 1];
+                --size_;
+                Heapify(index);
+            }
+        }
+
+        /*** Friend Functions ***/
+
+    private:
+        T* data_;
+        std::size_t size_;
+        std::size_t capacity_;
+
+        void Resize() {
+            std::size_t new_capacity = capacity_ * 2;
+            std::allocator<T> alloc;
+            T* new_data = alloc.allocate(new_capacity);
+            std::uninitialized_move(data_, data_ + size_, new_data);
+            std::destroy(data_, data_ + size_);
+            alloc.deallocate(data_, capacity_);
+            data_ = new_data;
+            capacity_ = new_capacity;
         }
 
         void Heapify(std::size_t i) {
@@ -53,84 +148,7 @@ namespace core {
                 Heapify(root);
             }
         }
-
-        void BuildHeap(const T* data, const std::size_t capacity) {
-            // Time: O(n)
-            // Space: O(log n)
-            capacity_{capacity};
-            size_{capacity};
-            data_{data};
-
-            for (std::size_t i{capacity - 1} / 2; i >= 0; --i) {
-                Heapify(i);
-            }
-        }
-
-        void Push(const T& value) {
-            // Time: O(log n)
-            // Space: O(1)
-            if (++size_ >= capacity_) {
-                Resize();
-            }
-
-            std::size_t i = size - 1;
-            data_[i] = value;
-
-            while (i != 0 && data_[(i - 1) / 2] > data_[i]) {
-                std::swap(data_[i], data_[(i - 1) / 2]);
-                i = (i - 1) / 2;
-            }
-        }
-
-        void Pop() {
-            // Time O(log n)
-            // Space O(log n)
-            if (Empty()) {
-                throw std::runtime_error("MinHeap is empty");
-            }
-
-            
-            
-
-        }
-
-        T& Peek() {
-            // Time: O(1)
-            // Space: O(1)
-            if (Empty()) {
-                throw std::runtime_error("MinHeap is empty");
-            }
-
-            return data_[0];
-        }
-
-        void DeleteNode() {
-            // Time: O(log n)
-            // Space: O(log n)
-        }
-
-    private:
-        T* data_;
-        std::size_t size_;
-        std::size_t capacity_;
-
-        void Resize() {
-            std::size_t new_capacity = capacity_ * 2;
-            std::allocator<T> alloc;
-            T* new_data = alloc.allocate(new_capacity);
-
-            for (std::size_t i{0uz}; i < size_; ++i) {
-                alloc.construct(new_data + i, data_[i]);
-                alloc.destroy(data_ + i);
-            }
-
-            alloc.deallocate(data_, capacity_);
-            data_ = new_data;
-            capacity_ = new_capacity;
-        }
     };
-}
 
-
-
+} // Namespace core
 #endif // CORE_TEMPLATES_MIN_HEAP_H_

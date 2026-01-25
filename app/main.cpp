@@ -11,6 +11,7 @@
 #include "Tree.hpp"
 #include "BinaryTree.hpp"
 #include "TreeGenerator.hpp"
+#include "MinHeap.hpp"
 
 #include <iostream>
 #include <utility>
@@ -32,6 +33,21 @@ int main(int argc, char* argv[]) {
     Timer t;
     {
         // Start testing code
+
+        int data[6] = {15, 10, 5, 4, 3, 2};
+
+        MinHeap<int> minHeap(6uz);
+        
+        for(const auto& i : data) {
+            minHeap.Push(i);
+        }
+
+        for (int i = 0; i < 6; ++i) {
+            std::cout << minHeap.Peek() << " ";
+            minHeap.Pop();
+
+        }
+
 
         // End testing code
     }
