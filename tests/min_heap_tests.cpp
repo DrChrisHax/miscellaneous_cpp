@@ -17,73 +17,73 @@
 bool min_heap_constructor_default() {
     std::cout << "[TEST] Min Heap Constructor - Default\n";
     core::MinHeap<int> heap;
-    std::string result = (heap.Empty() && heap.Size() == 0) ? "true" : "false";
+    std::string result = (heap.empty() && heap.size() == 0) ? "true" : "false";
     return test_helper("true", result);
 }
 
 bool min_heap_constructor_explicit_capacity() {
     std::cout << "[TEST] Min Heap Constructor - Explicit Capacity";
     core::MinHeap<int> heap(10);
-    std::string result = (heap.Empty() && heap.Size() == 0 && heap.Capacity() == 10) ? "true" : "false";
+    std::string result = (heap.empty() && heap.size() == 0 && heap.capacity() == 10) ? "true" : "false";
     return test_helper("true", result);
 }
 
 bool min_heap_constructor_copy() {
     std::cout << "[TEST] Min Heap Copy Constructor - Normal\n";
     core::MinHeap<int> original(10);
-    original.Push(5);
-    original.Push(3);
-    original.Push(8);
+    original.push(5);
+    original.push(3);
+    original.push(8);
     
     core::MinHeap<int> copy(original);
     
     // Verify copy has same values
-    bool same_size = copy.Size() == original.Size();
-    bool same_min = copy.Peek() == original.Peek();
+    bool same_size = copy.size() == original.size();
+    bool same_min = copy.top() == original.top();
     
     // Verify independence - modify original
-    original.Pop();
-    bool independent = copy.Size() == 3 && original.Size() == 2;
+    original.pop();
+    bool independent = copy.size() == 3 && original.size() == 2;
     
     std::string result = (same_size && same_min && independent) ? "true" : "false";
     return test_helper("true", result);
 }
 
 bool min_heap_constructor_copy_empty() {
-    std::cout << "[TEST] Min Heap Copy Constructor - Empty\n";
+    std::cout << "[TEST] Min Heap Copy Constructor - empty\n";
     core::MinHeap<int> original(5);
     core::MinHeap<int> copy(original);
     
-    std::string result = (copy.Empty() && copy.Capacity() == original.Capacity()) ? "true" : "false";
+    std::string result = (copy.empty() && copy.capacity() == original.capacity()) ? "true" : "false";
     return test_helper("true", result);
 }
 
 bool min_heap_constructor_move() {
     std::cout << "[TEST] Min Heap Move Constructor - Normal\n";
     core::MinHeap<int> original(10);
-    original.Push(5);
-    original.Push(3);
-    original.Push(8);
+    original.push(5);
+    original.push(3);
+    original.push(8);
     
-    std::size_t orig_size = original.Size();
-    int orig_min = original.Peek();
+    std::size_t orig_size = original.size();
+    int orig_min = original.top();
     
     core::MinHeap<int> moved(std::move(original));
     
-    bool correct_size = moved.Size() == orig_size;
-    bool correct_min = moved.Peek() == orig_min;
-    bool original_empty = original.Size() == 0;
+    bool correct_size = moved.size() == orig_size;
+    bool correct_min = moved.top() == orig_min;
+    bool original_empty = original.size() == 0;
     
     std::string result = (correct_size && correct_min && original_empty) ? "true" : "false";
     return test_helper("true", result);
 }
 
 bool min_heap_constructor_move_empty() {
-    std::cout << "[TEST] Min Heap Move Constructor - Empty\n";
+    std::cout << "[TEST] Min Heap Move Constructor - empty\n";
     core::MinHeap<int> original(5);
     core::MinHeap<int> moved(std::move(original));
     
-    std::string result = (moved.Empty()) ? "true" : "false";
+    std::string result = (moved.empty()) ? "true" : "false";
     return test_helper("true", result);
 }
 
@@ -91,18 +91,18 @@ bool min_heap_constructor_initializer_list() {
     std::cout << "[TEST] Min Heap Initializer List Constructor - Normal\n";
     core::MinHeap<int> heap{5, 3, 8, 1, 9};
     
-    bool correct_size = heap.Size() == 5;
-    bool correct_min = heap.Peek() == 1;
+    bool correct_size = heap.size() == 5;
+    bool correct_min = heap.top() == 1;
     
     std::string result = (correct_size && correct_min) ? "true" : "false";
     return test_helper("true", result);
 }
 
 bool min_heap_constructor_initializer_list_empty() {
-    std::cout << "[TEST] Min Heap Initializer List Constructor - Empty\n";
+    std::cout << "[TEST] Min Heap Initializer List Constructor - empty\n";
     core::MinHeap<int> heap{};
     
-    std::string result = heap.Empty() ? "true" : "false";
+    std::string result = heap.empty() ? "true" : "false";
     return test_helper("true", result);
 }
 
@@ -114,29 +114,29 @@ bool min_heap_assignment_copy() {
     std::cout << "[TEST] Min Heap Copy Assignment Operator - Normal\n";
     core::MinHeap<int> original{5, 3, 8, 1};
     core::MinHeap<int> copy(2);
-    copy.Push(100);
+    copy.push(100);
     
     copy = original;
     
-    bool same_size = copy.Size() == original.Size();
-    bool same_min = copy.Peek() == original.Peek();
+    bool same_size = copy.size() == original.size();
+    bool same_min = copy.top() == original.top();
     
     // Verify independence
-    original.Pop();
-    bool independent = copy.Size() == 4 && original.Size() == 3;
+    original.pop();
+    bool independent = copy.size() == 4 && original.size() == 3;
     
     std::string result = (same_size && same_min && independent) ? "true" : "false";
     return test_helper("true", result);
 }
 
 bool min_heap_assignment_copy_empty() {
-    std::cout << "[TEST] Min Heap Copy Assignment OPerator - Empty\n";
+    std::cout << "[TEST] Min Heap Copy Assignment OPerator - empty\n";
     core::MinHeap<int> original(5);
     core::MinHeap<int> copy{1, 2, 3};
     
     copy = original;
     
-    std::string result = copy.Empty() ? "true" : "false";
+    std::string result = copy.empty() ? "true" : "false";
     return test_helper("true", result);
 }
 
@@ -146,8 +146,8 @@ bool min_heap_assignment_copy_self() {
     
     heap = heap;  // Self-assignment
     
-    bool correct_size = heap.Size() == 4;
-    bool correct_min = heap.Peek() == 1;
+    bool correct_size = heap.size() == 4;
+    bool correct_min = heap.top() == 1;
     
     std::string result = (correct_size && correct_min) ? "true" : "false";
     return test_helper("true", result);
@@ -157,28 +157,28 @@ bool min_heap_assignment_move() {
     std::cout << "[TEST] Min Heap Move Assignment Operator - Normal\n";
     core::MinHeap<int> original{5, 3, 8, 1};
     core::MinHeap<int> target(2);
-    target.Push(100);
+    target.push(100);
     
-    std::size_t orig_size = original.Size();
-    int orig_min = original.Peek();
+    std::size_t orig_size = original.size();
+    int orig_min = original.top();
     
     target = std::move(original);
     
-    bool correct_size = target.Size() == orig_size;
-    bool correct_min = target.Peek() == orig_min;
+    bool correct_size = target.size() == orig_size;
+    bool correct_min = target.top() == orig_min;
     
     std::string result = (correct_size && correct_min) ? "true" : "false";
     return test_helper("true", result);
 }
 
 bool min_heap_assignment_move_empty() {
-    std::cout << "[TEST] Min Heap Move Assignment Operator - Empty\n";
+    std::cout << "[TEST] Min Heap Move Assignment Operator - empty\n";
     core::MinHeap<int> original(5);
     core::MinHeap<int> target{1, 2, 3};
     
     target = std::move(original);
     
-    std::string result = target.Empty() ? "true" : "false";
+    std::string result = target.empty() ? "true" : "false";
     return test_helper("true", result);
 }
 
@@ -199,57 +199,57 @@ bool min_heap_assignment_move_self() {
 // =============================================================================
 
 bool min_heap_empty_on_new() {
-    std::cout << "[TEST] Min Heap Empty On New\n";
+    std::cout << "[TEST] Min Heap empty On New\n";
     core::MinHeap<int> heap(5);
-    std::string result = heap.Empty() ? "true" : "false";
+    std::string result = heap.empty() ? "true" : "false";
     return test_helper("true", result);
 }
 
 bool min_heap_empty_after_pop_all() {
-    std::cout << "[TEST] Min Heap Empty After Pop All\n";
+    std::cout << "[TEST] Min Heap empty After Pop All\n";
     core::MinHeap<int> heap{1, 2, 3};
-    heap.Pop();
-    heap.Pop();
-    heap.Pop();
-    std::string result = heap.Empty() ? "true" : "false";
+    heap.pop();
+    heap.pop();
+    heap.pop();
+    std::string result = heap.empty() ? "true" : "false";
     return test_helper("true", result);
 }
 
 bool min_heap_size_after_push() {
     std::cout << "[TEST] Min Heap Size After Push\n";
     core::MinHeap<int> heap(5);
-    heap.Push(1);
-    heap.Push(2);
-    heap.Push(3);
-    std::string result = (heap.Size() == 3) ? "true" : "false";
+    heap.push(1);
+    heap.push(2);
+    heap.push(3);
+    std::string result = (heap.size() == 3) ? "true" : "false";
     return test_helper("true", result);
 }
 
 bool min_heap_size_after_pop() {
     std::cout << "[TEST] Min Heap Size After Pop\n";
     core::MinHeap<int> heap{1, 2, 3, 4, 5};
-    heap.Pop();
-    heap.Pop();
-    std::string result = (heap.Size() == 3) ? "true" : "false";
+    heap.pop();
+    heap.pop();
+    std::string result = (heap.size() == 3) ? "true" : "false";
     return test_helper("true", result);
 }
 
 bool min_heap_capacity_initial() {
     std::cout << "[TEST] Min Heap Capacity Initial\n";
     core::MinHeap<int> heap(16);
-    std::string result = (heap.Capacity() == 16) ? "true" : "false";
+    std::string result = (heap.capacity() == 16) ? "true" : "false";
     return test_helper("true", result);
 }
 
 bool min_heap_capacity_after_resize() {
     std::cout << "[TEST] Min Heap Capacity After Resize\n";
     core::MinHeap<int> heap(2);
-    heap.Push(1);
-    heap.Push(2);
-    heap.Push(3);  // Should trigger resize
+    heap.push(1);
+    heap.push(2);
+    heap.push(3);  // Should trigger resize
     
-    bool size_correct = heap.Size() == 3;
-    bool capacity_grew = heap.Capacity() >= 3;
+    bool size_correct = heap.size() == 3;
+    bool capacity_grew = heap.capacity() >= 3;
     
     std::string result = (size_correct && capacity_grew) ? "true" : "false";
     return test_helper("true", result);
@@ -262,10 +262,10 @@ bool min_heap_capacity_after_resize() {
 bool min_heap_push_single() {
     std::cout << "[TEST] Min Heap Push Single\n";
     core::MinHeap<int> heap(5);
-    heap.Push(42);
+    heap.push(42);
     
-    bool size_one = heap.Size() == 1;
-    bool correct_value = heap.Peek() == 42;
+    bool size_one = heap.size() == 1;
+    bool correct_value = heap.top() == 42;
     
     std::string result = (size_one && correct_value) ? "true" : "false";
     return test_helper("true", result);
@@ -274,54 +274,54 @@ bool min_heap_push_single() {
 bool min_heap_push_multiple_ascending() {
     std::cout << "[TEST] Min Heap Push Multiple - Ascending\n";
     core::MinHeap<int> heap(10);
-    heap.Push(1);
-    heap.Push(2);
-    heap.Push(3);
-    heap.Push(4);
-    heap.Push(5);
+    heap.push(1);
+    heap.push(2);
+    heap.push(3);
+    heap.push(4);
+    heap.push(5);
     
-    std::string result = (heap.Peek() == 1) ? "true" : "false";
+    std::string result = (heap.top() == 1) ? "true" : "false";
     return test_helper("true", result);
 }
 
 bool min_heap_push_multiple_descending() {
     std::cout << "[TEST] Min Heap Push Multiple - Descending\n";
     core::MinHeap<int> heap(10);
-    heap.Push(5);
-    heap.Push(4);
-    heap.Push(3);
-    heap.Push(2);
-    heap.Push(1);
+    heap.push(5);
+    heap.push(4);
+    heap.push(3);
+    heap.push(2);
+    heap.push(1);
     
-    std::string result = (heap.Peek() == 1) ? "true" : "false";
+    std::string result = (heap.top() == 1) ? "true" : "false";
     return test_helper("true", result);
 }
 
 bool min_heap_push_multiple_random() {
     std::cout << "[TEST] Min Heap Push Multiple - Random\n";
     core::MinHeap<int> heap(10);
-    heap.Push(7);
-    heap.Push(2);
-    heap.Push(9);
-    heap.Push(1);
-    heap.Push(5);
-    heap.Push(3);
+    heap.push(7);
+    heap.push(2);
+    heap.push(9);
+    heap.push(1);
+    heap.push(5);
+    heap.push(3);
     
-    std::string result = (heap.Peek() == 1) ? "true" : "false";
+    std::string result = (heap.top() == 1) ? "true" : "false";
     return test_helper("true", result);
 }
 
 bool min_heap_push_duplicates() {
     std::cout << "[TEST] Min Heap Push Multiple - Duplicates\n";
     core::MinHeap<int> heap(10);
-    heap.Push(5);
-    heap.Push(3);
-    heap.Push(3);
-    heap.Push(3);
-    heap.Push(7);
+    heap.push(5);
+    heap.push(3);
+    heap.push(3);
+    heap.push(3);
+    heap.push(7);
     
-    bool size_correct = heap.Size() == 5;
-    bool min_correct = heap.Peek() == 3;
+    bool size_correct = heap.size() == 5;
+    bool min_correct = heap.top() == 3;
     
     std::string result = (size_correct && min_correct) ? "true" : "false";
     return test_helper("true", result);
@@ -330,15 +330,15 @@ bool min_heap_push_duplicates() {
 bool min_heap_push_triggers_resize() {
     std::cout << "[TEST] Min Heap Push Triggers Resize\n";
     core::MinHeap<int> heap(2);
-    std::size_t initial_cap = heap.Capacity();
+    std::size_t initial_cap = heap.capacity();
     
-    heap.Push(3);
-    heap.Push(1);
-    heap.Push(2);  // Should trigger resize
-    heap.Push(4);
+    heap.push(3);
+    heap.push(1);
+    heap.push(2);  // Should trigger resize
+    heap.push(4);
     
-    bool capacity_grew = heap.Capacity() > initial_cap;
-    bool data_intact = heap.Peek() == 1 && heap.Size() == 4;
+    bool capacity_grew = heap.capacity() > initial_cap;
+    bool data_intact = heap.top() == 1 && heap.size() == 4;
     
     std::string result = (capacity_grew && data_intact) ? "true" : "false";
     return test_helper("true", result);
@@ -347,13 +347,13 @@ bool min_heap_push_triggers_resize() {
 bool min_heap_push_negative_values() {
     std::cout << "[TEST] Min Heap Push Multiple - Negative Values\n";
     core::MinHeap<int> heap(10);
-    heap.Push(5);
-    heap.Push(-3);
-    heap.Push(0);
-    heap.Push(-10);
-    heap.Push(2);
+    heap.push(5);
+    heap.push(-3);
+    heap.push(0);
+    heap.push(-10);
+    heap.push(2);
     
-    std::string result = (heap.Peek() == -10) ? "true" : "false";
+    std::string result = (heap.top() == -10) ? "true" : "false";
     return test_helper("true", result);
 }
 
@@ -364,11 +364,11 @@ bool min_heap_push_negative_values() {
 bool min_heap_pop_single() {
     std::cout << "[TEST] Min Heap Pop Single\n";
     core::MinHeap<int> heap(5);
-    heap.Push(42);
-    int val = heap.Pop();
+    heap.push(42);
+    int val = heap.pop();
     
     bool value_correct = val == 42;
-    bool now_empty = heap.Empty();
+    bool now_empty = heap.empty();
     
     std::string result = (value_correct && now_empty) ? "true" : "false";
     return test_helper("true", result);
@@ -377,7 +377,7 @@ bool min_heap_pop_single() {
 bool min_heap_pop_returns_minimum() {
     std::cout << "[TEST] Min Heap Pop Returns Minimum\n";
     core::MinHeap<int> heap{7, 2, 9, 1, 5, 3};
-    int min_val = heap.Pop();
+    int min_val = heap.pop();
     
     std::string result = (min_val == 1) ? "true" : "false";
     return test_helper("true", result);
@@ -387,11 +387,11 @@ bool min_heap_pop_maintains_heap_property() {
     std::cout << "[TEST] Min Heap Pop Maintains Heap Property\n";
     core::MinHeap<int> heap{7, 2, 9, 1, 5, 3};
     
-    heap.Pop();  // Remove 1
-    bool second_min = heap.Peek() == 2;
+    heap.pop();  // Remove 1
+    bool second_min = heap.top() == 2;
     
-    heap.Pop();  // Remove 2
-    bool third_min = heap.Peek() == 3;
+    heap.pop();  // Remove 2
+    bool third_min = heap.top() == 3;
     
     std::string result = (second_min && third_min) ? "true" : "false";
     return test_helper("true", result);
@@ -402,8 +402,8 @@ bool min_heap_pop_all_sorted() {
     core::MinHeap<int> heap{7, 2, 9, 1, 5, 3, 8, 4, 6};
     
     std::vector<int> sorted;
-    while (!heap.Empty()) {
-        sorted.push_back(heap.Pop());
+    while (!heap.empty()) {
+        sorted.push_back(heap.pop());
     }
     
     std::vector<int> expected{1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -412,12 +412,12 @@ bool min_heap_pop_all_sorted() {
 }
 
 bool min_heap_pop_empty_throws() {
-    std::cout << "[TEST] Min Heap Pop Empty Throws\n";
+    std::cout << "[TEST] Min Heap Pop empty Throws\n";
     core::MinHeap<int> heap(5);
     
     bool threw = false;
     try {
-        heap.Pop();
+        heap.pop();
     } catch (const std::runtime_error& e) {
         threw = true;
     }
@@ -430,12 +430,12 @@ bool min_heap_pop_with_duplicates() {
     std::cout << "[TEST] Min Heap Pop With Duplicates\n";
     core::MinHeap<int> heap{3, 1, 1, 1, 5};
     
-    int first = heap.Pop();
-    int second = heap.Pop();
-    int third = heap.Pop();
+    int first = heap.pop();
+    int second = heap.pop();
+    int third = heap.pop();
     
     bool all_ones = (first == 1 && second == 1 && third == 1);
-    bool next_is_three = heap.Peek() == 3;
+    bool next_is_three = heap.top() == 3;
     
     std::string result = (all_ones && next_is_three) ? "true" : "false";
     return test_helper("true", result);
@@ -448,9 +448,9 @@ bool min_heap_pop_with_duplicates() {
 bool min_heap_peek_single() {
     std::cout << "[TEST] Min Heap Peek Single\n";
     core::MinHeap<int> heap(5);
-    heap.Push(42);
+    heap.push(42);
     
-    std::string result = (heap.Peek() == 42) ? "true" : "false";
+    std::string result = (heap.top() == 42) ? "true" : "false";
     return test_helper("true", result);
 }
 
@@ -458,9 +458,9 @@ bool min_heap_peek_does_not_remove() {
     std::cout << "[TEST] Min Heap Peek Does Not Remove\n";
     core::MinHeap<int> heap{3, 1, 4};
     
-    int first_peek = heap.Peek();
-    int second_peek = heap.Peek();
-    std::size_t size_after = heap.Size();
+    int first_peek = heap.top();
+    int second_peek = heap.top();
+    std::size_t size_after = heap.size();
     
     bool same_value = first_peek == second_peek && first_peek == 1;
     bool size_unchanged = size_after == 3;
@@ -473,11 +473,11 @@ bool min_heap_peek_after_push() {
     std::cout << "[TEST] Min Heap Peek After Push\n";
     core::MinHeap<int> heap{5, 3, 7};
     
-    heap.Push(1);  // New minimum
-    bool new_min = heap.Peek() == 1;
+    heap.push(1);  // New minimum
+    bool new_min = heap.top() == 1;
     
-    heap.Push(10);  // Not minimum
-    bool still_one = heap.Peek() == 1;
+    heap.push(10);  // Not minimum
+    bool still_one = heap.top() == 1;
     
     std::string result = (new_min && still_one) ? "true" : "false";
     return test_helper("true", result);
@@ -487,19 +487,19 @@ bool min_heap_peek_after_pop() {
     std::cout << "[TEST] Min Heap Peek After Pop\n";
     core::MinHeap<int> heap{1, 3, 5, 7};
     
-    heap.Pop();
+    heap.pop();
     
-    std::string result = (heap.Peek() == 3) ? "true" : "false";
+    std::string result = (heap.top() == 3) ? "true" : "false";
     return test_helper("true", result);
 }
 
 bool min_heap_peek_empty_throws() {
-    std::cout << "[TEST] Min Heap Peek Empty Throws\n";
+    std::cout << "[TEST] Min Heap Peek empty Throws\n";
     core::MinHeap<int> heap(5);
     
     bool threw = false;
     try {
-        heap.Peek();
+        heap.top();
     } catch (const std::runtime_error& e) {
         threw = true;
     }
@@ -518,8 +518,8 @@ bool min_heap_delete_root() {
     
     heap.DeleteNode(1);
     
-    bool size_correct = heap.Size() == 4;
-    bool new_min = heap.Peek() == 3;
+    bool size_correct = heap.size() == 4;
+    bool new_min = heap.top() == 3;
     
     std::string result = (size_correct && new_min) ? "true" : "false";
     return test_helper("true", result);
@@ -531,13 +531,13 @@ bool min_heap_delete_leaf() {
     
     heap.DeleteNode(9);
     
-    bool size_correct = heap.Size() == 4;
-    bool min_unchanged = heap.Peek() == 1;
+    bool size_correct = heap.size() == 4;
+    bool min_unchanged = heap.top() == 1;
     
     // Verify 9 is gone by extracting all
     std::vector<int> remaining;
-    while (!heap.Empty()) {
-        remaining.push_back(heap.Pop());
+    while (!heap.empty()) {
+        remaining.push_back(heap.pop());
     }
     bool nine_gone = std::find(remaining.begin(), remaining.end(), 9) == remaining.end();
     
@@ -551,12 +551,12 @@ bool min_heap_delete_middle() {
     
     heap.DeleteNode(5);
     
-    bool size_correct = heap.Size() == 4;
+    bool size_correct = heap.size() == 4;
     
     // Extract all and verify 5 is gone but others remain
     std::vector<int> remaining;
-    while (!heap.Empty()) {
-        remaining.push_back(heap.Pop());
+    while (!heap.empty()) {
+        remaining.push_back(heap.pop());
     }
     
     std::vector<int> expected{1, 3, 7, 9};
@@ -570,8 +570,8 @@ bool min_heap_delete_nonexistent() {
     
     heap.DeleteNode(100);  // Not in heap
     
-    bool size_unchanged = heap.Size() == 5;
-    bool min_unchanged = heap.Peek() == 1;
+    bool size_unchanged = heap.size() == 5;
+    bool min_unchanged = heap.top() == 1;
     
     std::string result = (size_unchanged && min_unchanged) ? "true" : "false";
     return test_helper("true", result);
@@ -580,11 +580,11 @@ bool min_heap_delete_nonexistent() {
 bool min_heap_delete_last_element() {
     std::cout << "[TEST] Min Heap Delete Last Element\n";
     core::MinHeap<int> heap(5);
-    heap.Push(42);
+    heap.push(42);
     
     heap.DeleteNode(42);
     
-    std::string result = heap.Empty() ? "true" : "false";
+    std::string result = heap.empty() ? "true" : "false";
     return test_helper("true", result);
 }
 
@@ -597,8 +597,8 @@ bool min_heap_delete_maintains_heap_property() {
     
     // Verify heap property by extracting all in sorted order
     std::vector<int> extracted;
-    while (!heap.Empty()) {
-        extracted.push_back(heap.Pop());
+    while (!heap.empty()) {
+        extracted.push_back(heap.pop());
     }
     
     std::vector<int> sorted = extracted;
@@ -614,8 +614,8 @@ bool min_heap_delete_with_duplicates() {
     
     heap.DeleteNode(3);  // Should delete one instance
     
-    bool size_correct = heap.Size() == 4;
-    bool still_has_three = heap.Peek() == 3;
+    bool size_correct = heap.size() == 4;
+    bool still_has_three = heap.top() == 3;
     
     std::string result = (size_correct && still_has_three) ? "true" : "false";
     return test_helper("true", result);
@@ -632,13 +632,13 @@ bool min_heap_property_after_many_pushes() {
     // Push values in pseudo-random order
     int values[] = {50, 25, 75, 12, 37, 62, 87, 6, 18, 31, 43, 56, 68, 81, 93};
     for (int v : values) {
-        heap.Push(v);
+        heap.push(v);
     }
     
     // Extract all - should come out sorted
     std::vector<int> extracted;
-    while (!heap.Empty()) {
-        extracted.push_back(heap.Pop());
+    while (!heap.empty()) {
+        extracted.push_back(heap.pop());
     }
     
     std::vector<int> sorted = extracted;
@@ -653,22 +653,22 @@ bool min_heap_property_after_mixed_operations() {
     core::MinHeap<int> heap(20);
     
     // Mix of pushes, pops, and deletes
-    heap.Push(50);
-    heap.Push(30);
-    heap.Push(70);
-    heap.Pop();         // Remove 30
-    heap.Push(20);
-    heap.Push(60);
+    heap.push(50);
+    heap.push(30);
+    heap.push(70);
+    heap.pop();         // Remove 30
+    heap.push(20);
+    heap.push(60);
     heap.DeleteNode(70);
-    heap.Push(40);
-    heap.Push(10);
-    heap.Pop();         // Remove 10
-    heap.Push(55);
+    heap.push(40);
+    heap.push(10);
+    heap.pop();         // Remove 10
+    heap.push(55);
     
     // Extract all - should come out sorted
     std::vector<int> extracted;
-    while (!heap.Empty()) {
-        extracted.push_back(heap.Pop());
+    while (!heap.empty()) {
+        extracted.push_back(heap.pop());
     }
     
     std::vector<int> sorted = extracted;
@@ -688,11 +688,11 @@ bool min_heap_comprehensive_stress_test() {
     
     // Insert 100 elements
     for (int i = 100; i >= 1; --i) {
-        heap.Push(i);
+        heap.push(i);
     }
     
-    bool size_correct = heap.Size() == 100;
-    bool min_correct = heap.Peek() == 1;
+    bool size_correct = heap.size() == 100;
+    bool min_correct = heap.top() == 1;
     
     // Delete some elements
     heap.DeleteNode(50);
@@ -701,15 +701,15 @@ bool min_heap_comprehensive_stress_test() {
     
     // Pop half
     for (int i = 0; i < 48; ++i) {
-        heap.Pop();
+        heap.pop();
     }
     
-    bool size_after = heap.Size() == 49;
+    bool size_after = heap.size() == 49;
     
     // Verify remaining elements come out sorted
     std::vector<int> remaining;
-    while (!heap.Empty()) {
-        remaining.push_back(heap.Pop());
+    while (!heap.empty()) {
+        remaining.push_back(heap.pop());
     }
     
     std::vector<int> sorted = remaining;
@@ -728,12 +728,12 @@ bool min_heap_heapsort_verification() {
     core::MinHeap<int> heap(input.size());
     
     for (int v : input) {
-        heap.Push(v);
+        heap.push(v);
     }
     
     std::vector<int> heapsorted;
-    while (!heap.Empty()) {
-        heapsorted.push_back(heap.Pop());
+    while (!heap.empty()) {
+        heapsorted.push_back(heap.pop());
     }
     
     std::vector<int> stdsorted = input;
@@ -743,61 +743,48 @@ bool min_heap_heapsort_verification() {
     return test_helper("true", result);
 }
 
+// =============================================================================
+// to_string Tests
+// =============================================================================
+
+
 bool min_heap_to_string_empty() {
-    std::cout << "[TEST] Min Heap to_string - Empty\n";
+    std::cout << "[TEST] Min Heap to_string - empty\n";
     core::MinHeap<int> heap(5);
-    return test_helper("[]", heap.to_string());
+    return test_helper("", heap.to_string());
 }
 
 bool min_heap_to_string_single() {
     std::cout << "[TEST] Min Heap to_string - Single\n";
     core::MinHeap<int> heap(5);
-    heap.Push(42);
-    return test_helper("[42]", heap.to_string());
+    heap.push(42);
+    return test_helper("42", heap.to_string());
 }
 
 bool min_heap_to_string_multiple() {
     std::cout << "[TEST] Min Heap to_string - Multiple\n";
     core::MinHeap<int> heap(10);
-    heap.Push(5);
-    heap.Push(3);
-    heap.Push(8);
-    heap.Push(1);
+    heap.push(5);
+    heap.push(3);
+    heap.push(8);
+    heap.push(1);
     
-    std::string str = heap.to_string();
-    bool starts_with_one = str.find("[1") == 0;
-    bool has_all_elements = str.find("1") != std::string::npos &&
-                            str.find("3") != std::string::npos &&
-                            str.find("5") != std::string::npos &&
-                            str.find("8") != std::string::npos;
-    
-    std::string result = (starts_with_one && has_all_elements) ? "true" : "false";
-    return test_helper("true", result);
+    return test_helper("1 3 5 8", heap.to_string());
 }
 
 bool min_heap_to_string_after_pop() {
     std::cout << "[TEST] Min Heap to_string - After Pop\n";
     core::MinHeap<int> heap{1, 2, 3};
-    heap.Pop();
+    heap.pop();
     
-    std::string str = heap.to_string();
-    bool no_one = str.find("1") == std::string::npos;
-    bool starts_with_two = str.find("[2") == 0;
-    
-    std::string result = (no_one && starts_with_two) ? "true" : "false";
-    return test_helper("true", result);
+    return test_helper("2 3", heap.to_string());
 }
 
 bool min_heap_to_string_negative_values() {
     std::cout << "[TEST] Min Heap to_string - Negative Values\n";
     core::MinHeap<int> heap{5, -3, 0, -10};
-    
-    std::string str = heap.to_string();
-    bool starts_with_min = str.find("[-10") == 0;
-    bool has_negative_three = str.find("-3") != std::string::npos;
-    
-    std::string result = (starts_with_min && has_negative_three) ? "true" : "false";
-    return test_helper("true", result);
+
+    return test_helper("-10 -3 0 5", heap.to_string());
 }
 
 // =============================================================================
@@ -805,39 +792,34 @@ bool min_heap_to_string_negative_values() {
 // =============================================================================
 
 bool min_heap_ostream_empty() {
-    std::cout << "[TEST] Min Heap ostream - Empty\n";
+    std::cout << "[TEST] Min Heap ostream - empty\n";
     core::MinHeap<int> heap(5);
     std::ostringstream oss;
     oss << heap;
-    return test_helper("[]", oss.str());
+    return test_helper("", oss.str());
 }
 
 bool min_heap_ostream_single() {
     std::cout << "[TEST] Min Heap ostream - Single\n";
     core::MinHeap<int> heap(5);
-    heap.Push(42);
+    heap.push(42);
     std::ostringstream oss;
     oss << heap;
-    return test_helper("[42]", oss.str());
+    return test_helper("42", oss.str());
 }
 
 bool min_heap_ostream_multiple() {
     std::cout << "[TEST] Min Heap ostream - Multiple\n";
-    core::MinHeap<int> heap{1, 3, 5};
+    core::MinHeap<int> heap{1, 3, 5, 7, 9, 2, 4, 6, 8, 11, 13, 15, 12, 14, 16, -1, -2, -3, 0, 0, 0};
     std::ostringstream oss;
     oss << heap;
-    
-    std::string str = oss.str();
-    bool starts_correct = str.find("[1") == 0;
-    bool ends_correct = str.back() == ']';
-    
-    std::string result = (starts_correct && ends_correct) ? "true" : "false";
-    return test_helper("true", result);
+
+    return test_helper("-3 -2 -1 0 0 0 1 2 3 4 5 6 7 8 9 11 12 13 14 15 16", oss.str());
 }
 
 bool min_heap_ostream_matches_to_string() {
     std::cout << "[TEST] Min Heap ostream - Matches to_string\n";
-    core::MinHeap<int> heap{7, 2, 9, 1, 5};
+    core::MinHeap<int> heap{1, 3, 5, 7, 9, 2, 4, 6, 8, 11, 13, 15, 12, 14, 16, -1, -2, -3, 0, 0, 0};
     
     std::ostringstream oss;
     oss << heap;
@@ -851,12 +833,12 @@ bool min_heap_ostream_matches_to_string() {
 // =============================================================================
 
 bool min_heap_istream_empty_brackets() {
-    std::cout << "[TEST] Min Heap istream - Empty Brackets\n";
+    std::cout << "[TEST] Min Heap istream - empty Brackets\n";
     core::MinHeap<int> heap(5);
     std::istringstream iss("[]");
     iss >> heap;
     
-    std::string result = heap.Empty() ? "true" : "false";
+    std::string result = heap.empty() ? "true" : "false";
     return test_helper("true", result);
 }
 
@@ -866,8 +848,8 @@ bool min_heap_istream_single() {
     std::istringstream iss("[42]");
     iss >> heap;
     
-    bool size_one = heap.Size() == 1;
-    bool value_correct = heap.Peek() == 42;
+    bool size_one = heap.size() == 1;
+    bool value_correct = heap.top() == 42;
     
     std::string result = (size_one && value_correct) ? "true" : "false";
     return test_helper("true", result);
@@ -879,8 +861,8 @@ bool min_heap_istream_multiple() {
     std::istringstream iss("[5, 3, 8, 1, 9]");
     iss >> heap;
     
-    bool size_correct = heap.Size() == 5;
-    bool min_correct = heap.Peek() == 1;
+    bool size_correct = heap.size() == 5;
+    bool min_correct = heap.top() == 1;
     
     std::string result = (size_correct && min_correct) ? "true" : "false";
     return test_helper("true", result);
@@ -893,8 +875,8 @@ bool min_heap_istream_maintains_heap_property() {
     iss >> heap;
     
     std::vector<int> extracted;
-    while (!heap.Empty()) {
-        extracted.push_back(heap.Pop());
+    while (!heap.empty()) {
+        extracted.push_back(heap.pop());
     }
     
     std::vector<int> expected{1, 3, 5, 7, 9};
@@ -909,12 +891,12 @@ bool min_heap_istream_overwrites_existing() {
     std::istringstream iss("[1, 2]");
     iss >> heap;
     
-    bool size_correct = heap.Size() == 2;
-    bool old_data_gone = heap.Peek() == 1;
+    bool size_correct = heap.size() == 2;
+    bool old_data_gone = heap.top() == 1;
     
     std::vector<int> extracted;
-    while (!heap.Empty()) {
-        extracted.push_back(heap.Pop());
+    while (!heap.empty()) {
+        extracted.push_back(heap.pop());
     }
     std::vector<int> expected{1, 2};
     
@@ -928,8 +910,8 @@ bool min_heap_istream_whitespace_handling() {
     std::istringstream iss("  [  5 ,  3  ,  8  ]  ");
     iss >> heap;
     
-    bool size_correct = heap.Size() == 3;
-    bool min_correct = heap.Peek() == 3;
+    bool size_correct = heap.size() == 3;
+    bool min_correct = heap.top() == 3;
     
     std::string result = (size_correct && min_correct) ? "true" : "false";
     return test_helper("true", result);
@@ -941,8 +923,8 @@ bool min_heap_istream_no_brackets() {
     std::istringstream iss("5 3 8 1");
     iss >> heap;
     
-    bool has_elements = heap.Size() == 4;
-    bool min_correct = heap.Peek() == 1;
+    bool has_elements = heap.size() == 4;
+    bool min_correct = heap.top() == 1;
     
     std::string result = (has_elements && min_correct) ? "true" : "false";
     return test_helper("true", result);
@@ -967,12 +949,12 @@ bool min_heap_roundtrip_test() {
     std::vector<int> orig_sorted, rest_sorted;
     
     core::MinHeap<int> orig_copy(original);
-    while (!orig_copy.Empty()) {
-        orig_sorted.push_back(orig_copy.Pop());
+    while (!orig_copy.empty()) {
+        orig_sorted.push_back(orig_copy.pop());
     }
     
-    while (!restored.Empty()) {
-        rest_sorted.push_back(restored.Pop());
+    while (!restored.empty()) {
+        rest_sorted.push_back(restored.pop());
     }
     
     std::string result = (orig_sorted == rest_sorted) ? "true" : "false";

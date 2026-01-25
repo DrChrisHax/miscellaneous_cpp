@@ -27,16 +27,16 @@ namespace core {
         }
 
         MinHeap(const MinHeap& other) {
-            Copy(other);
+            copy(other);
         }
 
         MinHeap(MinHeap&& other) {
-            Move(std::move(other));
+            move(std::move(other));
         }
         
         MinHeap(std::initializer_list<T> init) : MinHeap(init.size()) {
             for (const auto& val : init) {
-                Push(val);
+                push(val);
             }
         }
 
@@ -51,7 +51,7 @@ namespace core {
                 std::allocator<T> alloc;
                 std::destroy(data_ , data_ + size_);
                 alloc.deallocate(data_, capacity_);
-                Copy(other);
+                copy(other);
             }
             return *this;
         }
@@ -60,22 +60,22 @@ namespace core {
                 std::allocator<T> alloc;
                 std::destroy(data_, data_ + size_);
                 alloc.deallocate(data_, capacity_);
-                Move(std::move(other));
+                move(std::move(other));
             }
             return *this;
         }
 
         /*** Member Functions ***/
 
-        bool Empty() const { return size_ == 0; }
-        std::size_t Size() const { return size_; }
-        std::size_t Capacity() const { return capacity_; }
+        bool empty() const { return size_ == 0; }
+        std::size_t size() const { return size_; }
+        std::size_t capacity() const { return capacity_; }
 
-        void Push(const T& value) {
+        void push(const T& value) {
             // Time: O(log n)
             // Space: O(1)
             if (++size_ >= capacity_) {
-                Resize();
+                resize();
             }
 
             std::size_t i = size_ - 1;
@@ -87,10 +87,10 @@ namespace core {
             }
         }
 
-        T Pop() {
+        T pop() {
             // Time O(log n)
             // Space O(log n)
-            if (Empty()) {
+            if (empty()) {
                 throw std::runtime_error("MinHeap is empty");
             }
             if (size_ == 1) {
@@ -100,15 +100,15 @@ namespace core {
                 T root = data_[0];
                 data_[0] = data_[size_ - 1];
                 --size_;
-                Heapify(0);
+                heapify(0);
                 return root;
             }
         }
 
-        T Peek() const {
+        T top() const {
             // Time: O(1)
             // Space: O(1)
-            if (Empty()) {
+            if (empty()) {
                 throw std::runtime_error("MinHeap is empty");
             }
 
@@ -134,24 +134,25 @@ namespace core {
             } else {
                 data_[index] = data_[size_ - 1];
                 --size_;
-                Heapify(index);
+                heapify(index);
             }
         }
 
         std::string to_string() const {
-            if (Empty()) {
-                return "[]";
+            if (empty()) {
+                return "";
             }
 
+            MinHeap<T> temp(*this);
             std::ostringstream oss;
-            oss << "[";
-            for (std::size_t i{0uz}; i < size_; ++i) {
-                if (i > 0) {
-                    oss << ", ";
+            bool first = true;
+            while (!temp.empty()) {
+                if (!first) {
+                    oss << " ";
                 }
-                oss << data_[i];
+                oss << temp.pop();
+                first = false;
             }
-            oss << "]";
             return oss.str();
         }
 
@@ -163,8 +164,8 @@ namespace core {
 
         friend std::istream& operator>>(std::istream& is, MinHeap& heap) {
             // Clear the heap first
-            while (!heap.Empty()) {
-                heap.Pop();
+            while (!heap.empty()) {
+                heap.pop();
             }
 
             char c;
@@ -173,7 +174,7 @@ namespace core {
 
             T value;
             while (is >> value) {
-                heap.Push(value);
+                heap.push(value);
 
                 is >> std::ws;
                 if (is.peek() == ',') {
@@ -192,7 +193,7 @@ namespace core {
         std::size_t size_;
         std::size_t capacity_;
 
-        void Resize() {
+        void resize() {
             std::size_t new_capacity = capacity_ * 2;
             std::allocator<T> alloc;
             T* new_data = alloc.allocate(new_capacity);
@@ -203,7 +204,7 @@ namespace core {
             capacity_ = new_capacity;
         }
 
-        void Heapify(std::size_t i) {
+        void heapify(std::size_t i) {
             // Time: O(log n)
             // Space: O(log n)
             std::size_t root = i;
@@ -220,11 +221,11 @@ namespace core {
 
             if (root != i) {
                 std::swap(data_[i], data_[root]);
-                Heapify(root);
+                heapify(root);
             }
         }
 
-        void Copy(const MinHeap& other) {
+        void copy(const MinHeap& other) {
             size_ = other.size_;
             capacity_ = other.capacity_;
             
@@ -233,7 +234,7 @@ namespace core {
             std::uninitialized_copy(other.data_, other.data_ + size_, data_);
         }
 
-        void Move(MinHeap&& other) noexcept {
+        void move(MinHeap&& other) noexcept {
             data_ = other.data_;
             size_ = other.size_;
             capacity_ = other.capacity_;

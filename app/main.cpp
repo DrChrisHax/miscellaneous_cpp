@@ -21,6 +21,9 @@
 #include <future>
 #include <thread>
 #include <string>
+#include <queue>
+#include <algorithm>
+#include <functional>
 
 using namespace core;
 
@@ -34,20 +37,18 @@ int main(int argc, char* argv[]) {
     {
         // Start testing code
 
-        int data[6] = {15, 10, 5, 4, 3, 2};
+        std::priority_queue<int, std::vector<int>, std::greater<int>> heap;
 
-        MinHeap<int> minHeap(6uz);
-        
-        for(const auto& i : data) {
-            minHeap.Push(i);
+        heap.push(5);
+        heap.push(3);
+        heap.push(8);
+        heap.push(1);
+
+
+        while (!heap.empty()) {
+            std::cout << heap.top() << " ";
+            heap.pop();
         }
-
-        for (int i = 0; i < 6; ++i) {
-            std::cout << minHeap.Peek() << " ";
-            minHeap.Pop();
-
-        }
-
 
         // End testing code
     }
