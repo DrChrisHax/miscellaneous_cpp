@@ -18,8 +18,12 @@
 #include <vector>
 #include <unordered_map>
 #include <future>
+#include <thread>
+#include <string>
 
 using namespace core;
+
+
 
 int main(int argc, char* argv[]) {
     (void)argc;
@@ -29,11 +33,10 @@ int main(int argc, char* argv[]) {
     {
         // Start testing code
 
-
         // End testing code
     }
     const double ts = t.elapsed();
-    std::cout << "\nTime taken: " << std::to_string(ts) << " seconds." << std::endl;
+    std::cout << "\nTime taken: " << std::to_string(ts) << " seconds.\n";
 	return 0;
 }
 
