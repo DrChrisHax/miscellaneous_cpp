@@ -204,6 +204,76 @@ bool binary_tree_move_assignment_self();
 
 // PreOrder 
 
+// =============================================================================
+// MinHeap Tests
+// =============================================================================
+
+// Constructor tests
+bool min_heap_constructor_default();
+bool min_heap_constructor_explicit_capacity();
+bool min_heap_constructor_copy();
+bool min_heap_constructor_copy_empty();
+bool min_heap_constructor_move();
+bool min_heap_constructor_move_empty();
+bool min_heap_constructor_initializer_list();
+bool min_heap_constructor_initializer_list_empty();
+
+// Assignment operator tests
+bool min_heap_assignment_copy();
+bool min_heap_assignment_copy_empty();
+bool min_heap_assignment_copy_self();
+bool min_heap_assignment_move();
+bool min_heap_assignment_move_empty();
+bool min_heap_assignment_move_self();
+
+// Basic state tests
+bool min_heap_empty_on_new();
+bool min_heap_empty_after_pop_all();
+bool min_heap_size_after_push();
+bool min_heap_size_after_pop();
+bool min_heap_capacity_initial();
+bool min_heap_capacity_after_resize();
+
+// Push tests
+bool min_heap_push_single();
+bool min_heap_push_multiple_ascending();
+bool min_heap_push_multiple_descending();
+bool min_heap_push_multiple_random();
+bool min_heap_push_duplicates();
+bool min_heap_push_triggers_resize();
+bool min_heap_push_negative_values();
+
+// Pop tests
+bool min_heap_pop_single();
+bool min_heap_pop_returns_minimum();
+bool min_heap_pop_maintains_heap_property();
+bool min_heap_pop_all_sorted();
+bool min_heap_pop_empty_throws();
+bool min_heap_pop_with_duplicates();
+
+// Peek tests
+bool min_heap_peek_single();
+bool min_heap_peek_does_not_remove();
+bool min_heap_peek_after_push();
+bool min_heap_peek_after_pop();
+bool min_heap_peek_empty_throws();
+
+// DeleteNode tests
+bool min_heap_delete_root();
+bool min_heap_delete_leaf();
+bool min_heap_delete_middle();
+bool min_heap_delete_nonexistent();
+bool min_heap_delete_last_element();
+bool min_heap_delete_maintains_heap_property();
+bool min_heap_delete_with_duplicates();
+
+// Heap property tests
+bool min_heap_property_after_many_pushes();
+bool min_heap_property_after_mixed_operations();
+
+// Comprehensive tests
+bool min_heap_comprehensive_stress_test();
+bool min_heap_heapsort_verification();
 
 // =============================================================================
 // Future Test Categories

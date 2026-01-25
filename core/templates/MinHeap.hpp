@@ -53,7 +53,7 @@ namespace core {
             }
             return *this;
         }
-        MinHeap&& operator=(const MinHeap&& other) noexcept {
+        MinHeap& operator=(MinHeap&& other) noexcept {
             if (this != &other) {
                 std::allocator<T> alloc;
                 std::destroy(data_, data_ + size_);

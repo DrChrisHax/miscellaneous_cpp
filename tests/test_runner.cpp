@@ -240,6 +240,84 @@ int main(int argc, char* argv[]) {
     Run(binary_tree_move_assignment_self);
         
     // =============================================================================
+    // MinHeap Tests
+    // =============================================================================
+
+    std::cout << "========================================\n";
+    std::cout << "Running MinHeap Tests\n";
+    std::cout << "========================================\n";
+    std::cout << std::endl;
+
+    // Constructor tests
+    Run(min_heap_constructor_default);
+    Run(min_heap_constructor_explicit_capacity);
+    Run(min_heap_constructor_copy);
+    Run(min_heap_constructor_copy_empty);
+    Run(min_heap_constructor_move);
+    Run(min_heap_constructor_move_empty);
+    Run(min_heap_constructor_initializer_list);
+    Run(min_heap_constructor_initializer_list_empty);
+
+    // Assignment operator tests
+    Run(min_heap_assignment_copy);
+    Run(min_heap_assignment_copy_empty);
+    Run(min_heap_assignment_copy_self);
+    Run(min_heap_assignment_move);
+    Run(min_heap_assignment_move_empty);
+    Run(min_heap_assignment_move_self);
+
+    // Basic state tests
+    Run(min_heap_empty_on_new);
+    Run(min_heap_empty_after_pop_all);
+    Run(min_heap_size_after_push);
+    Run(min_heap_size_after_pop);
+    Run(min_heap_capacity_initial);
+    Run(min_heap_capacity_after_resize);
+
+    // Push tests
+    Run(min_heap_push_single);
+    Run(min_heap_push_multiple_ascending);
+    Run(min_heap_push_multiple_descending);
+    Run(min_heap_push_multiple_random);
+    Run(min_heap_push_duplicates);
+    Run(min_heap_push_triggers_resize);
+    Run(min_heap_push_negative_values);
+
+    // Pop tests
+    Run(min_heap_pop_single);
+    Run(min_heap_pop_returns_minimum);
+    Run(min_heap_pop_maintains_heap_property);
+    Run(min_heap_pop_all_sorted);
+    Run(min_heap_pop_empty_throws);
+    Run(min_heap_pop_with_duplicates);
+
+    // Peek tests
+    Run(min_heap_peek_single);
+    Run(min_heap_peek_does_not_remove);
+    Run(min_heap_peek_after_push);
+    Run(min_heap_peek_after_pop);
+    Run(min_heap_peek_empty_throws);
+
+    // DeleteNode tests
+    Run(min_heap_delete_root);
+    Run(min_heap_delete_leaf);
+    Run(min_heap_delete_middle);
+    Run(min_heap_delete_nonexistent);
+    Run(min_heap_delete_last_element);
+    Run(min_heap_delete_maintains_heap_property);
+    Run(min_heap_delete_with_duplicates);
+
+    // Heap property tests
+    Run(min_heap_property_after_many_pushes);
+    Run(min_heap_property_after_mixed_operations);
+
+    // Comprehensive tests
+    Run(min_heap_comprehensive_stress_test);
+    Run(min_heap_heapsort_verification);
+
+    std::cout << std::endl;
+
+    // =============================================================================
     // Test Summary
     // =============================================================================
     const double ts = t.elapsed();
