@@ -24,6 +24,8 @@
 #include <queue>
 #include <algorithm>
 #include <functional>
+#include <numeric>
+
 
 using namespace core;
 
@@ -33,22 +35,13 @@ int main(int argc, char* argv[]) {
     (void)argc;
     (void)argv;
 
+    
     Timer t;
     {
         // Start testing code
 
-        std::priority_queue<int, std::vector<int>, std::greater<int>> heap;
 
-        heap.push(5);
-        heap.push(3);
-        heap.push(8);
-        heap.push(1);
-
-
-        while (!heap.empty()) {
-            std::cout << heap.top() << " ";
-            heap.pop();
-        }
+        
 
         // End testing code
     }
