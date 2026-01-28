@@ -1,5 +1,5 @@
-#ifndef CORE_IP_HEADER_H_
-#define CORE_IP_HEADER_H_
+#ifndef CORE_OS_IP_HEADER_H_
+#define CORE_OS_IP_HEADER_H_
 
 #include <cstdint>
 #include <array>
@@ -121,4 +121,4 @@ namespace core {
 
 } // namespace core
 
-#endif // CORE_IP_HEADER_H_
+#endif // CORE_OS_IP_HEADER_H_
