@@ -171,8 +171,7 @@ namespace core {
             char dot1, dot2, dot3;
 
             if (is >> a >> dot1 >> b >> dot2 >> c >> dot3 >> d) {
-                if (dot1 == '.' && dot2 == '.' && dot3 == '.' &&
-                    a <= 255 && b <= 255 && c <= 255 && d <= 255) {
+                if (dot1 == '.' && dot2 == '.' && dot3 == '.') {
                     addr = IPv4{a, b, c, d};
                 } else {
                     is.setstate(std::ios::failbit);
@@ -187,5 +186,13 @@ namespace core {
         uint32_t value_; // Stored in host byte order
     };
 } // namespace core
+
+// Hash specialization for use in unordered containers
+template<>
+struct std::hash<core::IPv4> {
+    std::size_t operator()(const core::IPv4& addr) const noexcept {
+        return std::hash<uint32_t>{}(addr.value());
+    }
+};
 
 #endif // CORE_OS_IPV4_H_
