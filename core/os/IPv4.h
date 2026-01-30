@@ -53,7 +53,10 @@ namespace core {
         /*** Conversion Methods ***/
         std::string to_string() const {
             std::ostringstream oss;
-            oss << a() << '.' << b() << '.' << c() << '.' << d();
+            oss << static_cast<uint32_t>(a()) << '.' << 
+                   static_cast<uint32_t>(b()) << '.' << 
+                   static_cast<uint32_t>(c()) << '.' << 
+                   static_cast<uint32_t>(d());
             return oss.str();
         }
         uint32_t to_network_order() const {
@@ -178,7 +181,12 @@ namespace core {
             if (is >> a >> dot1 >> b >> dot2 >> c >> dot3 >> d) {
                 if (dot1 == '.' && dot2 == '.' && dot3 == '.' &&
                     a <= 255 && b <= 255 && c <= 255 && d <= 255) {
-                    addr = IPv4{a, b, c, d};
+                    addr = IPv4{
+                        static_cast<uint8_t>(a), 
+                        static_cast<uint8_t>(b),
+                        static_cast<uint8_t>(c), 
+                        static_cast<uint8_t>(d)
+                    };
                 } else {
                     is.setstate(std::ios::failbit);
                 }

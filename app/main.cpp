@@ -27,10 +27,7 @@
 #include <functional>
 #include <numeric>
 
-
 using namespace core;
-
-
 
 int main(int argc, char* argv[]) {
     (void)argc;
@@ -40,15 +37,6 @@ int main(int argc, char* argv[]) {
     Timer t;
     {
         // Start testing code
-
-        IPv4 ip{192, 168, 254, 1};
-
-        ip++;
-        ++ip;
-        std::cout << ip << "\nIs Public: " << ip.is_public() << "\nIs Private: " << ip.is_private();
-        
-        std::unordered_set<IPv4> test;
-        test.insert(ip);
 
         // End testing code
     }
