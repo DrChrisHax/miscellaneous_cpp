@@ -8,6 +8,8 @@
 #include <array>
 #include <compare>
 #include <iostream>
+#include <sstream>
+#include <bit>
 
 namespace core {
     class IPv4 {
@@ -49,8 +51,14 @@ namespace core {
         constexpr uint32_t value() const { return value_; }
 
         /*** Conversion Methods ***/
-        std::string to_string() const;
-        uint32_t to_network_order() const;
+        std::string to_string() const {
+            std::ostringstream oss;
+            oss << a() << '.' << b() << '.' << c() << '.' << d();
+            return oss.str();
+        }
+        uint32_t to_network_order() const {
+            return host_to_network(value_);
+        }
 
         /*** Address classification ***/
         constexpr bool is_set() const { return value_ != 0; }
@@ -160,18 +168,16 @@ namespace core {
 
         /*** Non-Member Functions ***/
         friend std::ostream& operator<<(std::ostream& os, const IPv4& addr) {
-            return os << std::to_string(addr.a()) << '.' 
-                      << std::to_string(addr.b()) << '.' 
-                      << std::to_string(addr.c()) << '.' 
-                      << std::to_string(addr.d());
+            return os << addr.to_string();
         }
 
         friend std::istream& operator>>(std::istream& is, IPv4& addr) {
-            uint8_t a, b, c, d;
+            uint32_t a, b, c, d;
             char dot1, dot2, dot3;
 
             if (is >> a >> dot1 >> b >> dot2 >> c >> dot3 >> d) {
-                if (dot1 == '.' && dot2 == '.' && dot3 == '.') {
+                if (dot1 == '.' && dot2 == '.' && dot3 == '.' &&
+                    a <= 255 && b <= 255 && c <= 255 && d <= 255) {
                     addr = IPv4{a, b, c, d};
                 } else {
                     is.setstate(std::ios::failbit);
@@ -184,6 +190,31 @@ namespace core {
 
     private:
         uint32_t value_; // Stored in host byte order
+
+        /*** Private Helper Functions ***/
+        static constexpr uint32_t byte_swap(uint32_t val) {
+            return ((val & 0xFF000000) >> 24) |
+                   ((val & 0x00FF0000) >> 8)  |
+                   ((val & 0x0000FF00) << 8)  |
+                   ((val & 0x000000FF) << 24);
+        }
+
+        static constexpr uint32_t network_to_host(uint32_t net) {
+            if constexpr (std::endian::native == std::endian::little) {
+                return byte_swap(net);
+            } else {
+                return net;
+            }
+        }
+
+        static constexpr uint32_t host_to_network(uint32_t host) {
+            if constexpr (std::endian::native == std::endian::little) {
+                return byte_swap(host);
+            } else {
+                return host;
+            }
+        }
+
     };
 } // namespace core
 
