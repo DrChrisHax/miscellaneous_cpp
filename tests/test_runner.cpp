@@ -343,6 +343,36 @@ int main(int argc, char* argv[]) {
     std::cout << std::endl;
 
     // =============================================================================
+    // IPv4 Tests
+    // =============================================================================
+
+    std::cout << "========================================\n";
+    std::cout << "Running IPv4 Tests\n";
+    std::cout << "========================================\n";
+    std::cout << std::endl;
+
+    // Constructor tests
+    Run(ipv4_constructor_default);
+    Run(ipv4_constructor_uint32);
+    Run(ipv4_constructor_four_octets);
+    Run(ipv4_constructor_four_octets_max);
+    Run(ipv4_constructor_string_valid);
+    Run(ipv4_constructor_string_loopback);
+    Run(ipv4_constructor_string_invalid_throws);
+    Run(ipv4_constructor_string_out_of_range_throws);
+
+    // Static factory tests
+    Run(ipv4_from_network_order_little_endian);
+    Run(ipv4_from_host_order);
+    Run(ipv4_static_any);
+    Run(ipv4_static_loopback);
+    Run(ipv4_static_broadcast);
+    Run(ipv4_static_localhost);
+
+    std::cout << std::endl;
+
+
+    // =============================================================================
     // Test Summary
     // =============================================================================
     const double ts = t.elapsed();

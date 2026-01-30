@@ -301,6 +301,29 @@ bool min_heap_istream_no_brackets();
 bool min_heap_roundtrip_test();
 
 // =============================================================================
+// IPv4 Tests
+// =============================================================================
+
+// Constructor Tests
+bool ipv4_constructor_default();
+bool ipv4_constructor_uint32();
+bool ipv4_constructor_four_octets();
+bool ipv4_constructor_four_octets_max();
+bool ipv4_constructor_string_valid();
+bool ipv4_constructor_string_loopback();
+bool ipv4_constructor_string_invalid_throws();
+bool ipv4_constructor_string_out_of_range_throws();
+
+// Static Factory Tests
+bool ipv4_from_network_order_little_endian();
+bool ipv4_from_host_order();
+bool ipv4_static_any();
+bool ipv4_static_loopback();
+bool ipv4_static_broadcast();
+bool ipv4_static_localhost();
+
+
+// =============================================================================
 // Future Test Categories
 // =============================================================================
 

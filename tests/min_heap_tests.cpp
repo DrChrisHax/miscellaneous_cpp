@@ -186,7 +186,8 @@ bool min_heap_assignment_move_self() {
     std::cout << "[TEST] Min Heap Move Assignment Operator - Self\n";
     core::MinHeap<int> heap{5, 3, 8, 1};
     
-    heap = std::move(heap);  // Self-assignment
+    auto& ref = heap;
+    heap = std::move(ref);  // Self-assignment
     
     // After self-move, behavior is implementation-defined but shouldn't crash
     // Just verify it doesn't crash and has reasonable state

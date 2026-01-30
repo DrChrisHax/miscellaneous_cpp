@@ -20,10 +20,16 @@ namespace core {
         constexpr explicit IPv4(uint32_t addr) : value_{addr} {}
         constexpr IPv4(uint8_t a, uint8_t b, uint8_t c, uint8_t d) 
             : value_{static_cast<uint32_t>((a << 24) | (b << 16) | (c << 8) | d)} {}
-        explicit IPv4(std::string_view addr);
+        explicit IPv4(std::string_view addr) {};
 
         /*** Static Methods ***/
-        static IPv4 from_network_order(uint32_t network_order_value);
+        static IPv4 from_network_order(uint32_t network_order_value) {
+            return IPv4{network_to_host(network_order_value)};
+        }
+
+        static IPv4 from_host_order(uint32_t host_order_value) {
+            return IPv4{host_order_value};
+        }
 
         // Common addresses
         static constexpr IPv4 any()       { return IPv4{0u}; }

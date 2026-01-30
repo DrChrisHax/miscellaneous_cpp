@@ -76,7 +76,9 @@ bool binary_tree_move_assignment() {
 bool binary_tree_move_assignment_self() {
     std::cout << "[TEST] Binary Tree Move Assignment - Self" << std::endl;
     auto tree = BalancedTree<BinaryTree<int>>(7);
-    tree = std::move(tree);
+
+    auto& ref = tree;
+    tree = std::move(ref); // Self assignment
     
     std::string expected = "Size: 7\nContains 4: true";
     std::string result = "Size: " + std::to_string(tree.Size()) +
