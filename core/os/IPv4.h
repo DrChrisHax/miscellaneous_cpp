@@ -20,14 +20,28 @@ namespace core {
         constexpr explicit IPv4(uint32_t addr) : value_{addr} {}
         constexpr IPv4(uint8_t a, uint8_t b, uint8_t c, uint8_t d) 
             : value_{static_cast<uint32_t>((a << 24) | (b << 16) | (c << 8) | d)} {}
-        explicit IPv4(std::string_view addr) {};
+        explicit IPv4(std::string_view addr) {
+            std::istringstream iss{std::string{addr}};
+            uint32_t octet_a, octet_b, octet_c, octet_d;
+            char dot1, dot2, dot3;
+            
+            if (!(iss >> octet_a >> dot1 >> octet_b >> dot2 >> octet_c >> dot3 >> octet_d) ||
+                dot1 != '.' || dot2 != '.' || dot3 != '.' ||
+                octet_a > 255 || octet_b > 255 || octet_c > 255 || octet_d > 255) {
+                throw std::invalid_argument("Invalid IPv4 address format");
+            }
+            
+            value_ = static_cast<uint32_t>(
+                (octet_a << 24) | (octet_b << 16) | (octet_c << 8) | octet_d
+            );
+        };
 
         /*** Static Methods ***/
-        static IPv4 from_network_order(uint32_t network_order_value) {
+        static constexpr IPv4 from_network_order(uint32_t network_order_value) {
             return IPv4{network_to_host(network_order_value)};
         }
 
-        static IPv4 from_host_order(uint32_t host_order_value) {
+        static constexpr IPv4 from_host_order(uint32_t host_order_value) {
             return IPv4{host_order_value};
         }
 

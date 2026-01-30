@@ -3,6 +3,7 @@
 
 #include <string>
 #include <sstream>
+#include <cstring> // For memcpy
 
 // =============================================================================
 // Constructor Tests
@@ -104,14 +105,16 @@ bool ipv4_constructor_string_out_of_range_throws() {
 bool ipv4_from_network_order_little_endian() {
     std::cout << "[TEST] IPv4::from_network_order (0x0100007F -> 127.0.0.1 on LE): ";
     
-    // 127.0.0.1 in network byte order (big endian) is 0x7F000001
-    // On a little-endian machine, if you have the bytes [0x7F, 0x00, 0x00, 0x01] 
-    // stored in memory, reading as uint32_t gives 0x0100007F
-    uint32_t network_order = 0x7F000001; // Already in network byte order representation
+    // Simulate bytes arriving from network: [127, 0, 0, 1]
+    // When memcpy'd into a uint32_t, the value depends on system endianness
+    uint8_t network_bytes[4] = {0xAB, 0xCD, 0xEF, 0x12};
+    uint32_t network_order;
+    std::memcpy(&network_order, network_bytes, sizeof(network_order));
+
     core::IPv4 addr = core::IPv4::from_network_order(network_order);
     
     // Verify the value is correctly converted
-    std::string expected = "127.0.0.1";
+    std::string expected = "171.205.239.18";
     std::string result = addr.to_string();
     
     return test_helper(expected, result);
