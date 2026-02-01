@@ -322,6 +322,13 @@ bool ipv4_static_loopback();
 bool ipv4_static_broadcast();
 bool ipv4_static_localhost();
 
+// Accessor Tests
+bool ipv4_octect();
+bool ipv4_cotect_out_of_range();
+bool ipv4_a_b_c_d();
+bool ipv4_octects_array();
+bool ipv4_value();
+
 
 // =============================================================================
 // Future Test Categories

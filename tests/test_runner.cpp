@@ -369,6 +369,14 @@ int main(int argc, char* argv[]) {
     Run(ipv4_static_broadcast);
     Run(ipv4_static_localhost);
 
+    // Accessor Tests
+    Run(ipv4_octect);
+    Run(ipv4_cotect_out_of_range);
+    Run(ipv4_a_b_c_d);
+    Run(ipv4_octects_array);
+    Run(ipv4_value);
+
+
     std::cout << std::endl;
 
 

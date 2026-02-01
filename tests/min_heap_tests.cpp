@@ -22,7 +22,7 @@ bool min_heap_constructor_default() {
 }
 
 bool min_heap_constructor_explicit_capacity() {
-    std::cout << "[TEST] Min Heap Constructor - Explicit Capacity";
+    std::cout << "[TEST] Min Heap Constructor - Explicit Capacity\n";
     core::MinHeap<int> heap(10);
     std::string result = (heap.empty() && heap.size() == 0 && heap.capacity() == 10) ? "true" : "false";
     return test_helper("true", result);
