@@ -13,6 +13,7 @@
 #include "TreeGenerator.hpp"
 #include "MinHeap.hpp"
 #include "IPv4.h"
+#include "HierarchicalMutex.h"
 
 #include <iostream>
 #include <utility>
@@ -26,8 +27,13 @@
 #include <algorithm>
 #include <functional>
 #include <numeric>
+#include <list>
+#include <mutex>
+
 
 using namespace core;
+
+int a() { return 2; }
 
 int main(int argc, char* argv[]) {
     (void)argc;
@@ -37,6 +43,15 @@ int main(int argc, char* argv[]) {
     Timer t;
     {
         // Start testing code
+
+        std::mutex m;
+
+        std::cout << sizeof(m) << "\n";
+
+        HierarchicalMutext h{1000};
+
+        std::cout << sizeof(h);
+
 
         // End testing code
     }
