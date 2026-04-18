@@ -14,8 +14,11 @@
 #include "MinHeap.hpp"
 #include "IPv4.h"
 #include "HierarchicalMutex.h"
+#include "AverageCalculator.hpp"
 
 #include <iostream>
+#include <iomanip>
+#include <limits>
 #include <utility>
 #include <memory>
 #include <vector>
@@ -29,6 +32,8 @@
 #include <numeric>
 #include <list>
 #include <mutex>
+#include <numbers>
+#include <cmath>
 
 
 using namespace core;
@@ -44,14 +49,47 @@ int main(int argc, char* argv[]) {
     {
         // Start testing code
 
-        std::mutex m;
+        // pi ~ 4 x average (heads / total flips)  stop when heads > tails
+        AverageCalculator calc;
+        double estimate_pi{0.0l};
+        int iteration_count{0};
+        constexpr double err = 0.00001;
 
-        std::cout << sizeof(m) << "\n";
+        std::cout << std::setprecision(std::numeric_limits<double>::max_digits10);
 
-        HierarchicalMutext h{1000};
+        while(std::abs(std::numbers::pi - estimate_pi) > err) {
+            double heads{0.0l};
+            double tails{0.0l};
 
-        std::cout << sizeof(h);
+            while (tails >= heads) {
+                bool coinFlip = Random::get<uint8_t>(0, 1);
 
+                if (coinFlip == 0) {
+                    ++heads;
+                } else {
+                    ++tails;
+                }
+            }
+
+            calc += (heads / (heads + tails));
+            estimate_pi = (calc() * 4);
+            ++iteration_count;
+
+            if (iteration_count % 1000 == 0) {
+                std::cout << "Number of iterations: "
+                          << iteration_count
+                          << "\nEstimate: "
+                          << estimate_pi
+                          << "\n";
+            }
+        }
+
+        std::cout << "Number of iterations: "
+                  << iteration_count
+                  << "\nEstimate: "
+                  << estimate_pi
+                  << "\nActual: "
+                  << std::numbers::pi;
 
         // End testing code
     }

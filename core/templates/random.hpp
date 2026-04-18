@@ -6,21 +6,41 @@
 
 // Credit to https://www.learncpp.com/cpp-tutorial/global-random-numbers-random-h/
 
+// Commented out: original mt19937 (32-bit) implementation
+// namespace Random {
+//     inline std::mt19937 generate() {
+//         std::random_device rd{};
+//         std::seed_seq ss {
+//             static_cast<std::seed_seq::result_type>(std::chrono::steady_clock::now().time_since_epoch().count()),
+//                 rd(), rd(), rd(), rd(), rd(), rd(), rd() };
+//         return std::mt19937{ss};
+//     }
+//     inline std::mt19937 mt { generate() };
+//     inline int get(int min, int max) {
+//         return std::uniform_int_distribution{min, max}(mt);
+//     }
+//     template <typename T>
+//     T get(T min, T max) {
+//         return std::uniform_int_distribution<T>{min, max}(mt);
+//     }
+//     template <typename R, typename S, typename T>
+//     R get(S min, T max) {
+//         return get<R>(static_cast<R>(min), static_cast<R>(max));
+//     }
+// }
+
+// mt19937_64: 64-bit Mersenne Twister. Period 2^19937-1
 namespace Random {
-    inline std::mt19937 generate() {
+    inline std::mt19937_64 generate() {
         std::random_device rd{};
-        std::seed_seq ss {
+        std::seed_seq ss{
             static_cast<std::seed_seq::result_type>(std::chrono::steady_clock::now().time_since_epoch().count()),
-                rd(), rd(), rd(), rd(), rd(), rd(), rd() };
-        
-        return std::mt19937{ss};
+            rd(), rd(), rd(), rd(), rd(), rd(), rd()
+        };
+        return std::mt19937_64{ss};
     }
 
-    inline std::mt19937 mt { generate() };
-
-    inline int get(int min, int max) {
-        return std::uniform_int_distribution{min, max}(mt);
-    }
+    inline std::mt19937_64 mt{ generate() };
 
     template <typename T>
     T get(T min, T max) {
