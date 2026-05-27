@@ -51,8 +51,10 @@ int main(int argc, char* argv[]) {
     { // Start testing code
         
         std::atomic<bool> b{false};
-        std::cout << b.is_lock_free();
+        std::cout << b.is_lock_free() << '\n';
         
+        std::cout << sizeof(std::mutex);
+
     } // End testing code
 
     const double ts = t.elapsed();
