@@ -15,6 +15,7 @@
 #include "IPv4.h"
 #include "HierarchicalMutex.h"
 #include "AverageCalculator.hpp"
+#include "SimpleLock.hpp"
 
 #include <iostream>
 #include <iomanip>
@@ -49,11 +50,30 @@ int main(int argc, char* argv[]) {
     Timer t;
 
     { // Start testing code
-        
-        std::atomic<bool> b{false};
-        std::cout << b.is_lock_free() << '\n';
-        
-        std::cout << sizeof(std::mutex);
+
+        SimpleLock lock_;
+        int counter = 0;
+        constexpr int ITERS = 1'000'000;
+
+        std::thread t1([&]{
+            for (int i = 0; i < ITERS; ++i) {
+                lock_.lock();
+                ++counter;
+                lock_.unlock();
+            }
+        });
+        std::thread t2([&]{
+            for (int i = 0; i < ITERS; ++i) {
+                lock_.lock();
+                ++counter;
+                lock_.unlock();
+            }
+        });
+
+        t1.join();
+        t2.join();
+
+        std::cout << "counter = " << counter << " (expected " << 2 * ITERS << ")\n";
 
     } // End testing code
 
