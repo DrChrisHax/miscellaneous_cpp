@@ -34,6 +34,7 @@
 #include <mutex>
 #include <numbers>
 #include <cmath>
+#include <atomic>
 
 
 using namespace core;
@@ -46,53 +47,14 @@ int main(int argc, char* argv[]) {
 
     
     Timer t;
-    {
-        // Start testing code
 
-        // pi ~ 4 x average (heads / total flips)  stop when heads > tails
-        AverageCalculator calc;
-        double estimate_pi{0.0l};
-        int iteration_count{0};
-        constexpr double err = 0.00001;
+    { // Start testing code
+        
+        std::atomic<bool> b{false};
+        std::cout << b.is_lock_free();
+        
+    } // End testing code
 
-        std::cout << std::setprecision(std::numeric_limits<double>::max_digits10);
-
-        while(std::abs(std::numbers::pi - estimate_pi) > err) {
-            double heads{0.0l};
-            double tails{0.0l};
-
-            while (tails >= heads) {
-                bool coinFlip = Random::get<uint8_t>(0, 1);
-
-                if (coinFlip == 0) {
-                    ++heads;
-                } else {
-                    ++tails;
-                }
-            }
-
-            calc += (heads / (heads + tails));
-            estimate_pi = (calc() * 4);
-            ++iteration_count;
-
-            if (iteration_count % 1000 == 0) {
-                std::cout << "Number of iterations: "
-                          << iteration_count
-                          << "\nEstimate: "
-                          << estimate_pi
-                          << "\n";
-            }
-        }
-
-        std::cout << "Number of iterations: "
-                  << iteration_count
-                  << "\nEstimate: "
-                  << estimate_pi
-                  << "\nActual: "
-                  << std::numbers::pi;
-
-        // End testing code
-    }
     const double ts = t.elapsed();
     std::cout << "\nTime taken: " << std::to_string(ts) << " seconds.\n";
 	return 0;
