@@ -51,6 +51,7 @@ int main(int argc, char* argv[]) {
 
 
     } // End testing code
+    
     t.stop();
 
     std::cout << "\nTime taken: " << t.elapsed_str() << " \n";

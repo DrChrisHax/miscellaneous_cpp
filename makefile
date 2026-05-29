@@ -2,12 +2,11 @@
 TARGET := app
 TEST_TARGET := test_runner
 CXX := g++
-#CXX := clang++-20
+#CXX := clang++
 WARN := -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion #-Werror
-STD := -std=c++23
-OPT := -O0
+STD := -std=c++26
 DEP := -MMD -MP
-INCLUDES := -Iapp -Itests -Icore -Icore/os -Icore/os/$(PLATFORM) -Icore/templates
+INCLUDES := -Iapp -Itests -Icore -ICore/os -Icore/os/$(PLATFORM) -Icore/templates
 
 # ----- File Extensions -----
 CXX_EXT := cpp
@@ -27,12 +26,24 @@ else
 	$(error Unsupported OS: $(UNAME_S))
 endif
 
+# ----- Build Mode (debug | release) -----
+BUILD ?= debug
+ifeq ($(BUILD),release)
+    OPT    := -O2
+    DEFS   := -DNDEBUG
+    BUILD_SUFFIX := release
+else
+    OPT    := -O0 -g
+    DEFS   :=
+    BUILD_SUFFIX := debug
+endif
+
 # ----- Directories -----
-OBJDIR := obj
-BINDIR := bin
+OBJDIR := obj/$(BUILD_SUFFIX)
+BINDIR := bin/$(BUILD_SUFFIX)
 TESTDIR := tests
-TEST_OBJDIR := $(TESTDIR)/obj
-TEST_BINDIR := $(TESTDIR)/bin
+TEST_OBJDIR := $(TESTDIR)/obj/$(BUILD_SUFFIX)
+TEST_BINDIR := $(TESTDIR)/bin/$(BUILD_SUFFIX)
 
 # ----- Source & Dependencies -----
 CORE_SRCS := $(wildcard core/*.$(CXX_EXT)) $(wildcard core/os/$(PLATFORM)/*.$(CXX_EXT)) 
@@ -51,28 +62,24 @@ TEST_DEPS := $(TEST_OBJS:.o=.d)
 CXXFLAGS := $(STD) $(WARN) $(OPT) $(DEP) $(INCLUDES)
 LDFLAGS := 
 
-# ----- Object Directory -----
+# ----- Object Rules -----
 $(OBJDIR)/%.o: %.$(CXX_EXT)
 	@mkdir -p $(dir $@)
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
-
-# ----- Test Object Directory -----
 $(TEST_OBJDIR)/%.o: $(TESTDIR)/%.$(CXX_EXT)
 	@mkdir -p $(dir $@)
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# ----- Executable Directory -----
+# ----- Link Rules -----
 $(BINDIR)/$(TARGET): $(APP_OBJS) $(CORE_OBJS)
 	@mkdir -p $(BINDIR)
 	@$(CXX) $(APP_OBJS) $(CORE_OBJS) -o $@ $(LDFLAGS)
-
-# ----- Test Executable -----
 $(TEST_BINDIR)/$(TEST_TARGET): $(TEST_OBJS) $(CORE_OBJS)
 	@mkdir -p $(TEST_BINDIR)
 	@$(CXX) $(TEST_OBJS) $(CORE_OBJS) -o $@ $(LDFLAGS)
 
 # ----- Commands -----
-.PHONY: all core app test build-tests clean clean-test clean-all run help
+.PHONY: all core app release run test build-tests clean clean-test clean-all help
 
 all:
 	@$(MAKE) app
@@ -82,6 +89,21 @@ core: $(CORE_OBJS)
 
 app: $(BINDIR)/$(TARGET)
 	@echo "[makefile] app up to date"
+
+release:
+	@$(MAKE) BUILD=release app
+
+run:
+	@$(MAKE) app
+	@echo "[makefile] Running ./$(BINDIR)/$(TARGET)"
+	@./$(BINDIR)/$(TARGET)
+
+test: $(TEST_BINDIR)/$(TEST_TARGET)
+	@echo "[makefile] Running tests..."
+	@./$(TEST_BINDIR)/$(TEST_TARGET)
+
+build-tests: $(TEST_BINDIR)/$(TEST_TARGET)
+	@echo "[makefile] Tests built successfully -> $(TEST_BINDIR)/$(TEST_TARGET)"
 
 clean:
 	@echo "[makefile] Removing obj/ and bin/"
@@ -97,32 +119,25 @@ clean-all:
 	@echo "[makefile] Removing log files"
 	@rm -f *.log
 
-test: $(TEST_BINDIR)/$(TEST_TARGET)
-	@echo "[makefile] Running tests..."
-	@./$(TEST_BINDIR)/$(TEST_TARGET)
-
-build-tests: $(TEST_BINDIR)/$(TEST_TARGET)
-	@echo "[makefile] Tests built successfully -> $(TEST_BINDIR)/$(TEST_TARGET)"
-
-run:
-	@$(MAKE) core
-	@$(MAKE) app
-	@echo "[makefile] Running ./$(BINDIR)/$(TARGET)"
-	./$(BINDIR)/$(TARGET)
-
 help:
-	@echo "Usage: make <target>"
+	@echo "Usage: make <target> [BUILD=debug|release]"
 	@echo
 	@echo "Targets:"
-	@echo "  core        Build core objects incrementally (platform=$(PLATFORM))"
-	@echo "  app         Build and link the app binary -> $(BINDIR)/$(TARGET)"
-	@echo "  build-tests Build test executable without running -> $(TEST_BINDIR)/$(TEST_TARGET)"
-	@echo "  test        Build and run all tests -> $(TEST_BINDIR)/$(TEST_TARGET)"
-	@echo "  run         Build (incremental) and run ./$(BINDIR)/$(TARGET)"
-	@echo "  clean       Remove $(OBJDIR) and $(BINDIR)"
-	@echo "  clean-test  Remove $(TEST_OBJDIR) and $(TEST_BINDIR)"
-	@echo "  clean-all   Remove $(OBJDIR), $(BINDIR), $(TEST_OBJDIR), $(TEST_BINDIR) and .log files"
-	@echo "  help        Show this dialog"
+	@echo "  app           Build app (debug by default)    -> bin/debug/app"
+	@echo "  release       Build app in release mode       -> bin/release/app"
+	@echo "  run           Build (debug) and run           -> bin/debug/app"
+	@echo "  core          Build core objects only"
+	@echo "  build-tests   Build test runner (no run)      -> tests/bin/<mode>/test_runner"
+	@echo "  test          Build and run tests"
+	@echo "  clean         Remove obj/ and bin/"
+	@echo "  clean-test    Remove tests/obj/ and tests/bin/"
+	@echo "  clean-all     Remove all build artifacts and .log files"
+	@echo "  help          Show this dialog"
+	@echo
+	@echo "Examples:"
+	@echo "  make run                   # debug build + run"
+	@echo "  make release               # optimized release build"
+	@echo "  make test BUILD=release    # run tests in release mode"
 
 # ----- Include dependencies if present -----
 -include $(CORE_DEPS) $(APP_DEPS) $(TEST_DEPS)
