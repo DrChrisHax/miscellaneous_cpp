@@ -1,6 +1,12 @@
 #include "test_helpers.hpp"
-#include "tests.h"
 
+#include "binary_tree_tests.hpp"
+#include "fraction_tests.hpp"
+#include "ipv4_tests.hpp"
+#include "lru_cache_tests.hpp"
+#include "math_helpers_tests.hpp"
+#include "min_heap_tests.hpp"
+#include "node_tests.hpp"
 // Add other test headers above this line
 
 #include "timer.hpp"
@@ -16,15 +22,6 @@ static int passed_tests = 0;
 static int failed_tests = 0;
 
 static Timer::Duration total_test_time_ns{};
-
-void Run(bool (*test)()) {
-    total_tests++;
-    if (test()) {
-        passed_tests++;
-    } else {
-        failed_tests++;
-    }
-}
 
 void Run(test_result (*test)(), std::string_view name) {
     ++total_tests;
@@ -47,6 +44,10 @@ void Run(test_result (*test)(), std::string_view name) {
     }
 
     std::cout << CYAN << "[TIME] " << RESET << timer.elapsed_str() << '\n' << std::endl; // Flush the buffer between tests
+}
+
+void Run(test_result (*test)()) {
+    Run(test, "");
 }
 
 int main(int argc, char* argv[]) {
@@ -109,64 +110,64 @@ int main(int argc, char* argv[]) {
     std::cout << "========================================\n";
     std::cout << std::endl;
 
-    Run(fraction_int_constructor_default);
-    Run(fraction_int_constructor_single_param);
-    Run(fraction_int_constructor_both_params);
-    Run(fraction_int_constructor_zero_denominator);
+    Run(fraction_int_constructor_default, "Fraction<int>: Default constructor (0/1)");
+    Run(fraction_int_constructor_single_param, "Fraction<int>: Single parameter constructor (5)");
+    Run(fraction_int_constructor_both_params, "Fraction<int>: Both parameters constructor (3/4)");
+    Run(fraction_int_constructor_zero_denominator, "Fraction<int>: Zero denominator throws exception");
 
     // Normalization tests
-    Run(fraction_int_normalization_gcd_reduction);
-    Run(fraction_int_normalization_already_reduced);
-    Run(fraction_int_normalization_to_whole_number);
-    Run(fraction_int_normalization_zero_numerator);
+    Run(fraction_int_normalization_gcd_reduction, "Fraction<int>: GCD reduction (12/15 -> 4/5)");
+    Run(fraction_int_normalization_already_reduced, "Fraction<int>: Already in lowest terms (7/11)");
+    Run(fraction_int_normalization_to_whole_number, "Fraction<int>: Reduces to whole number (100/25 -> 4)");
+    Run(fraction_int_normalization_zero_numerator, "Fraction<int>: Zero numerator (0/5 -> 0)");
 
     // Negative tests
-    Run(fraction_int_negative_numerator);
-    Run(fraction_int_negative_denominator);
-    Run(fraction_int_both_negative);
-    Run(fraction_int_negative_with_reduction);
-    Run(fraction_int_negative_whole_number);
+    Run(fraction_int_negative_numerator, "Fraction<int>: Negative numerator (-3/4)");
+    Run(fraction_int_negative_denominator, "Fraction<int>: Negative denominator (3/-4 -> -3/4)");
+    Run(fraction_int_both_negative, "Fraction<int>: Both negative (-3/-4 -> 3/4)");
+    Run(fraction_int_negative_with_reduction, "Fraction<int>: Negative with GCD reduction (-12/15 -> -4/5)");
+    Run(fraction_int_negative_whole_number, "Fraction<int>: Negative reduces to whole number (-8/4 -> -2)");
 
     // to_string tests
-    Run(fraction_int_to_string_whole_number);
-    Run(fraction_int_to_string_regular_fraction);
-    Run(fraction_int_to_string_negative_fraction);
-    Run(fraction_int_to_string_zero);
+    Run(fraction_int_to_string_whole_number, "Fraction<int>: to_string whole number (5/1 -> \"5\")");
+    Run(fraction_int_to_string_regular_fraction, "Fraction<int>: to_string regular fraction (3/4 -> \"3/4\")");
+    Run(fraction_int_to_string_negative_fraction, "Fraction<int>: to_string negative fraction (-2/3 -> \"-2/3\")");
+    Run(fraction_int_to_string_zero, "Fraction<int>: to_string zero (0/1 -> \"0\")");
 
     // Addition tests
-    Run(fraction_int_addition_simple);
-    Run(fraction_int_addition_with_reduction);
-    Run(fraction_int_addition_negative);
-    Run(fraction_int_addition_to_whole_number);
-    Run(fraction_int_addition_smart_overflow_avoidance);
+    Run(fraction_int_addition_simple, "Fraction<int>: Simple addition (1/2 + 1/3 -> 5/6)");
+    Run(fraction_int_addition_with_reduction, "Fraction<int>: Addition with reduction (1/6 + 1/4 -> 5/12)");
+    Run(fraction_int_addition_negative, "Fraction<int>: Addition with negative (3/4 + (-1/2) -> 1/4)");
+    Run(fraction_int_addition_to_whole_number, "Fraction<int>: Addition to whole number (1/4 + 3/4 -> 1)");
+    Run(fraction_int_addition_smart_overflow_avoidance, "Fraction<int>: Smart cross-cancellation prevents overflow ((3*3*11 / 2^26 * 13) + (17*3 / 2^26 * 17) -> (3*23 / 2^25 * 13))");
 
     // Multiplication tests
-    Run(fraction_int_multiplication_no_reduction);
-    Run(fraction_int_multiplication_recution);
-    Run(fraction_int_multiplication_negative);
-    Run(fraction_int_overflow_no_error);
-    Run(fraction_int_overflow_error);
+    Run(fraction_int_multiplication_no_reduction, "Fraction<int>: Multiplication with no reduction (3/5 * 8/13 -> 24/65)");
+    Run(fraction_int_multiplication_recution, "Fraction<int>: Multiplication with reduction (12/17 * 51/96 -> 3/8)");
+    Run(fraction_int_multiplication_negative, "Fraction<int>: Multiplication with negative (-1/2 * 3/4 -> -3/8)");
+    Run(fraction_int_overflow_no_error, "Fraction<int>: Large multiplication with cross-cancellation (1B/7 * 21/1B -> 3)");
+    Run(fraction_int_overflow_error, "Fraction<int>: Multiplication overflow detection (1B/3 * 1B/5 -> overflow)");
 
     // operator<< tests
-    Run(fraction_int_ostream_whole_number);
-    Run(fraction_int_ostream_regular_fraction);
-    Run(fraction_int_ostream_negative_fraction);
-    Run(fraction_int_ostream_zero);
-    Run(fraction_int_ostream_multiple_fractions);
+    Run(fraction_int_ostream_whole_number, "Fraction<int>: operator<< whole number (5)");
+    Run(fraction_int_ostream_regular_fraction, "Fraction<int>: operator<< regular fraction (3/4)");
+    Run(fraction_int_ostream_negative_fraction, "Fraction<int>: operator<< negative fraction (-7/8)");
+    Run(fraction_int_ostream_zero, "Fraction<int>: operator<< zero (0/1)");
+    Run(fraction_int_ostream_multiple_fractions, "Fraction<int>: operator<< multiple fractions in sequence");
 
     // operator>> tests
-    Run(fraction_int_istream_whole_number);
-    Run(fraction_int_istream_regular_fraction);
-    Run(fraction_int_istream_negative_numerator);
-    Run(fraction_int_istream_with_reduction);
-    Run(fraction_int_istream_zero_denominator);
-    Run(fraction_int_istream_multiple_fractions);
-    Run(fraction_int_istream_whitespace_handling);
-    Run(fraction_int_istream_negative_denominator);
-    Run(fraction_int_istream_both_negative);
+    Run(fraction_int_istream_whole_number, "Fraction<int>: operator>> whole number (\"7\")");
+    Run(fraction_int_istream_regular_fraction, "Fraction<int>: operator>> regular fraction (\"3/4\")");
+    Run(fraction_int_istream_negative_numerator, "Fraction<int>: operator>> negative numerator (\"-5/8\")");
+    Run(fraction_int_istream_with_reduction, "Fraction<int>: operator>> with GCD reduction (\"12/16\" -> \"3/4\")");
+    Run(fraction_int_istream_zero_denominator, "Fraction<int>: operator>> zero denominator sets failbit (\"5/0\")");
+    Run(fraction_int_istream_multiple_fractions, "Fraction<int>: operator>> multiple fractions (\"1/2 3/4\")");
+    Run(fraction_int_istream_whitespace_handling, "Fraction<int>: operator>> handles leading whitespace (\"  5/6\")");
+    Run(fraction_int_istream_negative_denominator, "Fraction<int>: operator>> negative denominator (\"3/-4\" -> \"-3/4\")");
+    Run(fraction_int_istream_both_negative, "Fraction<int>: operator>> both negative (\"-6/-8\" -> \"3/4\")");
 
     // << & >> operator test
-    Run(fraction_int_roundtrip_test);
+    Run(fraction_int_roundtrip_test, "Fraction<int>: roundtrip test (output->input->output)");
 
     std::cout << std::endl;
 
@@ -267,11 +268,11 @@ int main(int argc, char* argv[]) {
     std::cout << "========================================\n";
     std::cout << std::endl;
 
-    Run(binary_tree_constructor_default);
-    Run(binary_tree_destructor);
-    Run(binary_tree_move_constructor);
-    Run(binary_tree_move_assignment);
-    Run(binary_tree_move_assignment_self);
+    Run(binary_tree_constructor_default, "Binary Tree Constructor - Default");
+    Run(binary_tree_destructor, "Binary Tree Destructor");
+    Run(binary_tree_move_constructor, "Binary Tree Move Constructor");
+    Run(binary_tree_move_assignment, "Binary Tree Move Assignment");
+    Run(binary_tree_move_assignment_self, "Binary Tree Move Assignment - Self");
         
     // =============================================================================
     // MinHeap Tests

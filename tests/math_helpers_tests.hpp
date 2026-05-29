@@ -1,4 +1,6 @@
-#include "tests.h"
+#pragma once
+
+#include "test_helpers.hpp"
 #include "math_helpers.hpp"
 
 #include <cstdint>
@@ -7,7 +9,7 @@
 
 // Addition tests
 // Unsigned Int 32-bit type
-bool math_helpers_addition_unsigned_32_no_overflow() {
+test_result math_helpers_addition_unsigned_32_no_overflow() {
     std::cout << "[TEST] math_helper<uint32_t>: no overflow" << std::endl;
 
     uint32_t a = 1;
@@ -16,10 +18,10 @@ bool math_helpers_addition_unsigned_32_no_overflow() {
     std::string expected = "0";
     std::string result = std::to_string(would_overflow_addition(a, b));
 
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool math_helpers_addition_unsigned_32_overflow() {
+test_result math_helpers_addition_unsigned_32_overflow() {
     std::cout << "[TEST] math_helper<uint32_t>: overflow" << std::endl;
 
     uint32_t a = 2;
@@ -28,11 +30,11 @@ bool math_helpers_addition_unsigned_32_overflow() {
     std::string expected = "1";
     std::string result = std::to_string(would_overflow_addition(a, b));
 
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
 //Signed Int 32-bit type
-bool math_helpers_addition_signed_32_no_negative_no_overflow() {
+test_result math_helpers_addition_signed_32_no_negative_no_overflow() {
     std::cout << "[TEST] math_helper<int32_t>: addition (+,+) no overflow" << std::endl;
 
     int32_t a = 1;
@@ -41,10 +43,10 @@ bool math_helpers_addition_signed_32_no_negative_no_overflow() {
     std::string expected = "0";
     std::string result = std::to_string(would_overflow_addition(a, b));
 
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool math_helpers_addition_signed_32_no_negative_overflow() {
+test_result math_helpers_addition_signed_32_no_negative_overflow() {
     std::cout << "[TEST] math_helper<int32_t>: addition (+,+) overflow" << std::endl;
 
     int32_t a = std::numeric_limits<int32_t>::max();
@@ -53,10 +55,10 @@ bool math_helpers_addition_signed_32_no_negative_overflow() {
     std::string expected = "1";
     std::string result = std::to_string(would_overflow_addition(a, b));
 
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool math_helpers_addition_signed_32_two_negatives_no_overflow() {
+test_result math_helpers_addition_signed_32_two_negatives_no_overflow() {
     std::cout << "[TEST] math_helper<int32_t>: addition (-,-) no overflow" << std::endl;
 
     int32_t a = -1;
@@ -65,10 +67,10 @@ bool math_helpers_addition_signed_32_two_negatives_no_overflow() {
     std::string expected = "0";
     std::string result = std::to_string(would_overflow_addition(a, b));
 
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool math_helpers_addition_signed_32_two_negatives_overflow() {
+test_result math_helpers_addition_signed_32_two_negatives_overflow() {
     std::cout << "[TEST] math_helper<int32_t>: addition (-,-) overflow" << std::endl;
 
     int32_t a = std::numeric_limits<int32_t>::min();
@@ -77,12 +79,12 @@ bool math_helpers_addition_signed_32_two_negatives_overflow() {
     std::string expected = "1";
     std::string result = std::to_string(would_overflow_addition(a, b));
 
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
 // Multiplication tests
 // Unsigned Int 32-bit type
-bool math_helpers_multiplication_unsigned_32_no_overflow() {
+test_result math_helpers_multiplication_unsigned_32_no_overflow() {
     std::cout << "[TEST] math_helper<uint32_t>: multiplication no overflow" << std::endl;
 
     uint32_t a = 2;
@@ -91,10 +93,10 @@ bool math_helpers_multiplication_unsigned_32_no_overflow() {
     std::string expected = "0";
     std::string result = std::to_string(would_overflow_multiplication(a, b));
 
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool math_helpers_multiplication_unsigned_32_overflow() {
+test_result math_helpers_multiplication_unsigned_32_overflow() {
     std::cout << "[TEST] math_helper<uint32_t>: multiplication overflow" << std::endl;
 
     uint32_t a = (std::numeric_limits<uint32_t>::max() / 2u) + 1u;
@@ -103,11 +105,11 @@ bool math_helpers_multiplication_unsigned_32_overflow() {
     std::string expected = "1";
     std::string result = std::to_string(would_overflow_multiplication(a, b));
 
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
 //Signed Int 32-bit type
-bool math_helpers_multiplication_signed_32_no_negative_no_overflow() {
+test_result math_helpers_multiplication_signed_32_no_negative_no_overflow() {
     std::cout << "[TEST] math_helper<int32_t>: multiplication (+,+) no overflow" << std::endl;
 
     int32_t a = 2;
@@ -116,10 +118,10 @@ bool math_helpers_multiplication_signed_32_no_negative_no_overflow() {
     std::string expected = "0";
     std::string result = std::to_string(would_overflow_multiplication(a, b));
 
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool math_helpers_multiplication_signed_32_no_negative_overflow() {
+test_result math_helpers_multiplication_signed_32_no_negative_overflow() {
     std::cout << "[TEST] math_helper<int32_t>: multiplication (+,+) overflow" << std::endl;
 
     int32_t a = (std::numeric_limits<int32_t>::max() >> 1) + 1;
@@ -128,10 +130,10 @@ bool math_helpers_multiplication_signed_32_no_negative_overflow() {
     std::string expected = "1";
     std::string result = std::to_string(would_overflow_multiplication(a, b));
 
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool math_helpers_multiplication_signed_32_one_negative_A_no_overflow() {
+test_result math_helpers_multiplication_signed_32_one_negative_A_no_overflow() {
     std::cout << "[TEST] math_helper<int32_t>: multiplication (-,+) no overflow (A neg)" << std::endl;
 
     int32_t a = -2;
@@ -140,10 +142,10 @@ bool math_helpers_multiplication_signed_32_one_negative_A_no_overflow() {
     std::string expected = "0";
     std::string result = std::to_string(would_overflow_multiplication(a, b));
 
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool math_helpers_multiplication_signed_32_one_negative_A_overflow() {
+test_result math_helpers_multiplication_signed_32_one_negative_A_overflow() {
     std::cout << "[TEST] math_helper<int32_t>: multiplication (-,+) overflow (A neg)" << std::endl;
 
     int32_t a = std::numeric_limits<int32_t>::min();
@@ -152,10 +154,10 @@ bool math_helpers_multiplication_signed_32_one_negative_A_overflow() {
     std::string expected = "1";
     std::string result = std::to_string(would_overflow_multiplication(a, b));
 
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool math_helpers_multiplication_signed_32_one_negative_B_no_overflow() {
+test_result math_helpers_multiplication_signed_32_one_negative_B_no_overflow() {
     std::cout << "[TEST] math_helper<int32_t>: multiplication (+,-) no overflow (B neg)" << std::endl;
 
     int32_t a = 2;
@@ -164,10 +166,10 @@ bool math_helpers_multiplication_signed_32_one_negative_B_no_overflow() {
     std::string expected = "0";
     std::string result = std::to_string(would_overflow_multiplication(a, b));
 
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool math_helpers_multiplication_signed_32_one_negative_B_overflow() {
+test_result math_helpers_multiplication_signed_32_one_negative_B_overflow() {
     std::cout << "[TEST] math_helper<int32_t>: multiplication (+,-) overflow (B neg)" << std::endl;
 
     int32_t a = 2;
@@ -176,10 +178,10 @@ bool math_helpers_multiplication_signed_32_one_negative_B_overflow() {
     std::string expected = "1";
     std::string result = std::to_string(would_overflow_multiplication(a, b));
 
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool math_helpers_multiplication_signed_32_two_negatives_no_overflow() {
+test_result math_helpers_multiplication_signed_32_two_negatives_no_overflow() {
     std::cout << "[TEST] math_helper<int32_t>: multiplication (-,-) no overflow" << std::endl;
 
     int32_t a = -2;
@@ -188,10 +190,10 @@ bool math_helpers_multiplication_signed_32_two_negatives_no_overflow() {
     std::string expected = "0";
     std::string result = std::to_string(would_overflow_multiplication(a, b));
 
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool math_helpers_multiplication_signed_32_two_negatives_overflow() {
+test_result math_helpers_multiplication_signed_32_two_negatives_overflow() {
     std::cout << "[TEST] math_helper<int32_t>: multiplication (-,-) overflow" << std::endl;
 
     // std::numeric_limits<int32_t>::min() * -1 overflows for 2's complement signed ints
@@ -201,11 +203,11 @@ bool math_helpers_multiplication_signed_32_two_negatives_overflow() {
     std::string expected = "1";
     std::string result = std::to_string(would_overflow_multiplication(a, b));
 
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
 //Long Double type
-// bool math_helpers_multiplication_long_double_no_negative_no_overflow() {
+// test_result math_helpers_multiplication_long_double_no_negative_no_overflow() {
 //     std::cout << "[TEST] math_helper<long double>: multiplication (+,+) no overflow" << std::endl;
 
 //     long double a = 2.0L;
@@ -214,10 +216,10 @@ bool math_helpers_multiplication_signed_32_two_negatives_overflow() {
 //     std::string expected = "0";
 //     std::string result = std::to_string(would_overflow_multiplication(a, b));
 
-//     return test_helper(expected, result);
+//     return test_result(expected, result);
 // }
 
-// bool math_helpers_multiplication_long_double_no_negative_overflow() {
+// test_result math_helpers_multiplication_long_double_no_negative_overflow() {
 //     std::cout << "[TEST] math_helper<long double>: multiplication (+,+) overflow" << std::endl;
 
 //     long double a = std::numeric_limits<long double>::max();
@@ -226,10 +228,10 @@ bool math_helpers_multiplication_signed_32_two_negatives_overflow() {
 //     std::string expected = "1";
 //     std::string result = std::to_string(would_overflow_multiplication(a, b));
 
-//     return test_helper(expected, result);
+//     return test_result(expected, result);
 // }
 
-// bool math_helpers_multiplication_long_double_one_negative_A_no_overflow() {
+// test_result math_helpers_multiplication_long_double_one_negative_A_no_overflow() {
 //     std::cout << "[TEST] math_helper<long double>: multiplication (-,+) no overflow (A neg)" << std::endl;
 
 //     long double a = -2.0L;
@@ -238,10 +240,10 @@ bool math_helpers_multiplication_signed_32_two_negatives_overflow() {
 //     std::string expected = "0";
 //     std::string result = std::to_string(would_overflow_multiplication(a, b));
 
-//     return test_helper(expected, result);
+//     return test_result(expected, result);
 // }
 
-// bool math_helpers_multiplication_long_double_one_negative_A_overflow() {
+// test_result math_helpers_multiplication_long_double_one_negative_A_overflow() {
 //     std::cout << "[TEST] math_helper<long double>: multiplication (-,+) overflow (A neg)" << std::endl;
 
 //     long double a = -std::numeric_limits<long double>::max();
@@ -250,10 +252,10 @@ bool math_helpers_multiplication_signed_32_two_negatives_overflow() {
 //     std::string expected = "1";
 //     std::string result = std::to_string(would_overflow_multiplication(a, b));
 
-//     return test_helper(expected, result);
+//     return test_result(expected, result);
 // }
 
-// bool math_helpers_multiplication_long_double_one_negative_B_no_overflow() {
+// test_result math_helpers_multiplication_long_double_one_negative_B_no_overflow() {
 //     std::cout << "[TEST] math_helper<long double>: multiplication (+,-) no overflow (B neg)" << std::endl;
 
 //     long double a = 2.0L;
@@ -262,10 +264,10 @@ bool math_helpers_multiplication_signed_32_two_negatives_overflow() {
 //     std::string expected = "0";
 //     std::string result = std::to_string(would_overflow_multiplication(a, b));
 
-//     return test_helper(expected, result);
+//     return test_result(expected, result);
 // }
 
-// bool math_helpers_multiplication_long_double_one_negative_B_overflow() {
+// test_result math_helpers_multiplication_long_double_one_negative_B_overflow() {
 //     std::cout << "[TEST] math_helper<long double>: multiplication (+,-) overflow (B neg)" << std::endl;
 
 //     long double a = 2.0L;
@@ -274,10 +276,10 @@ bool math_helpers_multiplication_signed_32_two_negatives_overflow() {
 //     std::string expected = "1";
 //     std::string result = std::to_string(would_overflow_multiplication(a, b));
 
-//     return test_helper(expected, result);
+//     return test_result(expected, result);
 // }
 
-// bool math_helpers_multiplication_long_double_two_negatives_no_overflow() {
+// test_result math_helpers_multiplication_long_double_two_negatives_no_overflow() {
 //     std::cout << "[TEST] math_helper<long double>: multiplication (-,-) no overflow" << std::endl;
 
 //     long double a = -2.0L;
@@ -286,10 +288,10 @@ bool math_helpers_multiplication_signed_32_two_negatives_overflow() {
 //     std::string expected = "0";
 //     std::string result = std::to_string(would_overflow_multiplication(a, b));
 
-//     return test_helper(expected, result);
+//     return test_result(expected, result);
 // }
 
-// bool math_helpers_multiplication_long_double_two_negatives_overflow() {
+// test_result math_helpers_multiplication_long_double_two_negatives_overflow() {
 //     std::cout << "[TEST] math_helper<long double>: multiplication (-,-) overflow" << std::endl;
 
 //     long double a = -std::numeric_limits<long double>::max();
@@ -298,5 +300,5 @@ bool math_helpers_multiplication_signed_32_two_negatives_overflow() {
 //     std::string expected = "1";
 //     std::string result = std::to_string(would_overflow_multiplication(a, b));
 
-//     return test_helper(expected, result);
+//     return test_result(expected, result);
 // }

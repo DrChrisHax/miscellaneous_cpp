@@ -1,8 +1,9 @@
-#include "tests.h"
+#pragma once
+
+#include "test_helpers.hpp"
+
 #include "BinaryTree.hpp"
 #include "TreeGenerator.hpp"
-
-#include <sstream>
 
 using namespace core;
 
@@ -10,18 +11,16 @@ using namespace core;
 // Constructor and Destructor Tests
 // =============================================================================
 
-bool binary_tree_constructor_default() {
-    std::cout << "[TEST] Binary Tree Constructor - Default" << std::endl;
+test_result binary_tree_constructor_default() {
     BinaryTree<int> tree;
     std::string expected = "Empty: true\nSize: 0\nRoot: nullptr";
     std::string result = "Empty: " + std::string(tree.Empty() ? "true" : "false") +
                          "\nSize: " + std::to_string(tree.Size()) +
                          "\nRoot: " + std::string(tree.Root() == nullptr ? "nullptr" : "exists");
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool binary_tree_destructor() {
-    std::cout << "[TEST] Binary Tree Destructor" << std::endl;
+test_result binary_tree_destructor() {
     // Test that destructor runs without crashing on various tree sizes
     {
         auto empty = EmptyTree<BinaryTree<int>>();
@@ -37,15 +36,14 @@ bool binary_tree_destructor() {
     }
     std::string expected = "All destructors ran";
     std::string result = "All destructors ran";
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
 // =============================================================================
 // Move Constructor and Assignment Tests
 // =============================================================================
 
-bool binary_tree_move_constructor() {
-    std::cout << "[TEST] Binary Tree Move Constructor" << std::endl;
+test_result binary_tree_move_constructor() {
     auto original = BalancedTree<BinaryTree<int>>(7);
     
     BinaryTree<int> moved(std::move(original));
@@ -55,11 +53,10 @@ bool binary_tree_move_constructor() {
                          "\nMoved Empty: " + std::string(moved.Empty() ? "true" : "false") +
                          "\nOriginal Size: " + std::to_string(original.Size()) +
                          "\nOriginal Empty: " + std::string(original.Empty() ? "true" : "false");
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool binary_tree_move_assignment() {
-    std::cout << "[TEST] Binary Tree Move Assignment" << std::endl;
+test_result binary_tree_move_assignment() {
     auto original = BalancedTree<BinaryTree<int>>(7);
     BinaryTree<int> assigned;
     assigned.Insert(100);
@@ -70,11 +67,10 @@ bool binary_tree_move_assignment() {
     std::string result = "Assigned Size: " + std::to_string(assigned.Size()) +
                          "\nAssigned Contains 4: " + std::string(assigned.Contains(4) ? "true" : "false") +
                          "\nOriginal Size: " + std::to_string(original.Size());
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool binary_tree_move_assignment_self() {
-    std::cout << "[TEST] Binary Tree Move Assignment - Self" << std::endl;
+test_result binary_tree_move_assignment_self() {
     auto tree = BalancedTree<BinaryTree<int>>(7);
 
     auto& ref = tree;
@@ -83,5 +79,5 @@ bool binary_tree_move_assignment_self() {
     std::string expected = "Size: 7\nContains 4: true";
     std::string result = "Size: " + std::to_string(tree.Size()) +
                          "\nContains 4: " + std::string(tree.Contains(4) ? "true" : "false");
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }

@@ -1,4 +1,6 @@
-#include "tests.h"
+#pragma once
+
+#include "test_helpers.hpp"
 #include "IPv4.h"
 
 #include <string>
@@ -9,92 +11,92 @@
 // Constructor Tests
 // =============================================================================
 
-bool ipv4_constructor_default() {
+test_result ipv4_constructor_default() {
     std::cout << "[TEST] IPv4 default constructor creates 0.0.0.0\n";
     
     core::IPv4 addr;
     std::string expected = "0.0.0.0";
     std::string result = addr.to_string();
     
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool ipv4_constructor_uint32() {
+test_result ipv4_constructor_uint32() {
     std::cout << "[TEST] IPv4 uint32_t constructor (0x7F000001 -> 127.0.0.1)\n";
     
     core::IPv4 addr{0x7F000001};
     std::string expected = "127.0.0.1";
     std::string result = addr.to_string();
     
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool ipv4_constructor_four_octets() {
+test_result ipv4_constructor_four_octets() {
     std::cout << "[TEST] IPv4 four-octet constructor (192, 168, 1, 100)\n";
     
     core::IPv4 addr{192, 168, 1, 100};
     std::string expected = "192.168.1.100";
     std::string result = addr.to_string();
     
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool ipv4_constructor_four_octets_max() {
+test_result ipv4_constructor_four_octets_max() {
     std::cout << "[TEST] IPv4 four-octet constructor (255, 255, 255, 255)\n";
     
     core::IPv4 addr{255, 255, 255, 255};
     std::string expected = "255.255.255.255";
     std::string result = addr.to_string();
     
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool ipv4_constructor_string_valid() {
+test_result ipv4_constructor_string_valid() {
     std::cout << "[TEST] IPv4 string constructor (\"10.0.0.1\")\n";
     
     core::IPv4 addr{"10.0.0.1"};
     std::string expected = "10.0.0.1";
     std::string result = addr.to_string();
     
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool ipv4_constructor_string_loopback() {
+test_result ipv4_constructor_string_loopback() {
     std::cout << "[TEST] IPv4 string constructor (\"127.0.0.1\")\n";
     
     core::IPv4 addr{"127.0.0.1"};
     std::string expected = "127.0.0.1";
     std::string result = addr.to_string();
     
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool ipv4_constructor_string_invalid_throws() {
+test_result ipv4_constructor_string_invalid_throws() {
     std::cout << "[TEST] IPv4 string constructor throws on invalid format\n";
     
     try {
         core::IPv4 addr{"not.an.ip"};
-        return test_helper("exception", "no exception");
+        return test_result("exception", "no exception");
     } catch (const std::invalid_argument&) {
-        return test_helper("exception", "exception");
+        return test_result("exception", "exception");
     } catch (...) {
-        return test_helper("invalid_argument", "other exception");
+        return test_result("invalid_argument", "other exception");
     }
 }
 
-bool ipv4_constructor_string_out_of_range_throws() {
+test_result ipv4_constructor_string_out_of_range_throws() {
     std::cout << "[TEST] IPv4 string constructor throws on octet > 255\n";
     
     try {
         core::IPv4 addr{"192.168.1.256"};
-        return test_helper("exception", "no exception");
+        return test_result("exception", "no exception");
     } catch (const std::out_of_range&) {
-        return test_helper("exception", "exception");
+        return test_result("exception", "exception");
     } catch (const std::invalid_argument&) {
         // Also acceptable
-        return test_helper("exception", "exception");
+        return test_result("exception", "exception");
     } catch (...) {
-        return test_helper("out_of_range or invalid_argument", "other exception");
+        return test_result("out_of_range or invalid_argument", "other exception");
     }
 }
 
@@ -102,7 +104,7 @@ bool ipv4_constructor_string_out_of_range_throws() {
 // Static Factory Tests
 // =============================================================================
 
-bool ipv4_from_network_order_little_endian() {
+test_result ipv4_from_network_order_little_endian() {
     std::cout << "[TEST] IPv4::from_network_order (0x0100007F -> 127.0.0.1 on LE)\n";
     
     // Simulate bytes arriving from network: [127, 0, 0, 1]
@@ -117,50 +119,50 @@ bool ipv4_from_network_order_little_endian() {
     std::string expected = "171.205.239.18";
     std::string result = addr.to_string();
     
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool ipv4_from_host_order() {
+test_result ipv4_from_host_order() {
     std::cout << "[TEST] IPv4::from_host_order (0xC0A80101 -> 192.168.1.1)\n";
     
     core::IPv4 addr = core::IPv4::from_host_order(0xC0A80101);
     std::string expected = "192.168.1.1";
     std::string result = addr.to_string();
     
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool ipv4_static_any() {
+test_result ipv4_static_any() {
     std::cout << "[TEST] IPv4::any() returns 0.0.0.0\n";
     
     core::IPv4 addr = core::IPv4::any();
     std::string expected = "0.0.0.0";
     std::string result = addr.to_string();
     
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool ipv4_static_loopback() {
+test_result ipv4_static_loopback() {
     std::cout << "[TEST] IPv4::loopback() returns 127.0.0.1\n";
     
     core::IPv4 addr = core::IPv4::loopback();
     std::string expected = "127.0.0.1";
     std::string result = addr.to_string();
     
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool ipv4_static_broadcast() {
+test_result ipv4_static_broadcast() {
     std::cout << "[TEST] IPv4::broadcast() returns 255.255.255.255\n";
     
     core::IPv4 addr = core::IPv4::broadcast();
     std::string expected = "255.255.255.255";
     std::string result = addr.to_string();
     
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool ipv4_static_localhost() {
+test_result ipv4_static_localhost() {
     std::cout << "[TEST] IPv4::localhost() equals loopback()\n";
     
     core::IPv4 localhost = core::IPv4::localhost();
@@ -169,14 +171,14 @@ bool ipv4_static_localhost() {
     std::string expected = "true";
     std::string result = (localhost == loopback) ? "true" : "false";
     
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
 // =============================================================================
 // Accessor Tests
 // =============================================================================
 
-bool ipv4_octect() {
+test_result ipv4_octect() {
     std::cout << "[TEST] IPv4 octet(index) accessor (192.168.254.127)\n";
     
     core::IPv4 addr{192, 168, 254, 127};
@@ -190,25 +192,25 @@ bool ipv4_octect() {
     std::string expected = "192.168.254.127";
     std::string result = oss.str();
     
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool ipv4_cotect_out_of_range() {
+test_result ipv4_cotect_out_of_range() {
     std::cout << "[TEST] IPv4 octet(index) throws on index > 3\n";
     
     core::IPv4 addr{192, 168, 254, 127};
     
     try {
         addr.octet(4);
-        return test_helper("exception", "no exception");
+        return test_result("exception", "no exception");
     } catch (const std::out_of_range&) {
-        return test_helper("exception", "exception");
+        return test_result("exception", "exception");
     } catch (...) {
-        return test_helper("out_of_range", "other exception");
+        return test_result("out_of_range", "other exception");
     }
 }
 
-bool ipv4_a_b_c_d() {
+test_result ipv4_a_b_c_d() {
     std::cout << "[TEST] IPv4 a(), b(), c(), d() accessors (10.20.30.40)\n";
     
     core::IPv4 addr{10, 20, 30, 40};
@@ -222,10 +224,10 @@ bool ipv4_a_b_c_d() {
     std::string expected = "10.20.30.40";
     std::string result = oss.str();
     
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool ipv4_octects_array() {
+test_result ipv4_octects_array() {
     std::cout << "[TEST] IPv4 octets() returns array [172, 16, 254, 1]\n";
     
     core::IPv4 addr{172, 16, 254, 1};
@@ -240,15 +242,15 @@ bool ipv4_octects_array() {
     std::string expected = "172.16.254.1";
     std::string result = oss.str();
     
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool ipv4_value() {
+test_result ipv4_value() {
     std::cout << "[TEST] IPv4 value() returns uint32_t (0xC0A8FE7F for 192.168.1.100)\n";
     
     core::IPv4 addr{192, 168, 254, 127};
     uint32_t expected = 0xC0A8FE7F;
     uint32_t result = addr.value();
     
-    return test_helper(std::to_string(expected), std::to_string(result));
+    return test_result(std::to_string(expected), std::to_string(result));
 }

@@ -1,4 +1,6 @@
-#include "tests.h"
+#pragma once
+
+#include "test_helpers.hpp"
 #include "LRUCache.hpp"
 
 #include <sstream>
@@ -6,15 +8,15 @@
 using namespace core;
 
 // Constructor tests
-bool lru_cache_constructor_explicit_capacity() {
+test_result lru_cache_constructor_explicit_capacity() {
     std::cout << "[TEST] LRU Cache Constructor - Explicit Capacity" << std::endl;
     LRUCache<int, std::string> cache{5uz};
     std::string expected = "Capacity: 5\nSize: 0";
     std::string result = "Capacity: " + std::to_string(cache.capacity()) + "\nSize: " + std::to_string(cache.size());
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool lru_cache_constructor_copy() {
+test_result lru_cache_constructor_copy() {
     std::cout << "[TEST] LRU Cache Constructor - Copy" << std::endl;
 
     std::string expected = "";
@@ -33,10 +35,10 @@ bool lru_cache_constructor_copy() {
                             "\nContains 2: " + (copy.contains(2) ? "true" : "false");
     }
     
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool lru_cache_constructor_move() {
+test_result lru_cache_constructor_move() {
     std::cout << "[TEST] LRU Cache Constructor - Move" << std::endl;
 
     std::string expected = "";
@@ -54,11 +56,11 @@ bool lru_cache_constructor_move() {
                             "\nContains 1: " + (moved.contains(1) ? "true" : "false") +
                             "\nContains 2: " + (moved.contains(2) ? "true" : "false");
     }
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
 // Assignment operator tests
-bool lru_cache_assignment_copy() {
+test_result lru_cache_assignment_copy() {
     std::cout << "[TEST] LRU Cache Assignment - Copy" << std::endl;
     LRUCache<int, std::string> original{3uz};
     original.put(1, "one");
@@ -71,10 +73,10 @@ bool lru_cache_assignment_copy() {
     std::string result = "Capacity: " + std::to_string(assigned.capacity()) + "\nSize: " + std::to_string(assigned.size()) +
                          "\nContains 1: " + (assigned.contains(1) ? "true" : "false") +
                          "\nContains 2: " + (assigned.contains(2) ? "true" : "false");
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool lru_cache_assignment_move() {
+test_result lru_cache_assignment_move() {
     std::cout << "[TEST] LRU Cache Assignment - Move" << std::endl;
     LRUCache<int, std::string> original{3uz};
     original.put(1, "one");
@@ -87,10 +89,10 @@ bool lru_cache_assignment_move() {
     std::string result = "Capacity: " + std::to_string(assigned.capacity()) + "\nSize: " + std::to_string(assigned.size()) +
                          "\nContains 1: " + (assigned.contains(1) ? "true" : "false") +
                          "\nContains 2: " + (assigned.contains(2) ? "true" : "false");
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool lru_cache_assignment_self() {
+test_result lru_cache_assignment_self() {
     std::cout << "[TEST] LRU Cache Assignment - Self Assignment" << std::endl;
     LRUCache<int, std::string> cache{3uz};
     cache.put(1, "one");
@@ -102,20 +104,20 @@ bool lru_cache_assignment_self() {
     std::string result = "Capacity: " + std::to_string(cache.capacity()) + "\nSize: " + std::to_string(cache.size()) +
                          "\nContains 1: " + (cache.contains(1) ? "true" : "false") +
                          "\nContains 2: " + (cache.contains(2) ? "true" : "false");
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
 // Basic functionality tests
-bool lru_cache_empty_cache() {
+test_result lru_cache_empty_cache() {
     std::cout << "[TEST] LRU Cache - Empty Cache" << std::endl;
     LRUCache<int, std::string> cache{5uz};
     
     std::string expected = "Capacity: 5\nSize: 0";
     std::string result = "Capacity: " + std::to_string(cache.capacity()) + "\nSize: " + std::to_string(cache.size());
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool lru_cache_single_item() {
+test_result lru_cache_single_item() {
     std::cout << "[TEST] LRU Cache - Single Item" << std::endl;
     LRUCache<int, std::string> cache{5uz};
     cache.put(1, "one");
@@ -125,10 +127,10 @@ bool lru_cache_single_item() {
     std::string result = "Size: " + std::to_string(cache.size()) +
                          "\nContains 1: " + (cache.contains(1) ? "true" : "false") +
                          "\nValue of 1: " + (val != nullptr ? *val : "nullptr");
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool lru_cache_multiple_items() {
+test_result lru_cache_multiple_items() {
     std::cout << "[TEST] LRU Cache - Multiple Items" << std::endl;
     LRUCache<int, std::string> cache{5uz};
     cache.put(1, "one");
@@ -140,11 +142,11 @@ bool lru_cache_multiple_items() {
                          "\nContains 1: " + (cache.contains(1) ? "true" : "false") +
                          "\nContains 2: " + (cache.contains(2) ? "true" : "false") +
                          "\nContains 3: " + (cache.contains(3) ? "true" : "false");
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
 // Put and Get tests
-bool lru_cache_put_and_get_basic() {
+test_result lru_cache_put_and_get_basic() {
     std::cout << "[TEST] LRU Cache - Put and Get Basic" << std::endl;
     LRUCache<std::string, int> cache{3uz};
     cache.put("first", 100);
@@ -157,10 +159,10 @@ bool lru_cache_put_and_get_basic() {
     std::string result = "Size: " + std::to_string(cache.size()) +
                          "\nValue of first: " + (val1 != nullptr ? std::to_string(*val1) : "nullptr") +
                          "\nValue of second: " + (val2 != nullptr ? std::to_string(*val2) : "nullptr");
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool lru_cache_get_moves_to_front() {
+test_result lru_cache_get_moves_to_front() {
     std::cout << "[TEST] LRU Cache - Get Moves Item to Front" << std::endl;
     LRUCache<int, std::string> cache{3uz};
     cache.put(1, "one");
@@ -176,10 +178,10 @@ bool lru_cache_get_moves_to_front() {
                          "\nContains 2: " + (cache.contains(2) ? "true" : "false") +
                          "\nContains 3: " + (cache.contains(3) ? "true" : "false") +
                          "\nContains 4: " + (cache.contains(4) ? "true" : "false");
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool lru_cache_put_existing_key() {
+test_result lru_cache_put_existing_key() {
     std::cout << "[TEST] LRU Cache - Put with Existing Key" << std::endl;
     LRUCache<int, std::string> cache{3uz};
     cache.put(1, "one");
@@ -190,10 +192,10 @@ bool lru_cache_put_existing_key() {
     std::string expected = "Size: 2\nValue of 1: ONE_UPDATED";
     std::string result = "Size: " + std::to_string(cache.size()) +
                          "\nValue of 1: " + (val != nullptr ? *val : "nullptr");
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool lru_cache_get_nonexistent_returns_nullptr() {
+test_result lru_cache_get_nonexistent_returns_nullptr() {
     std::cout << "[TEST] LRU Cache - Get Non-existent Returns nullptr" << std::endl;
     LRUCache<int, std::string> cache{3uz};
     cache.put(1, "one");
@@ -202,11 +204,11 @@ bool lru_cache_get_nonexistent_returns_nullptr() {
     std::string expected = "Size: 1\nGet 999: nullptr";
     std::string result = "Size: " + std::to_string(cache.size()) +
                          "\nGet 999: " + (val == nullptr ? "nullptr" : "found");
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
 // Capacity and eviction tests
-bool lru_cache_capacity_hit_multiple_times() {
+test_result lru_cache_capacity_hit_multiple_times() {
     std::cout << "[TEST] LRU Cache - Capacity Hit Multiple Times" << std::endl;
     LRUCache<int, int> cache{3uz};
     
@@ -229,10 +231,10 @@ bool lru_cache_capacity_hit_multiple_times() {
                          "\nContains 5: " + (cache.contains(5) ? "true" : "false") +
                          "\nContains 6: " + (cache.contains(6) ? "true" : "false") +
                          "\nContains 7: " + (cache.contains(7) ? "true" : "false");
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool lru_cache_capacity_with_updates() {
+test_result lru_cache_capacity_with_updates() {
     std::cout << "[TEST] LRU Cache - Capacity with Updates" << std::endl;
     LRUCache<std::string, int> cache{2uz};
     
@@ -248,10 +250,10 @@ bool lru_cache_capacity_with_updates() {
                          "\nContains b: " + (cache.contains("b") ? "true" : "false") +
                          "\nContains c: " + (cache.contains("c") ? "true" : "false") +
                          "\nValue of a: " + (val_a != nullptr ? std::to_string(*val_a) : "nullptr");
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool lru_cache_comprehensive() {
+test_result lru_cache_comprehensive() {
     std::cout << "[TEST] LRU Cache - Comprehensive Test" << std::endl;
 
     LRUCache<int, int> cache{3uz};
@@ -368,11 +370,11 @@ bool lru_cache_comprehensive() {
 
     std::string expected = "1,2,-1,1,2,-1,4,2,8,2,7,-1,-1,2,7,-1,9,-1,7,-1,-1,6,-1,14,16,18,-1,-1,7";
     
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
 // Operator tests
-bool lru_cache_ostream_single_item() {
+test_result lru_cache_ostream_single_item() {
     std::cout << "[TEST] LRU Cache - Output Stream Single Item" << std::endl;
     LRUCache<int, std::string> cache{3uz};
     cache.put(1, "one");
@@ -382,10 +384,10 @@ bool lru_cache_ostream_single_item() {
 
     std::string expected = "(1, one)";
     std::string result = ss.str();
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
 
-bool lru_cache_ostream_multiple_items() {
+test_result lru_cache_ostream_multiple_items() {
     std::cout << "[TEST] LRU Cache - Output Stream Multiple Items" << std::endl;
     LRUCache<int, std::string> cache{3uz};
     cache.put(1, "one");
@@ -397,5 +399,5 @@ bool lru_cache_ostream_multiple_items() {
     
     std::string expected = "(3, three)-->(2, two)-->(1, one)";
     std::string result = ss.str();
-    return test_helper(expected, result);
+    return test_result(expected, result);
 }
