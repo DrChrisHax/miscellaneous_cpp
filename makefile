@@ -106,16 +106,18 @@ build-tests: $(TEST_BINDIR)/$(TEST_TARGET)
 	@echo "[makefile] Tests built successfully -> $(TEST_BINDIR)/$(TEST_TARGET)"
 
 clean:
-	@echo "[makefile] Removing obj/ and bin/"
+	@echo "[makefile] Removing $(OBJDIR) and $(BINDIR)"
 	@rm -rf $(OBJDIR) $(BINDIR)
 	
 clean-test:
-	@echo "[makefile] Removing tests/obj/ and tests/bin/"
+	@echo "[makefile] Removing $(TEST_OBJDIR) and $(TEST_BINDIR)"
 	@rm -rf $(TEST_OBJDIR) $(TEST_BINDIR)
 
 clean-all:
-	@$(MAKE) clean
-	@$(MAKE) clean-test
+	@echo "[makefile] Removing obj/ and bin/ "
+	@rm -rf obj/ bin/ 
+	@echo "[makefile] Removing tests/obj/ and tests/bin/"
+	@rm -rf tests/obj/ tests/bin/
 	@echo "[makefile] Removing log files"
 	@rm -f *.log
 
