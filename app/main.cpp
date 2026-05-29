@@ -3,7 +3,7 @@
 #include "math_helpers.hpp"
 #include "string_helpers.hpp"
 #include "sorts.hpp"
-#include "Timer.h"
+#include "timer.hpp"
 #include "concepts.hpp"
 #include "random.hpp"
 #include "Nodes.hpp"
@@ -37,48 +37,23 @@
 #include <cmath>
 #include <atomic>
 
-
 using namespace core;
-
-int a() { return 2; }
 
 int main(int argc, char* argv[]) {
     (void)argc;
     (void)argv;
 
-    
     Timer t;
+    t.start();
 
     { // Start testing code
 
-        SimpleLock lock_;
-        int counter = 0;
-        constexpr int ITERS = 1'000'000;
 
-        std::thread t1([&]{
-            for (int i = 0; i < ITERS; ++i) {
-                lock_.lock();
-                ++counter;
-                lock_.unlock();
-            }
-        });
-        std::thread t2([&]{
-            for (int i = 0; i < ITERS; ++i) {
-                lock_.lock();
-                ++counter;
-                lock_.unlock();
-            }
-        });
-
-        t1.join();
-        t2.join();
-
-        std::cout << "counter = " << counter << " (expected " << 2 * ITERS << ")\n";
 
     } // End testing code
+    t.stop();
 
-    const double ts = t.elapsed();
-    std::cout << "\nTime taken: " << std::to_string(ts) << " seconds.\n";
+    std::cout << "\nTime taken: " << t.elapsed_str() << " \n";
 	return 0;
 }
 

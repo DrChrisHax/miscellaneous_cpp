@@ -5,7 +5,7 @@ CXX := g++
 #CXX := clang++-20
 WARN := -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion #-Werror
 STD := -std=c++23
-OPT := -O2
+OPT := -O0
 DEP := -MMD -MP
 INCLUDES := -Iapp -Itests -Icore -Icore/os -Icore/os/$(PLATFORM) -Icore/templates
 
