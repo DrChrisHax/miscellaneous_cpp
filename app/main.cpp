@@ -16,6 +16,7 @@
 #include "HierarchicalMutex.h"
 #include "AverageCalculator.hpp"
 #include "SimpleLock.hpp"
+#include "ObjectPool.h"
 
 #include <iostream>
 #include <iomanip>
@@ -39,19 +40,6 @@
 
 using namespace core;
 
-std::atomic<bool> x, y;
-std::atomic<int> z;
-
-void write_x_then_y() {
-    x.store(true,std::memory_order_relaxed);
-    y.store(true,std::memory_order_relaxed);
-}
-
-void read_y_then_x() {
-    while(!y.load(std::memory_order_relaxed));
-    if(x.load(std::memory_order_relaxed))
-    ++z;
-}
 
 int main(int argc, char* argv[]) {
     (void)argc;
