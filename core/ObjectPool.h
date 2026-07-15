@@ -1,5 +1,8 @@
 #pragma once
 
+#include <cstddef>
+#include <span>
+
 /// Fixed-capacity pool that owns its objects' lifetimes.
 ///
 /// Memory is ONE contiguous block of cells. Each cell is a union:
@@ -38,9 +41,9 @@ public:
 
     void ReturnObject(Object* obj);
 
-    std::size_t Capacity() const;
-    std::size_t Used() const;
-    std::size_t Available() const;
+    std::size_t Capacity() const { return capacity_; }
+    std::size_t Used() const { return used_; }
+    std::size_t Available() const { return capacity_ - used_; }
 
 private:
 
